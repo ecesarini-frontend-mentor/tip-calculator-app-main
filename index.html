@@ -37,17 +37,24 @@ body {
   width: 100%;
 }
 main {
-  max-width: var(--width-desktop);
+  width: 100%;
   background-color: var(--light-grayish-cyan);
 }
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 #main-container {
   margin: 0 18%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  max-width: var(--width-desktop);
 }
-.mc-header {
+#main-container .mc-header {
   color: var(--dark-grayish-cyan);
   font-weight: 700;
 }
@@ -62,10 +69,41 @@ main {
   border-radius: var(--border-radius);
 }
 .calc-insert {
+  width: 50%;
+  margin-left: 3.5%;
   display: flex;
   flex-direction: column;
 }
+.ci-bill, .ci-tip, .ci-people {
+  display: flex;
+  flex-direction: column;
+}
+.ci-tip-grid {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  row-gap: 10px;
+  column-gap: 10px;
+}
+.ci-tip-grid li {
+  color: white;
+  width: 100%;
+  font-size: .7em;
+  text-align: center;
+  border-radius: 5px 5px;
+}
+.ci-tip-grid li:nth-child(n-1) {
+  background-color: var(--very-dark-cyan);
+}
+.ci-tip-grid li:nth-child(6) {
+  color: var(--dark-grayish-cyan);
+  background-color: var(--very-light-grayish-cyan);
+}
+
+
 .calc-result {
+  width: 50%;
   margin: 3.5%;
   border-radius: ;
   display: flex;
@@ -89,25 +127,25 @@ main {
       <div class="mc mc-calc">
         <div class="calc-insert">
           <div class="ci-bill">
-            <p>Bill</p>
-            <p></p>
+            <p class="ci-bill-title">Bill</p>
+            <p class="ci-bill-amount"><img src="images/icon-dollar.svg" alt="Bill amount"><span></span></p>
           </div>
           <div class="ci-tip">
             <div class="ci-tip-title">
               Select Tip %
             </div>
-            <div class="ci-tip-grid">
-              5%
-              10%
-              15%
-              25%
-              50%
-              Custom
-            </div>
+            <ul class="ci-tip-grid">
+              <li class="ci-tg-perc">5%</li>
+              <li class="ci-tg-perc">10%</li>
+              <li class="ci-tg-perc">15%</li>
+              <li class="ci-tg-perc">25%</li>
+              <li class="ci-tg-perc">50%</li>
+              <li class="ci-tg-perc">Custom</li>
+            </ul>
           </div>
           <div class="ci-people">
             <p>Number of People</p>
-            <p></p>
+            <p><img src="images/icon-person.svg" alt="Number of people"/><span></span></p>
           </div>
         </div>
         <div class="calc-result">
