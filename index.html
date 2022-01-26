@@ -31,13 +31,17 @@
   --white: hsl(0, 0%, 100%);
 }
 body {
+  box-sizing: border-box;
   margin: 0 0;
   padding: 0 0;
   font-size: 24px;
   width: 100%;
 }
 main {
+  padding: 10% 0;
   width: 100%;
+  height: 100%;
+  font-family: 'Space Mono', monospace;
   background-color: var(--light-grayish-cyan);
 }
 ul {
@@ -78,6 +82,14 @@ ul {
   display: flex;
   flex-direction: column;
 }
+.ci-bill-title, .ci-people-title {
+  font-size: 1.3rem;
+  flex-shrink: 3;
+}
+.ci-bill-amount, .ci-people-amount {
+  padding: 0 10px;
+  background-color: var(--very-light-grayish-cyan);
+}
 .ci-tip-grid {
   display: grid;
   grid-template-rows: 1fr 1fr;
@@ -99,6 +111,7 @@ ul {
 .ci-tip-grid li:nth-child(6) {
   color: var(--dark-grayish-cyan);
   background-color: var(--very-light-grayish-cyan);
+  font-weight: 700;
 }
 
 
@@ -119,17 +132,17 @@ ul {
   <main>
     <div id="main-container">  
       <div class="mc mc-header">
-        <div class="mc-header-title">
-          <p>S P L I</p>
-          <p>T T E R</p>
-        </div>
+        <ul class="mc-header-title">
+          <li>S P L I</li>
+          <li>T T E R</li>
+        </ul>
       </div>
       <div class="mc mc-calc">
         <div class="calc-insert">
-          <div class="ci-bill">
-            <p class="ci-bill-title">Bill</p>
-            <p class="ci-bill-amount"><img src="images/icon-dollar.svg" alt="Bill amount"><span></span></p>
-          </div>
+          <ul class="ci-bill">
+            <li class="ci-bill-title">Bill</li>
+            <li class="ci-bill-amount"><img src="images/icon-dollar.svg" alt="Bill amount"><span></span></li>
+          </ul>
           <div class="ci-tip">
             <div class="ci-tip-title">
               Select Tip %
@@ -143,10 +156,10 @@ ul {
               <li class="ci-tg-perc">Custom</li>
             </ul>
           </div>
-          <div class="ci-people">
-            <p>Number of People</p>
-            <p><img src="images/icon-person.svg" alt="Number of people"/><span></span></p>
-          </div>
+          <ul class="ci-people">
+            <li class="ci-people-title">Number of People</li>
+            <li class="ci-people-amount"><img src="images/icon-person.svg" alt="Number of people"/><span></span></li>
+          </ul>
         </div>
         <div class="calc-result">
         Tip Amount
