@@ -30,31 +30,6 @@
   --very-light-grayish-cyan: hsl(189, 41%, 97%);
   --white: hsl(0, 0%, 100%);
 }
-ul, li {
-  list-style: none;
-  margin: inherit 0;
-  padding: 0;
-}
-input {
-  background: none;
-	color: inherit;
-	border: none;
-	padding: inherit;
-	font: inherit;
-  cursor: inherit;
-  outline: none;
-}
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
 body {
   box-sizing: border-box;
   margin: 0 0;
@@ -68,6 +43,31 @@ main {
   height: 100%;
   font-family: 'Space Mono', monospace;
   background-color: var(--light-grayish-cyan);
+}
+ul, li {
+  list-style: none;
+  margin: inherit 0;
+  padding: 0;
+}
+input {
+  background: none;
+	color: inherit;
+	border: none;
+	padding: inherit;
+	font: inherit;
+  cursor: inherit;
+  outline: none;
+  min-width: 0;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 #main-container {
@@ -103,24 +103,28 @@ main {
   display: flex;
   flex-direction: column;
 }
-.ci-bill-title, .ci-people-title {
-  font-size: 1.3rem;
+.ci-bill-title, .ci-tip-title, .ci-people-title {
   flex-shrink: 3;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dark-grayish-cyan);
 }
 .inl-elem {
   display: inline-flex;
-  padding: 5px 10px;
+  padding: 0px 10px;
   background-color: var(--very-light-grayish-cyan);
-  background-color: blue;
+  /*background-color: blue;*/
+  border-radius: 5px 5px;
   cursor: pointer;
 }
 .inl-elem img {
-  object-fit: contain;
+  object-fit: scale-down;
 }
 .inl-elem input {
+  padding-right: 0;
   text-align-last: right;
-  margin-right: 10px;
-  color: white;
+  color: var(--dark-grayish-cyan);
+  /*color: white;*/
 }
 .ci-tip-grid {
   display: grid;
@@ -137,7 +141,6 @@ main {
   border-radius: 5px 5px;
 	cursor: pointer;
 }
-
 .ci-tip-grid li:nth-child(n-1) {
   background-color: var(--very-dark-cyan);
 }
@@ -145,6 +148,14 @@ main {
   color: var(--dark-grayish-cyan);
   background-color: var(--very-light-grayish-cyan);
   font-weight: 700;
+}
+.ci-tip-grid li .ci-tg-perc:focus {    /* "focus" attribute comes before "hover" */
+  background-color: var(--strong-cyan);
+}
+.ci-tip-grid li:hover {
+  box-shadow: inset 0px 0px 0px .2rem var(--strong-cyan);  /* (inset "revert to inside offsets") 0px(x-offset "you don't want") 0px(y-offset "you don't want") 0px(blur-radius "you don't want") .2rem(spread-radius "you want expand radius by a dimension") var(--stron-cyan "color")*/
+  border-color: var(--strong-cyan);
+  color: var(--strong-cyan);
 }
 
 .calc-result {
