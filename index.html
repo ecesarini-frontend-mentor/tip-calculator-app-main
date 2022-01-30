@@ -20,7 +20,8 @@
 :root{
   --width-mobile: 375px;
   --width-desktop: 1440px;
-  --border-radius: 10px 10px;
+  --border-radius-container: 10px 10px;
+  --border-radius-button: 5px 5px;
 
   --strong-cyan: hsl(172, 67%, 45%);
   --very-dark-cyan: hsl(183, 100%, 15%);
@@ -29,6 +30,9 @@
   --light-grayish-cyan: hsl(185, 41%, 84%);
   --very-light-grayish-cyan: hsl(189, 41%, 97%);
   --white: hsl(0, 0%, 100%);
+
+  --font-size-title: 1.3vw;
+  --font-size-descr: 1vw;
 }
 body {
   box-sizing: border-box;
@@ -91,7 +95,7 @@ input[type=number] {
 .mc-calc {
   display: flex;
   background-color: white;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-container);
 }
 .calc-insert {
   width: 50%;
@@ -105,7 +109,7 @@ input[type=number] {
 }
 .ci-bill-title, .ci-tip-title, .ci-people-title {
   flex-shrink: 3;
-  font-size: 1rem;
+  font-size: var(--font-size-title);
   font-weight: 700;
   color: var(--dark-grayish-cyan);
 }
@@ -128,8 +132,8 @@ input[type=number] {
 }
 .ci-tip-grid {
   display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   justify-items: center;
   gap: 10px;
 }
@@ -138,7 +142,7 @@ input[type=number] {
   width: 100%;
   font-size: .7em;
   text-align: center;
-  border-radius: 5px 5px;
+  border-radius: var(--border-radius-button);
 	cursor: pointer;
 }
 .ci-tip-grid li {
@@ -167,12 +171,63 @@ input[type=number] {
   flex-direction: column;
   /*justify-content: space-evenly;*/
   background-color: var(--very-dark-cyan);
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-container);
 }
 .cr-grid-container {
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 1fr 1fr;
+}
+.cr-gc-fb {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: flex-start;
+}
+.cr-gc-fb p {
+  margin: 0;
+}
+.cr-gc-fb p:first-child {
+  color: white;
+  font-size: var(--font-size-title);
+  font-weight: 600;
+}
+.cr-gc-fb p:last-child {
+  padding-top: 3px;
+  color: var(--dark-grayish-cyan);
+  font-size: var(--font-size-descr);
+}
+.cr-gc-fb, .cr-grid-result {
+  padding: 0 10px;
+}
+.cr-grid-result {
+  align-self: center;
+  justify-self: flex-end;
+  color: var(--strong-cyan);
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+.cr-button {
+  width: 75%;
+  margin: auto auto 10% auto;
+  color: var(--very-dark-cyan);
+  background-color: var(--strong-cyan);
+  border-radius: var(--border-radius-button);
+  text-align: center;
+}
+.cr-button p {
+  margin: 3px 0;
+  font-size: .7em;
+  font-weight: 700;
+}
+.calc-result .cr-button p:hover {
+  font-size: initial;
+  font-weight: inherit;
+  color: var(--strong-cyan);
+  background-color: var(--very-dark-cyan);
+  box-shadow: 3px 0px 0px 3px var(--strong-cyan);
+  border-radius: var(--border-radius-button);
+  cursor: pointer;
 }
   </style>
 </head>
@@ -213,7 +268,7 @@ input[type=number] {
         <div class="calc-result">
           <div class="cr cr-tip">
             <ul class="cr-grid-container">
-              <li>
+              <li class="cr-gc-fb">
                 <p>Tip Amount</p>
                 <p>/ person</p>
               </li>
@@ -222,15 +277,15 @@ input[type=number] {
           </div>
           <div class="cr cr-total">
             <ul class="cr-grid-container">
-              <li>
+              <li class="cr-gc-fb">
                 <p>Total</p>
                 <p>/ person</p>
               </li>
               <li class="cr-grid-result">$32.79</li>
             </ul>
           </div>
-          <div class="cr-button">
-            <input class="cr-reset-button" type="button" value="RESET">
+          <div class="cr cr-button">
+            <p tabindex="-1"><input class="cr-button-reset" type="button" value="RESET"></p>
           </div>
         </div>
       </div>
