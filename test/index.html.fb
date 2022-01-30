@@ -128,8 +128,8 @@ input[type=number] {
 }
 .ci-tip-grid {
   display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   justify-items: center;
   gap: 10px;
 }
@@ -165,14 +165,31 @@ input[type=number] {
   margin: 3.5%;
   display: flex;
   flex-direction: column;
-  /*justify-content: space-evenly;*/
+  justify-content: space-evenly;
   background-color: var(--very-dark-cyan);
   border-radius: var(--border-radius);
 }
-.cr-grid-container {
-  display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: 1fr 1fr;
+.cr-fb {
+  display: flex;
+  justify-content: space-evenly;
+}
+.cr-fb-tip, .cr-fb-total {
+  flex-grow: 2;
+  align-content: center;
+}
+.cr-fb-desc {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.cr-fb-desc li:last-child {
+  color: var(--dark-grayish-cyan);
+  font-size: .7rem;
+}
+.cr-fb-result {
+  alig-self: center;
 }
   </style>
 </head>
@@ -211,25 +228,21 @@ input[type=number] {
           </ul>
         </div>
         <div class="calc-result">
-          <div class="cr cr-tip">
-            <ul class="cr-grid-container">
-              <li>
-                <p>Tip Amount</p>
-                <p>/ person</p>
-              </li>
-              <li class="cr-grid-result">$4.27</li>
+          <div class="cr-fb cr-fb-tip">
+            <ul class="cr-fb-desc">
+              <li>Tip Amount</li>
+              <li>/ person</li>
             </ul>
+            <div class="cr-fb-result">$4.27</div>
           </div>
-          <div class="cr cr-total">
-            <ul class="cr-grid-container">
-              <li>
-                <p>Total</p>
-                <p>/ person</p>
-              </li>
-              <li class="cr-grid-result">$32.79</li>
+          <div class="cr-fb cr-fb-total">
+            <ul class="cr-fb-desc">
+              <li>Total</li>
+              <li>/ person</li>
             </ul>
+            <div class="cr-fb-result">$32.79</div>
           </div>
-          <div class="cr-button">
+          <div class="cr-fb cr-button">
             <input class="cr-reset-button" type="button" value="RESET">
           </div>
         </div>
