@@ -73,12 +73,6 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
-button {
-  border: none;
-  background: none;
-  margin: 0;
-  padding: 0;
-}
 
 #main-container {
   height: 100%;;
@@ -114,7 +108,7 @@ button {
   flex-direction: column;
 }
 .ci-bill-title, .ci-tip-title, .ci-people-title {
-  padding-bottom: 5px;
+  flex-shrink: 3;
   font-size: var(--font-size-title);
   font-weight: 700;
   color: var(--dark-grayish-cyan);
@@ -123,6 +117,7 @@ button {
   display: inline-flex;
   padding: 0px 10px;
   background-color: var(--very-light-grayish-cyan);
+  /*background-color: blue;*/
   border-radius: 5px 5px;
   cursor: pointer;
 }
@@ -133,6 +128,7 @@ button {
   padding-right: 0;
   text-align-last: right;
   color: var(--dark-grayish-cyan);
+  /*color: white;*/
 }
 .ci-tip-grid {
   display: grid;
@@ -141,27 +137,28 @@ button {
   justify-items: center;
   gap: 10px;
 }
-.ci-tip-grid button {
-  padding: 3px 0;
+.ci-tip-grid li {
   color: white;
-  background-color: var(--very-dark-cyan);
   width: 100%;
   font-size: .7em;
   text-align: center;
   border-radius: var(--border-radius-button);
 	cursor: pointer;
 }
-.ci-tip-grid button:last-child {
+.ci-tip-grid li {
+  background-color: var(--very-dark-cyan);
+}
+.ci-tip-grid li:last-child {
   color: var(--dark-grayish-cyan);
   background-color: var(--very-light-grayish-cyan);
   font-weight: 700;
 }
-.ci-tip .ci-tip-grid button:focus-within {    /* "focus" attribute comes before "hover". .ci-tip adds specificity to override the following :hover with the same attributes setted. :focus-within covers the <input> element.*/
+.ci-tip .ci-tip-grid li:focus-within {    /* "focus" attribute comes before "hover". .ci-tip adds specificity to override the following :hover with the same attributes setted. :focus-within covers the <input> element.*/
   color: var(--very-dark-cyan);
   background-color: var(--strong-cyan);
   font-weight: 700;
 }
-.ci-tip-grid button:hover {
+.ci-tip-grid li:hover {
   box-shadow: inset 0px 0px 0px .2rem var(--strong-cyan);  /* (inset "revert to inside offsets") 0px(x-offset "you don't want") 0px(y-offset "you don't want") 0px(blur-radius "you don't want") .2rem(spread-radius "you want expand radius by a dimension") var(--stron-cyan "color")*/
   border-color: var(--strong-cyan);
   color: var(--strong-cyan);
@@ -210,18 +207,22 @@ button {
   font-size: 1.7rem;
   font-weight: 700;
 }
-.cr-button-reset {
+.cr-button {
+  width: 75%;
   margin: auto auto 10% auto;
-  width: 80%;
-  height: 10%;
   color: var(--very-dark-cyan);
   background-color: var(--strong-cyan);
-  font-family: inherit;
+  border-radius: var(--border-radius-button);
+  text-align: center;
+}
+.cr-button p {
+  margin: 3px 0;
   font-size: .7em;
   font-weight: 700;
-  border-radius: var(--border-radius-button);
 }
-.cr-button-reset:hover {
+.calc-result .cr-button p:hover {
+  font-size: initial;
+  font-weight: inherit;
   color: var(--strong-cyan);
   background-color: var(--very-dark-cyan);
   box-shadow: 0px 0px 0px 2px var(--strong-cyan);
@@ -250,14 +251,14 @@ button {
             <div class="ci-tip-title">
               Select Tip %
             </div>
-            <div class="ci-tip-grid">
-              <button class="ci-tg-perc" type="button">5%</li>
-              <button class="ci-tg-perc" type="button">10%</li>
-              <button class="ci-tg-perc" type="button">15%</li>
-              <button class="ci-tg-perc" type="button">25%</li>
-              <button class="ci-tg-perc" type="button">50%</li>
-              <button class="ci-tg-perc" type="button">Custom</li>
-            </div>
+            <ul class="ci-tip-grid">
+              <li tabindex="-1"><input class="ci-tg-perc" type="button" value="5%"></li>
+              <li tabindex="-1"><input class="ci-tg-perc" type="button" value="10%"></li>
+              <li tabindex="-1"><input class="ci-tg-perc" type="button" value="15%"></li>
+              <li tabindex="-1"><input class="ci-tg-perc" type="button" value="25%"></li>
+              <li tabindex="-1"><input class="ci-tg-perc" type="button" value="50%"></li>
+              <li tabindex="-1"><input class="ci-tg-perc" type="button" value="Custom"></li>
+            </ul>
           </div>
           <ul class="ci-people">
             <li class="ci-people-title">Number of People</li>
@@ -283,9 +284,9 @@ button {
               <li class="cr-grid-result">$32.79</li>
             </ul>
           </div>
-          <!--<div class="cr cr-button">-->
-            <button class="cr-button-reset" type="button">RESET</button>
-          <!--</div>-->
+          <div class="cr cr-button">
+            <p tabindex="-1"><input class="cr-button-reset" type="button" value="RESET"></p>
+          </div>
         </div>
       </div>
     </div>

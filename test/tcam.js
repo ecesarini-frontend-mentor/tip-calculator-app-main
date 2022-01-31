@@ -1,12 +1,16 @@
 function getTipClicked() {
-    let tip = document.getElementsByClassName('ci-tip')[0].querySelectorAll('input');
+    let tip = document.getElementsByClassName('ci-tip-grid')[0].querySelectorAll('button');
     tip.forEach(function(check) {
         check.addEventListener('click', function(event) {
-            alert(Array.from(check).indexOf(event.target));
+           var y = Array.from(tip).indexOf(event.target);
+           //console.log(y);
         });
     });
 }
 
 function getFromCalc() {
     let bill = document.getElementsByClassName('ci-bill')[0].querySelector('input').value;
+    getTipClicked();
+    console.log(y);
 }
+getFromCalc();
