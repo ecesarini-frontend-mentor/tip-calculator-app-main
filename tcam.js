@@ -6,12 +6,23 @@ function tipClicked(e) {
         //console.log(e);
         var ev = Array.from(e).indexOf(event.target);
         //console.log(ev);
+        var frac;
         switch(ev) {
-            var frac;
             case 0:
-                frac = .5;
+                frac = .05;
                 break;
-                        
+            case 1:
+                frac = .1;
+                break;
+            case 2:
+                frac = .15;
+                break;
+            case 3:
+                frac = .25;
+            case 4:
+                frac = .5;
+            case 5:
+                frac = //get something                         
         }
 
     }
