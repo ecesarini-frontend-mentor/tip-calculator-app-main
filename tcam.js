@@ -1,50 +1,29 @@
-class TipClicked {
-    constructor(el) {
-        this.el = el;
-    }
-    handleEvent(event) {
-        var ret;
-        var y = Array.from(this.el).indexOf(event.target);
-        switch (y) {
-            case '0':
-                ret = .05;
+function tipClicked(e) {
+    e.forEach(function(item) {
+        item.addEventListener('click', getTipClicked);
+    });   
+    function getTipClicked(event) {
+        //console.log(e);
+        var ev = Array.from(e).indexOf(event.target);
+        //console.log(ev);
+        switch(ev) {
+            var frac;
+            case 0:
+                frac = .5;
                 break;
-            case '1':
-                ret = .1;
-                break;
-            case '2':
-                ret = .15;
-                break;  
-            case '3':
-                ret = .25;
-                break;  
-            case '4':
-                ret = .5;
-                break;  
-            case '5':
-                ret = .8;
-                break;          
+                        
         }
-    } 
-}
 
-function getTipClicked() {
-    let tip = document.getElementsByClassName('ci-tip-grid')[0].querySelectorAll('button');
-    let tipClicked = new TipClicked(tip);
-    console.log(tipClicked);
-    /*tip.forEach(function(check) {
-        check.addEventListener('click', tipClicked.checkClicked);
-           //var y = Array.from(tip).indexOf(event.target);
-           //console.log(y);
-        //);
-    //console.log(y);
-    });*/
+    }
+    //console.log(this.cellClicked.bind(this));
+    //console.log(this.ev);
+    //console.log(ev);
 }
 
 function getFromCalc() {
     let bill = document.getElementsByClassName('ci-bill')[0].querySelector('input').value;
-    getTipClicked();
-    //console.log(y);
+    let tip = document.getElementsByClassName('ci-tip-grid')[0].querySelectorAll('button');
+    tipClicked(tip);
 }
 getFromCalc();
 
