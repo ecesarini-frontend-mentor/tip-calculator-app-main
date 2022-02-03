@@ -249,14 +249,16 @@ button {
             <li class="ci-bill-amount inl-elem"><img src="images/icon-dollar.svg" alt="Bill amount"><input class="ci-input" type="number" value=""></li>
           </ul>
           <div class="ci-tip">
-            <div class="ci-tip-title">Select Tip %</div>
+            <div class="ci-tip-title">
+              Select Tip %
+            </div>
             <div class="ci-tip-grid">
-              <input class="ci-tg-perc" type="button" value="">
-              <input class="ci-tg-perc" type="button" value="">
-              <input class="ci-tg-perc" type="button" value="">
-              <input class="ci-tg-perc" type="button" value="">
-              <input class="ci-tg-perc" type="button" value="">
-              <input class="ci-tg-perc" type="button" value="">
+              <button class="ci-tg-perc" type="button">5%</button>
+              <button class="ci-tg-perc" type="button">10%</button>
+              <button class="ci-tg-perc" type="button">15%</button>
+              <button class="ci-tg-perc" type="button">25%</button>
+              <button class="ci-tg-perc" type="button">50%</button>
+              <button class="ci-tg-perc" type="button">Custom</button>
             </div>
           </div>
           <ul class="ci-people">

@@ -1,34 +1,4 @@
-function getTipClicked() {
-    //var tip = document.getElementsByClassName('ci-tip-grid')[0].querySelectorAll('button');
-    $(".ci-tg-perc").on("click", function(event) {
-        var lst = $(this.event.targe.innerText);
-        //alert(event.target.innerText);
-        return lst;
-    });
-    alert(lst);
-}
-getTipClicked();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*class TipClicked {
+class TipClicked {
     constructor(e) {
         this.e = e;
     }
@@ -55,7 +25,7 @@ getTipClicked();
                         //frac = //get something
                     break;
                 }
-            //console.log(frac);
+            console.log(frac);
             break;
         }
     }
@@ -68,9 +38,7 @@ function getFromCalc() {
     tip.forEach((item) => {
         item.addEventListener('click', tipClicked);
     });
-    let people = document.getElementsByClassName('ci-people')[0].querySelector('input').value;
 }
 getFromCalc();
 
 // Turn clicked event into object by Class and use inheriting in the constructor to get something from method or simply get a return from function calling eventhandler merging into call 
-*/

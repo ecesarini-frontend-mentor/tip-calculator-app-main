@@ -1,4 +1,4 @@
-function getTipClicked() {
+/*function getTipClicked() {
     let tip = document.getElementsByClassName('ci-tip-grid')[0].querySelectorAll('button');
     tip.forEach(function(check) {
         check.addEventListener('click', function(event) {
@@ -14,3 +14,4 @@ function getFromCalc() {
     console.log(y);
 }
 getFromCalc();
+*/
