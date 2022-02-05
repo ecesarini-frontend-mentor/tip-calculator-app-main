@@ -1,4 +1,27 @@
-for(let i=0; i<5; i++) {
+function checkInputSelected(arr) {
+    //var chkFlag = true;
+    arr.forEach((item) => { 
+        item.addEventListener(item, function(event) {
+            if( event.target.value == "") {return false;}
+            else {return true;}
+        })
+    });        
+    //return chkFlag;
+}
+
+function check() {
+    var ciInp = [];
+    ciInp.push(document.getElementsByClassName("ci-bill-input")[0]);
+    ciInp.push(document.getElementsByClassName("ci-tg-perc-custom")[0]);
+    ciInp.push(document.getElementsByClassName("ci-people-input")[0]);
+    //console.log(ciInp);
+    //console.log(checkInputSelected(ciInp));
+    checkInputSelected(ciInp);
+}
+check();
+
+
+/*for(let i=0; i<5; i++) {
     $(".ci-tg-perc").eq(i).on("click", function(event) {
         switch(i) {
             case 0:
@@ -22,8 +45,8 @@ for(let i=0; i<5; i++) {
     });
 }
 
-//var ctp = $(".ci-tg-perc").eq(2).data("perc");
-//console.log(ctp);
+var ctp = $(".ci-tg-perc").eq(2).data("perc");
+console.log(ctp);*/
 
 
 /*class TipClicked {

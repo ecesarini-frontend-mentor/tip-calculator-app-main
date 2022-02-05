@@ -146,7 +146,7 @@ button {
   justify-items: center;
   gap: 10px;
 }
-.ci-tip-grid li {
+.ci-tip-grid input {
   padding: 3px 0;
   color: white;
   background-color: var(--very-dark-cyan);
@@ -156,30 +156,21 @@ button {
   border-radius: var(--border-radius-button);
 	cursor: pointer;
 }
-.ci-tip-grid li.ci-tg-perc-custom {
+.ci-tip-grid .ci-tg-perc-custom {
   color: var(--dark-grayish-cyan);
   background-color: var(--very-light-grayish-cyan);
   font-weight: 700;
 }
-.ci-tip .ci-tip-grid li:hover  {
+.ci-tip .ci-tip-grid input:hover  {
   box-shadow: inset 0px 0px 0px 3px var(--strong-cyan);  /* (inset "revert to inside offsets") 0px(x-offset "you don't want") 0px(y-offset "you don't want") 0px(blur-radius "you don't want") .2rem(spread-radius "you want expand radius by a dimension") var(--stron-cyan "color")*/
   border-color: var(--strong-cyan);
   color: var(--strong-cyan);
 }
-.ci-tip .ci-tip-grid li:focus  {    /* "focus" attribute comes after "hover". .ci-tip adds specificity to override the following :hover with the same attributes setted. :focus-within covers the <input> element.*/
+.ci-tip .ci-tip-grid input:focus  {    /* "focus" attribute comes after "hover". .ci-tip adds specificity to override the following :hover with the same attributes setted. :focus-within covers the <input> element.*/
   color: var(--very-dark-cyan);
   background-color: var(--strong-cyan);
   font-weight: 700;
-  border-radius: var(--border-radius-button);
 }
-.ci-tip .ci-tip-grid input:hover {
-  max-width: 100%;
-}
-.ci-tip .ci-tip-grid input:focus {
-  color: var(--stron-cyan);
-  background-color: var(--very-dark-cyan);
-}
-
 .calc-result {
   width: 50%;
   margin: 3.5%;
@@ -257,22 +248,22 @@ button {
         <div class="calc-insert">
           <ul class="ci-bill">
             <li class="ci-bill-title">Bill</li>
-            <li class="ci-bill-amount inl-elem"><img src="images/icon-dollar.svg" alt="Bill amount"><input class="ci-input" type="number" value=""></li>
+            <li class="ci-bill-amount inl-elem"><img src="images/icon-dollar.svg" alt="Bill amount"><input class="ci-input ci-bill-input" type="number" value="" min="0"></li>
           </ul>
           <div class="ci-tip">
             <div class="ci-tip-title">Select Tip %</div>
-            <ul class="ci-tip-grid">
-              <li><input class="ci-tg-perc" type="button" value="5%"></li>
-              <li><input class="ci-tg-perc" type="button" value="10%"></li>
-              <li><input class="ci-tg-perc" type="button" value="15%"></li>
-              <li><input class="ci-tg-perc" type="button" value="25%"></li>
-              <li><input class="ci-tg-perc" type="button" value="50%"></li>
-              <li class="ci-tg-perc-custom" ><input class="ci-tg-perc" type="button" value="Custom"></li>
-            </ul>
+            <div class="ci-tip-grid">
+              <input class="ci-tg-perc" type="button" value="5%">
+              <input class="ci-tg-perc" type="button" value="10%">
+              <input class="ci-tg-perc" type="button" value="15%">
+              <input class="ci-tg-perc" type="button" value="25%">
+              <input class="ci-tg-perc" type="button" value="50%">
+              <input class="ci-tg-perc ci-tg-perc-custom" type="number" placeholder="Custom" min="0" max="100">
+            </div>
           </div>
           <ul class="ci-people">
             <li class="ci-people-title">Number of People</li>
-            <li class="ci-people-amount inl-elem"><img src="images/icon-person.svg" alt="Number of people"><input class="ci-input" type="number" value=""></li>
+            <li class="ci-people-amount inl-elem"><img src="images/icon-person.svg" alt="Number of people"><input class="ci-input ci-people-input" type="number" value="" min="1"></li>
           </ul>
         </div>
         <div class="calc-result">
