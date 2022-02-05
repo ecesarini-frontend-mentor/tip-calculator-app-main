@@ -1,29 +1,31 @@
-for(let i=0; i<5; i++) {
-    $(".ci-tg-perc").eq(i).on("click", function(event) {
-        switch(i) {
-            case 0:
-                $(this).data("perc", 0.5) ;
-                break;
-            case 1:
-                $(this).data("perc", 0.1);
-                break;
-            case 2:
-                $(this).data("perc", 0.15);
-                break;
-            case 3:
-                $(this).data("perc", 0.25);
-                break;
-            case 4:
-                $(this).data("perc", 0.5);
-                break;
-        }
-    var ctp = $(".ci-tg-perc").eq(2).data("perc");
-    console.log(ctp);
+function getTipClicked() {
+    //var tip = document.getElementsByClassName('ci-tip-grid')[0].querySelectorAll('button');
+    $(".ci-tg-perc").on("click", function(event) {
+        var lst = $(this.event.targe.innerText);
+        //alert(event.target.innerText);
+        return lst;
     });
+    alert(lst);
 }
+getTipClicked();
 
-//var ctp = $(".ci-tg-perc").eq(2).data("perc");
-//console.log(ctp);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*class TipClicked {
