@@ -1,4 +1,80 @@
-function checkInputSelected(arr) {
+class GetValue {
+    constructor(bill, tip, tipPerc) {
+        this.bill = bill;
+        this.tip = tip;
+        this.tipPerc = tipPerc;
+    }
+    handleEvent(event) {
+        switch(event.type) {
+            case 'click':
+                let perc;
+                let tipClkIndex = Array.from(this.tip).indexOf(event.target);
+                if(tipClkIndex < 5) {
+                    perc = this.tipPerc[tipClkIndex];
+                }
+                else {
+                    //console.log(event.dataset);
+                    event.target.placeholder = "%";
+                } 
+                console.log(perc);
+                break;
+            case 'input':
+                event.target.placeholder = "%";
+                let percCustom;
+                percCustom = event.target.value / 100 + "%";
+                console.log(percCustom);
+                break;
+        }
+    }
+}
+
+function tcamValue() {
+    let bill = document.getElementsByClassName("ci-bill-input")[0].value;
+    let tip = document.querySelectorAll(".ci-tg-perc");
+    let tipPerc = [0.05, 0.1, 0.15, 0.25, 0.5];
+
+    let getValue = new GetValue(bill, tip, tipPerc);
+    tip.forEach((item) => {
+        item.addEventListener('click', getValue);
+        item.addEventListener('input', getValue);
+    })  
+}
+tcamValue();
+
+
+/*function calcValue() {
+    let bill = document.getElementsByClassName("ci-bill-input")[0].value;
+    var tip = document.querySelectorAll(".ci-tg-perc");
+    var tipPerc = [0.05, 0.1, 0.15, 0.25, 0.5];
+
+
+    for(let i=0; i<tip.length; i++) {
+        if(i<=4) {
+            tip[i].addEventListener('click', function(event) {
+                let clk = Array.from(tip).indexOf(event.target);
+                let perc;
+                if(clk < 5) { perc = tipPerc[clk];}
+                else { 
+                    perc = event.target.value / 100;
+                    event.target.value = 
+                }
+                console.log(perc);
+            });
+        } else {
+            tip[i].addEventListener('input', function(event) {
+                event.target.value = "%";
+                let perc = event.target.value / 100;
+                console.log(perc); 
+            });
+        }
+    }
+}
+calcValue();*/
+
+
+
+
+/*function checkInputSelected(arr) {
     //var chkFlag = true;
     arr.forEach((item) => { 
         item.addEventListener(item, function(event) {
@@ -18,7 +94,7 @@ function check() {
     //console.log(checkInputSelected(ciInp));
     checkInputSelected(ciInp);
 }
-check();
+check();*/
 
 
 /*for(let i=0; i<5; i++) {
