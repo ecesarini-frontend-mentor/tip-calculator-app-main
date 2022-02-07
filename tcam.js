@@ -5,10 +5,10 @@ class GetValue {
         this.tipPerc = tipPerc;
     }
     handleEvent(event) {
+        let tipClkIndex = Array.from(this.tip).indexOf(event.target);
         switch(event.type) {
             case 'click':
                 let perc;
-                let tipClkIndex = Array.from(this.tip).indexOf(event.target);
                 if(tipClkIndex < 5) {
                     perc = this.tipPerc[tipClkIndex];
                 }
@@ -18,12 +18,15 @@ class GetValue {
                 } 
                 console.log(perc);
                 break;
-            case 'input':
-                event.target.placeholder = "%";
-                let percCustom;
-                percCustom = event.target.value / 100 + "%";
+            case 'focus':
+                let percCustom = event.target.value / 100;
                 console.log(percCustom);
                 break;
+            /*case 'blur':
+                if(tipClkIndex === 5) {
+                event.currentTarget.value += "%";
+                }
+                break;*/
         }
     }
 }
@@ -37,6 +40,7 @@ function tcamValue() {
     tip.forEach((item) => {
         item.addEventListener('click', getValue);
         item.addEventListener('input', getValue);
+        //item.addEventListener('blur', getValue);
     })  
 }
 tcamValue();

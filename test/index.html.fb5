@@ -146,7 +146,7 @@ button {
   justify-items: center;
   gap: 10px;
 }
-.ci-tip-grid .ci-tg-perc {
+.ci-tip-grid input {
   padding: 3px 0;
   color: white;
   background-color: var(--very-dark-cyan);
@@ -156,54 +156,21 @@ button {
   border-radius: var(--border-radius-button);
 	cursor: pointer;
 }
-.ci-tip .ci-tip-grid .ci-tg-perc:hover  {
+.ci-tip-grid .ci-tg-perc-custom {
+  color: var(--dark-grayish-cyan);
+  background-color: var(--very-light-grayish-cyan);
+  font-weight: 700;
+}
+.ci-tip .ci-tip-grid input:hover  {
   box-shadow: inset 0px 0px 0px 3px var(--strong-cyan);  /* (inset "revert to inside offsets") 0px(x-offset "you don't want") 0px(y-offset "you don't want") 0px(blur-radius "you don't want") .2rem(spread-radius "you want expand radius by a dimension") var(--stron-cyan "color")*/
   border-color: var(--strong-cyan);
   color: var(--strong-cyan);
 }
-.ci-tip-grid .ci-tg-perc.ci-tg-span {
-  background-color: var(--light-grayish-cyan);
+.ci-tip .ci-tip-grid input:focus  {    /* "focus" attribute comes after "hover". .ci-tip adds specificity to override the following :hover with the same attributes setted. :focus-within covers the <input> element.*/
   color: var(--very-dark-cyan);
-  border-radius: var(--border-radius-button);
-  font-weight: 700;
-  /*box-shadow: 0px 0px 0px 3px var(--very-dark-cyan);
-  border-radius: 3
-  px;*/
-}
-.ci-tip-grid .ci-tg-perc.ci-tg-span input {
-  width: 100%;
-  font-size: .7em;
-}
-.ci-tip-grid .ci-tg-perc.ci-tg-span:hover {
-  color: var(--strong-cyan);
-  background-color: var(--strong-cyan);
-  box-shadow: inset 0px 0px 0px 3px var(--very-dark-cyan);
-}
-
-/*.ci-tip .ci-tip-grid .ci-tg-perc.ci-tg-span >{
-  color: var(--dark-grayish-cyan);
-  background-color: var(--very-light-grayish-cyan);
-  font-weight: 700;
-  border: none;
-}
-.ci-tip .ci-tip-grid .ci-tg-perc:hover  {
-  box-shadow: inset 0px 0px 0px 3px var(--strong-cyan);  /* (inset "revert to inside offsets") 0px(x-offset "you don't want") 0px(y-offset "you don't want") 0px(blur-radius "you don't want") .2rem(spread-radius "you want expand radius by a dimension") var(--stron-cyan "color")*/
- 
-  /*border-color: var(--strong-cyan);
-  color: var(--strong-cyan);
-}
-.ci-tip .ci-tip-grid .ci-tg-perc.ci-tg-span input:hover  {    /* "focus" attribute comes after "hover". .ci-tip adds specificity to override the following :hover with the same attributes setted. :focus-within covers the <input> element.*/
-  /*background-color: var(--strong-cyan);
-  font-weight: 700;
-}
-ci-tip .ci-tip-grid .ci-tg-span:focus  {    /* "focus" attribute comes after "hover". .ci-tip adds specificity to override the following :hover with the same attributes setted. :focus-within covers the <input> element.*/
-  /*color: var(--very-dark-cyan);
   background-color: var(--strong-cyan);
   font-weight: 700;
 }
-.ci-tip-grid .ci-tg-span input {
-  text-align: center;
-}*/
 .calc-result {
   width: 50%;
   margin: 3.5%;
@@ -291,7 +258,7 @@ ci-tip .ci-tip-grid .ci-tg-span:focus  {    /* "focus" attribute comes after "ho
               <input class="ci-tg-perc" type="button" value="15%">
               <input class="ci-tg-perc" type="button" value="25%">
               <input class="ci-tg-perc" type="button" value="50%">
-              <span class="ci-tg-perc ci-tg-span"><input class="ci-tg-perc-custom" placeholder="Custom" type="number" min="0" max="100" value=""></span>
+              <input class="ci-tg-perc ci-tg-perc-custom" type="number" placeholder="Custom" min="0" max="100" value="">
             </div>
           </div>
           <ul class="ci-people">
