@@ -78,6 +78,10 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+input::-webkit-input-placeholder {
+  text-align: center;
+}
+
 button {
   border: none;
   background: none;
@@ -161,49 +165,28 @@ button {
   border-color: var(--strong-cyan);
   color: var(--strong-cyan);
 }
+.ci-tip .ci-tip-grid .ci-tg-perc:focus {  /*focus comes after hover*/
+  background-color: var(--strong-cyan);
+  color: var(--very-dark-cyan);
+  font-weight: 700;
+}
 .ci-tip-grid .ci-tg-perc.ci-tg-span {
   background-color: var(--light-grayish-cyan);
   color: var(--very-dark-cyan);
-  border-radius: var(--border-radius-button);
   font-weight: 700;
-  /*box-shadow: 0px 0px 0px 3px var(--very-dark-cyan);
-  border-radius: 3
-  px;*/
 }
 .ci-tip-grid .ci-tg-perc.ci-tg-span input {
   width: 100%;
-  font-size: .7em;
+  height: 100%;
+  padding: 0;
+  font-size: 100%;
+  text-align: end;
 }
-.ci-tip-grid .ci-tg-perc.ci-tg-span:hover {
+.ci-tg-perc.ci-tg-span:hover {
   color: var(--strong-cyan);
   background-color: var(--strong-cyan);
   box-shadow: inset 0px 0px 0px 3px var(--very-dark-cyan);
 }
-
-/*.ci-tip .ci-tip-grid .ci-tg-perc.ci-tg-span >{
-  color: var(--dark-grayish-cyan);
-  background-color: var(--very-light-grayish-cyan);
-  font-weight: 700;
-  border: none;
-}
-.ci-tip .ci-tip-grid .ci-tg-perc:hover  {
-  box-shadow: inset 0px 0px 0px 3px var(--strong-cyan);  /* (inset "revert to inside offsets") 0px(x-offset "you don't want") 0px(y-offset "you don't want") 0px(blur-radius "you don't want") .2rem(spread-radius "you want expand radius by a dimension") var(--stron-cyan "color")*/
- 
-  /*border-color: var(--strong-cyan);
-  color: var(--strong-cyan);
-}
-.ci-tip .ci-tip-grid .ci-tg-perc.ci-tg-span input:hover  {    /* "focus" attribute comes after "hover". .ci-tip adds specificity to override the following :hover with the same attributes setted. :focus-within covers the <input> element.*/
-  /*background-color: var(--strong-cyan);
-  font-weight: 700;
-}
-ci-tip .ci-tip-grid .ci-tg-span:focus  {    /* "focus" attribute comes after "hover". .ci-tip adds specificity to override the following :hover with the same attributes setted. :focus-within covers the <input> element.*/
-  /*color: var(--very-dark-cyan);
-  background-color: var(--strong-cyan);
-  font-weight: 700;
-}
-.ci-tip-grid .ci-tg-span input {
-  text-align: center;
-}*/
 .calc-result {
   width: 50%;
   margin: 3.5%;
@@ -286,12 +269,12 @@ ci-tip .ci-tip-grid .ci-tg-span:focus  {    /* "focus" attribute comes after "ho
           <div class="ci-tip">
             <div class="ci-tip-title">Select Tip %</div>
             <div class="ci-tip-grid">
-              <input class="ci-tg-perc" type="button" value="5%">
-              <input class="ci-tg-perc" type="button" value="10%">
-              <input class="ci-tg-perc" type="button" value="15%">
-              <input class="ci-tg-perc" type="button" value="25%">
-              <input class="ci-tg-perc" type="button" value="50%">
-              <span class="ci-tg-perc ci-tg-span"><input class="ci-tg-perc-custom" placeholder="Custom" type="number" min="0" max="100" value=""></span>
+              <input class="ci-tg-perc ctp-action" type="button" value="5%"> <!-- here's my trick, use a different class to handle the same event by JS-->
+              <input class="ci-tg-perc ctp-action" type="button" value="10%">
+              <input class="ci-tg-perc ctp-action" type="button" value="15%">
+              <input class="ci-tg-perc ctp-action" type="button" value="25%">
+              <input class="ci-tg-perc ctp-action" type="button" value="50%">
+              <span class="ci-tg-perc ci-tg-span"><input class="ci-tg-perc-custom ctp-action" placeholder="Custom" type="text" min="0" max="100" value=""></span>
             </div>
           </div>
           <ul class="ci-people">
