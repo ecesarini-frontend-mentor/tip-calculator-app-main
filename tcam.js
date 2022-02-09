@@ -12,24 +12,18 @@ class GetValue {
             switch(event.type) {
                 case 'click':
                     let perc = this.tipPerc[tipClkIndex];
-                    console.log(perc);
+                    //console.log(perc);
                 }
-        } else {//if (tipClkIndex === 5) {
+        } else if(tipClkIndex === 5) {
             switch(event.type) {
-                case 'click':
-                    //console.log(event.dataset);
-                    //event.target.placeholder = "%";
-                    //console.log(event.target, event.currentTarget);
+                case 'keypress':
+                    event.target.value += '%';
                     break;
-                case 'focus':
-                    let percCustom = event.target.value / 100;
-                    console.log(percCustom);
-                    //event.target.value += "%";
-                    break;
-                case 'blur':
-                    // TODO: manage custom event
-                    event.target.value += "%";
-                    //console.log(event.target, event.currentTarget);
+                case 'input':
+                    // TODO: the way to bound input (maybe by regex?) 
+                    event.target.style.textAlign = 'center';
+                    event.target.value = event.target.value.replace('%', '') + '%';
+                    event.target.selectionEnd = event.target.value.length - 1;
                     break;
             }
         }
