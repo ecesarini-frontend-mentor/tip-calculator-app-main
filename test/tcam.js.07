@@ -12,19 +12,31 @@ class GetValue {
             switch(event.type) {
                 case 'click':
                     let perc = this.tipPerc[tipClkIndex];
+                    //console.log(perc);
                 }
         } else if(tipClkIndex === 5) {
             switch(event.type) {
                 case 'click':
-                    if(event.target.value != '') event.target.value = '';
+                    event.target.selectionEnd = event.target.value.length - 1;
                     break;
-                case 'blur':
-                    event.target.value = event.target.value + '%';
+                case 'keypress':
+                    event.target.value += '%';
                     break;
                 case 'input':
+                    // TODO: the way to bound input (maybe by regex?) 
                     event.target.style.textAlign = 'center';
-                    if(event.target.value < 0) event.target.value = 0;
-                    else if (event.target.value > 100) event.target.value = 100;
+                    event.target.value = event.target.value.replace('%', ''); //+ '%';
+                    console.log(event.target.value.length);
+                    event.target.selectionEnd = event.target.value.length - 1;
+                    //let reg = new RegExp('/\b(\d|[1-9]\d|[01]00)\b/');
+                    console.log(etv)//, typeof(etv));
+                    if(etv.slice(-1) == '%') {
+                        if(etv.slice(0, -1) < '0') event.target.value = 0;
+                        else if(etv.slice(0, -1) > '100') event.target.value = 100;
+                    } else { 
+                        if(etv < '0') event.target.value = 0 + '%'; 
+                        else if(etv > '100') event.target.value = 100 + '%';
+                    }
                     break;
             }
         }
@@ -42,7 +54,6 @@ function tcamValue() {
         item.addEventListener('click', getValue);
         item.addEventListener('input', getValue);
         item.addEventListener('blur', getValue);
-    }) 
-    // TODO: fetch data inside DOM input: 
+    })  
 }
 tcamValue();

@@ -12,19 +12,20 @@ class GetValue {
             switch(event.type) {
                 case 'click':
                     let perc = this.tipPerc[tipClkIndex];
+                    //console.log(perc);
                 }
         } else if(tipClkIndex === 5) {
             switch(event.type) {
-                case 'click':
-                    if(event.target.value != '') event.target.value = '';
+                /*case 'click':
+                    event.target.selectionEnd = event.target.value.length - 1;
                     break;
-                case 'blur':
-                    event.target.value = event.target.value + '%';
-                    break;
+                case 'keypress':
+                    event.target.value += '%';
+                    break;*/
                 case 'input':
+                    // TODO: the way to bound input (maybe by regex?) 
                     event.target.style.textAlign = 'center';
-                    if(event.target.value < 0) event.target.value = 0;
-                    else if (event.target.value > 100) event.target.value = 100;
+                    if(event.target.value < '0') event.target.value = '0'
                     break;
             }
         }
@@ -42,7 +43,6 @@ function tcamValue() {
         item.addEventListener('click', getValue);
         item.addEventListener('input', getValue);
         item.addEventListener('blur', getValue);
-    }) 
-    // TODO: fetch data inside DOM input: 
+    })  
 }
 tcamValue();
