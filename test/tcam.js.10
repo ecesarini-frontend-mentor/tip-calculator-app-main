@@ -5,37 +5,35 @@ class GetTipValue {
         this.c2 = c2;
     }
     handleEvent(event) {
-        event.preventDefault();
-        let tipClkIndex = Array.from(this.tip).indexOf(event.currentTarget);
-        console.log(tipClkIndex);
-        if(tipClkIndex < 5) { 
-            var lc = event.target.parentNode.lastElementChild;
-            switch(event.type) {
-                case 'click':
-                    event.preventDefault();
-                    //let perc = this.tipPerc[tipClkIndex];
-                    lc.style.backgroundColor = '';
-                    lc.value = 'Custom';
-                    break;
-                }
-        } else if(tipClkIndex === 5) {
-            event.preventDefault();
-            let etvNotEmpty = () => { 
+        const tipClkIndex = Array.from(this.tip).indexOf(event.currentTarget);
+        let etvNotEmpty = () => { 
                 if(event.target.value != '') return true; 
                 else return false;
             }
-            switch(event.type) {
-                case 'click':
+        console.log(tipClkIndex);
+        //if(tipClkIndex < 5) { 
+        let lc = event.target.parentNode.lastElementChild;
+        switch(event.type) {
+            case 'click':
+                if(tipClkIndex < 5) {                 
+                    //let perc = this.tipPerc[tipClkIndex];
+                    lc.style.backgroundColor = '';
+                    event.target.parentNode.lastElementChild.value = 'Custom';
+                } else if(tipClkIndex === 5) {
                     event.target.style.borderColor = this.c1;
                     if(etvNotEmpty() || !isNaN(event.target.value)) event.target.value = '';
-                    break;
-                case 'input':
+                }
+            break;
+            case 'input':
+                if(tipClkIndex === 5) {
                     event.target.style.borderColor = this.c1;
                     if(isNaN(event.target.value)) event.target.value = event.target.value.slice(0,-1);
                     if(event.target.value < 0) event.target.value = 0;
                     else if (event.target.value > 100) event.target.value = 100;
-                    break;
-                case 'blur':
+                }
+            break;
+            case 'blur':
+                if(tipClkIndex === 5) {
                     if(etvNotEmpty()) { 
                         event.target.value = event.target.value + '%';
                         event.target.style.color = this.c2;
@@ -44,8 +42,8 @@ class GetTipValue {
                         event.target.value = 'Custom'; 
                         event.target.backgroundColor = '';
                     }
-                    break;
             }
+            break;
         }
     }
 }
@@ -93,8 +91,6 @@ function tcamValue() {
     //document.getElementsByClassName("calc-insert")[0].addEventListener('click', calcValues);
     //document.getElementsByClassName("calc-insert")[0].addEventListener('input', calcValues);
     //console.log(getTipClicked(tip, c1));
-    // TODO: 
-    // why vanish clicked tip event when you click outside the element?
-    // fetch data inside DOM input: 
+    // TODO: fetch data inside DOM input: 
 }
 tcamValue();

@@ -5,21 +5,17 @@ class GetTipValue {
         this.c2 = c2;
     }
     handleEvent(event) {
-        event.preventDefault();
-        let tipClkIndex = Array.from(this.tip).indexOf(event.currentTarget);
+        const tipClkIndex = Array.from(this.tip).indexOf(event.currentTarget);
         console.log(tipClkIndex);
         if(tipClkIndex < 5) { 
-            var lc = event.target.parentNode.lastElementChild;
+            let lc = event.target.parentNode.lastElementChild;
             switch(event.type) {
                 case 'click':
-                    event.preventDefault();
                     //let perc = this.tipPerc[tipClkIndex];
                     lc.style.backgroundColor = '';
-                    lc.value = 'Custom';
                     break;
                 }
         } else if(tipClkIndex === 5) {
-            event.preventDefault();
             let etvNotEmpty = () => { 
                 if(event.target.value != '') return true; 
                 else return false;
@@ -93,8 +89,6 @@ function tcamValue() {
     //document.getElementsByClassName("calc-insert")[0].addEventListener('click', calcValues);
     //document.getElementsByClassName("calc-insert")[0].addEventListener('input', calcValues);
     //console.log(getTipClicked(tip, c1));
-    // TODO: 
-    // why vanish clicked tip event when you click outside the element?
-    // fetch data inside DOM input: 
+    // TODO: fetch data inside DOM input: 
 }
 tcamValue();
