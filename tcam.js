@@ -5,47 +5,74 @@ class GetTipValue {
         this.c2 = c2;
     }
     handleEvent(event) {
-        event.preventDefault();
-        let tipClkIndex = Array.from(this.tip).indexOf(event.currentTarget);
-        console.log(tipClkIndex);
-        if(tipClkIndex < 5) { 
-            var lc = event.target.parentNode.lastElementChild;
-            switch(event.type) {
-                case 'click':
-                    event.preventDefault();
-                    //let perc = this.tipPerc[tipClkIndex];
-                    lc.style.backgroundColor = '';
-                    lc.value = 'Custom';
-                    break;
-                }
-        } else if(tipClkIndex === 5) {
-            event.preventDefault();
-            let etvNotEmpty = () => { 
-                if(event.target.value != '') return true; 
+        //event.preventDefault();
+        let et = event.target;
+        let ett = event.target.type;
+        //var lcCustom = event.target.lastElementChild;
+        if(ett === 'text') {          // CHECK FROM HERE 
+            let ettvNotEmpty = () => { 
+                if(ett.value != '') return true; 
                 else return false;
             }
             switch(event.type) {
+
+            }
+        }
+        /*let customNotEmpty = () => { 
+            if(lcCustom.value != '') return true; 
+            else return false;
+        }
+        if(et === 'click' || et === 'focus'){
+            if(customNotEmpty()) {
+            }
+
+        }*/
+            switch(event.type) {
                 case 'click':
-                    event.target.style.borderColor = this.c1;
-                    if(etvNotEmpty() || !isNaN(event.target.value)) event.target.value = '';
+                    //let perc = this.tipPerc[tipClkIndex];
+                    //lcCustom.style.backgroundColor = '';
+                    //lcCustom.value = 'Custom';
+                    console.log(event.target, event.target.type);
+                    break;
+                /*case 'blur':
+                    console.log(focused)
+                    if(focused === null) {
+                        event.currentTarget.style.backgroundColor = this.c1
+                    }
+                    else {
+                        event.currentTarget.style.backgroundColor = 'green';
+                     //   focused = null;
+                    }
+                    break;*/
+        //        }
+        /*} else if(tipClkIndex === 5) {
+            event.preventDefault();
+            let etvNotEmpty = () => { 
+                if(event.currentTarget.value != '') return true; 
+                else return false;
+            }
+            switch(event.type) {
+                case 'focus':
+                    event.currentTarget.style.borderColor = this.c1;
+                    if(etvNotEmpty() || !isNaN(event.currentTarget.value)) event.currentTarget.value = '';
                     break;
                 case 'input':
-                    event.target.style.borderColor = this.c1;
-                    if(isNaN(event.target.value)) event.target.value = event.target.value.slice(0,-1);
-                    if(event.target.value < 0) event.target.value = 0;
-                    else if (event.target.value > 100) event.target.value = 100;
+                    event.currentTarget.style.borderColor = this.c1;
+                    if(isNaN(event.currentTarget.value)) event.currentTarget.value = event.currentTarget.value.slice(0,-1);
+                    if(event.currentTarget.value < 0) event.currentTarget.value = 0;
+                    else if (event.currentTarget.value > 100) event.currentTarget.value = 100;
                     break;
                 case 'blur':
                     if(etvNotEmpty()) { 
-                        event.target.value = event.target.value + '%';
-                        event.target.style.color = this.c2;
-                        event.target.style.backgroundColor = this.c1;
+                        event.currentTarget.value = event.currentTarget.value + '%';
+                        event.currentTarget.style.color = this.c2;
+                        event.currentTarget.style.backgroundColor = this.c1;
                     } else { 
-                        event.target.value = 'Custom'; 
-                        event.target.backgroundColor = '';
+                        event.currentTarget.value = 'Custom'; 
+                        event.currentTarget.backgroundColor = '';
                     }
                     break;
-            }
+            }*/
         }
     }
 }
@@ -74,27 +101,26 @@ class CalcValues {
     }
 }
 
+function clearTipBg() {
+
+}
+
 function tcamValue() {
     let bill = document.getElementsByClassName("ci-bill-input")[0];
-    let tip = document.querySelectorAll(".ci-tg-perc");
-    //let tip = document.getElementsByClassName("ci-tg-perc");
+    let tip = document.querySelector(".ci-tip-grid");
     let people = document.getElementsByClassName("ci-people-input")[0];
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
-    //let tipPerc = [0.05, 0.1, 0.15, 0.25, 0.5];
 
+    //console.log(tip);
     let getTipValue = new GetTipValue(tip, c1, c2);
-    //let calcValues = new CalcValues(bill, tip, people, c1);
-    tip.forEach((item) => {
-        item.addEventListener('click', getTipValue);
-        item.addEventListener('input', getTipValue);
-        item.addEventListener('blur', getTipValue);
-    }) 
-    //document.getElementsByClassName("calc-insert")[0].addEventListener('click', calcValues);
-    //document.getElementsByClassName("calc-insert")[0].addEventListener('input', calcValues);
-    //console.log(getTipClicked(tip, c1));
-    // TODO: 
-    // why vanish clicked tip event when you click outside the element?
-    // fetch data inside DOM input: 
+    //tip.forEach((item) => {
+        //item.addEventListener('click', getTipValue);
+        tip.addEventListener('focus', clearTipBg);
+        tip.addEventListener('click', getTipValue);
+        tip.addEventListener('focus', getTipValue);
+        tip.addEventListener('input', getTipValue);
+        tip.addEventListener('blur', getTipValue);
+    //}) 
 }
 tcamValue();
