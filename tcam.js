@@ -1,88 +1,65 @@
-class GetTipValue {
+class ManageTips {
     constructor(tip, c1, c2) {
         this.tip = tip;
         this.c1 = c1;
         this.c2 = c2;
+        //this.fo = fo;
     }
     handleEvent(event) {
-        //event.preventDefault();
-        let et = event.target;
-        let ett = event.target.type;
-        //var lcCustom = event.target.lastElementChild;
-        if(ett === 'text') {          // CHECK FROM HERE 
-            let ettvNotEmpty = () => { 
-                if(ett.value != '') return true; 
-                else return false;
-            }
-            switch(event.type) {
-
-            }
-        }
-        /*let customNotEmpty = () => { 
-            if(lcCustom.value != '') return true; 
+        let etvNotEmpty = () => { 
+            if(event.target.value != '') return true; 
             else return false;
         }
-        if(et === 'click' || et === 'focus'){
-            if(customNotEmpty()) {
-            }
-
-        }*/
-            switch(event.type) {
-                case 'click':
-                    //let perc = this.tipPerc[tipClkIndex];
-                    //lcCustom.style.backgroundColor = '';
-                    //lcCustom.value = 'Custom';
-                    console.log(event.target, event.target.type);
-                    break;
-                /*case 'blur':
-                    console.log(focused)
-                    if(focused === null) {
-                        event.currentTarget.style.backgroundColor = this.c1
-                    }
-                    else {
-                        event.currentTarget.style.backgroundColor = 'green';
-                     //   focused = null;
-                    }
-                    break;*/
-        //        }
-        /*} else if(tipClkIndex === 5) {
-            event.preventDefault();
-            let etvNotEmpty = () => { 
-                if(event.currentTarget.value != '') return true; 
-                else return false;
-            }
+        //console.log(event.target, event.currentTarget);
+        if(event.target.type === 'button') { 
+            event.target.parentNode.lastElementChild.style = '';
+            event.target.parentNode.lastElementChild.value = 'Custom';
+        }
+        else if(event.target.type === 'text') {
             switch(event.type) {
                 case 'focus':
-                    event.currentTarget.style.borderColor = this.c1;
-                    if(etvNotEmpty() || !isNaN(event.currentTarget.value)) event.currentTarget.value = '';
+                    event.target.style.borderColor = this.c1;
+                    if(etvNotEmpty() || !isNaN(event.target.value)) event.target.value = '';
                     break;
                 case 'input':
-                    event.currentTarget.style.borderColor = this.c1;
-                    if(isNaN(event.currentTarget.value)) event.currentTarget.value = event.currentTarget.value.slice(0,-1);
-                    if(event.currentTarget.value < 0) event.currentTarget.value = 0;
-                    else if (event.currentTarget.value > 100) event.currentTarget.value = 100;
+                    event.target.style.borderColor = this.c1;
+                    if(isNaN(event.target.value)) event.target.value = event.target.value.slice(0,-1);
+                    if(event.target.value < 0) event.target.value = 0;
+                    else if(event.target.value > 100) event.target.value = 100;
                     break;
                 case 'blur':
                     if(etvNotEmpty()) { 
-                        event.currentTarget.value = event.currentTarget.value + '%';
-                        event.currentTarget.style.color = this.c2;
-                        event.currentTarget.style.backgroundColor = this.c1;
+                        event.target.value = event.target.value + '%';
+                        event.target.style.color = this.c2;
+                        event.target.style.backgroundColor = this.c1;
                     } else { 
-                        event.currentTarget.value = 'Custom'; 
-                        event.currentTarget.backgroundColor = '';
+                        event.target.value = 'Custom'; 
+                        event.target.backgroundColor = '';
                     }
                     break;
-            }*/
-        }
+            }
+        }   
     }
+    /*setFocus(fo, event) {
+        if(event.type === 'focusout') {
+            fo = event.target.value;
+            return fo;
+        }
+    }*/
 }
 
-class CalcValues {
-    constructor(bill, tip, people, bgColor) {
+/*class CalcValues {
+    /*constructor(bill, tip, people, bgColor) {
         this.bill = bill;
         this.tip = tip;
         this.people = people;
         this.bgColor = bgColor;
+    }
+    calcTip() {
+        let tipValue = Array.from(this.tip);
+        tipValue.forEach((item) => {
+            if(item.style.backgroundColor == this.bgColor) 
+        });
     }
     handleEvent(event) {
         if(event.type === 'click' || event.type === 'input') {
@@ -99,28 +76,27 @@ class CalcValues {
         }   
 
     }
-}
+}*/
 
-function clearTipBg() {
-
-}
 
 function tcamValue() {
     let bill = document.getElementsByClassName("ci-bill-input")[0];
-    let tip = document.querySelector(".ci-tip-grid");
+    let tip = document.querySelectorAll(".ci-tg-perc");
     let people = document.getElementsByClassName("ci-people-input")[0];
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
+    var selected;
 
-    //console.log(tip);
-    let getTipValue = new GetTipValue(tip, c1, c2);
-    //tip.forEach((item) => {
-        //item.addEventListener('click', getTipValue);
-        tip.addEventListener('focus', clearTipBg);
-        tip.addEventListener('click', getTipValue);
-        tip.addEventListener('focus', getTipValue);
-        tip.addEventListener('input', getTipValue);
-        tip.addEventListener('blur', getTipValue);
-    //}) 
+    console.log(tip);
+    let manageTips = new ManageTips(tip, c1, c2);
+    tip.forEach((item) => {
+        //item.addEventListener('click', manageTips);
+        //tip.addEventListener('focus', clearTipBg);
+        item.addEventListener('click', manageTips);
+        item.addEventListener('focus', manageTips);
+        item.addEventListener('input', manageTips);
+        item.addEventListener('blur', manageTips);
+    });
 }
 tcamValue();
+//TODO: try create a class (or function) that manages addEventListener hanndling DOM events as document.*bill, document.*tip, document.*people
