@@ -150,7 +150,7 @@ button {
   justify-items: center;
   gap: 10px;
 }
-.ci-tip-grid .ci-tg-perc {
+.ci-tip-grid .ci-tg-input {
   padding: 3px 0;
   color: white;
   background-color: var(--very-dark-cyan);
@@ -160,37 +160,37 @@ button {
   border-radius: var(--border-radius-button);
 	cursor: pointer;
 }
-.ci-tip .ci-tip-grid .ci-tg-perc:hover  {
+.ci-tip .ci-tip-grid .ci-tg-input:hover  {
   box-shadow: inset 0px 0px 0px 3px var(--strong-cyan);  /* (inset "revert to inside offsets") 0px(x-offset "you don't want") 0px(y-offset "you don't want") 0px(blur-radius "you don't want") .2rem(spread-radius "you want expand radius by a dimension") var(--stron-cyan "color")*/
   border-color: var(--strong-cyan);
   color: var(--strong-cyan);
 }
-.ci-tip .ci-tip-grid .ci-tg-perc:focus {  /*focus comes after hover*/
+.ci-tip .ci-tip-grid .ci-tg-input:focus {  /*focus comes after hover*/
   background-color: var(--strong-cyan);
   color: var(--very-dark-cyan);
   font-weight: 700;
 }
-.ci-tip-grid .ci-tg-perc:last-child {
+.ci-tip-grid .ci-tg-input:last-child {
   background-color: var(--light-grayish-cyan);
   color: var(--dark-grayish-cyan);
   font-weight: 700;
 }
-.ci-tip-grid .ci-tg-perc:last-child:hover {
+.ci-tip-grid .ci-tg-input:last-child:hover {
   border-color: var(--strong-cyan);
   color: var(--very-dark-cyan);
 }
-.ci-tip-grid .ci-tg-perc:last-child:focus {
+.ci-tip-grid .ci-tg-input:last-child:focus {
   border-color: var(--strong-cyan);
   background-color: var(--light-grayish-cyan);
 }
-/*.ci-tip-grid .ci-tg-perc.ci-tg-span input {
+/*.ci-tip-grid .ci-tg-input.ci-tg-span input {
   width: 100%;
   height: 100%;
   padding: 0;
   font-size: 100%;
   text-align: end;
 }
-.ci-tg-perc.ci-tg-span:hover {
+.ci-tg-input.ci-tg-span:hover {
   color: var(--very-dark-cyan);
   background-color: var(--strong-cyan);
   box-shadow: inset 0px 0px 0px 3px var(--very-dark-cyan);
@@ -280,13 +280,12 @@ button {
           <div class="ci-tip">
             <div class="ci-tip-title">Select Tip %</div>
             <div class="ci-tip-grid">
-              <input class="ci-tg-perc ctp-action" type="button" value="5%"> <!-- here's my trick, use a different class to handle the same event by JS-->
-              <input class="ci-tg-perc ctp-action" type="button" value="10%">
-              <input class="ci-tg-perc ctp-action" type="button" value="15%">
-              <input class="ci-tg-perc ctp-action" type="button" value="25%">
-              <input class="ci-tg-perc ctp-action" type="button" value="50%">
-              <!--<span class="ci-tg-perc ci-tg-span"><input class="ci-tg-perc-custom ctp-action" placeholder="Custom" type="text" value=""></span>-->
-              <input class="ci-tg-perc ctp-action" type="text" value="Custom">
+              <input class="ci-tg-input" type="button" value="5%"> <!-- here's my trick, use a different class to handle the same event by JS-->
+              <input class="ci-tg-input" type="button" value="10%">
+              <input class="ci-tg-input" type="button" value="15%">
+              <input class="ci-tg-input" type="button" value="25%">
+              <input class="ci-tg-input" type="button" value="50%">
+              <input class="ci-tg-input ci-tg-input-custom" type="text" value="Custom">
             </div>
           </div>
           <ul class="ci-people">

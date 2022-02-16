@@ -6,6 +6,8 @@ class ManageTips {
         //this.fo = fo;
     }
     handleEvent(event) {
+        //console.log(event.target.className.split(" "));
+        //console.log(typeof(event.target.className));
         let etvNotEmpty = () => { 
             if(event.target.value != '') return true; 
             else return false;
@@ -40,63 +42,51 @@ class ManageTips {
             }
         }   
     }
-    /*setFocus(fo, event) {
-        if(event.type === 'focusout') {
-            fo = event.target.value;
-            return fo;
-        }
-    }*/
 }
 
-/*class CalcValues {
-    /*constructor(bill, tip, people, bgColor) {
-        this.bill = bill;
-        this.tip = tip;
-        this.people = people;
-        this.bgColor = bgColor;
-    }
-    calcTip() {
-        let tipValue = Array.from(this.tip);
-        tipValue.forEach((item) => {
-            if(item.style.backgroundColor == this.bgColor) 
-        });
-    }
-    handleEvent(event) {
-        if(event.type === 'click' || event.type === 'input') {
-            let billValue = this.bill.value;
-            let peopleValue = this.people.value;
-            let tipValue;
-            this.tip.forEach((item) => {
-                if(item.style.backgroundColor == this.bgColor) tipValue = item.value.slice(0,-1)*0.01;
-            });
-            let tipAmount = billValue*tipValue/peopleValue;
-            let total = billValue/peopleValue + tipAmount;
-            document.getElementsByClassName("crg-tip-result")[0].value = '$' + tipAmount;
-            document.getElementsByClassName("crg-total-result")[0].value = '$' + total;
-        }   
+function calcAmounts(e) {
+    var focused;
+    let evSpl = e.target.className.split(" ");
+    /*let etvFilled = () => { 
+        if(event.target.value != '' && isNaN(event.target.value.slice(0,-1))) return true; 
+        else return false;
+    }*/
+    //if(evSpl.includes("ci-bill-input") || evSpl.includes("ci-people-input") || evSpl.includes("ci-"))
+    //if(!evSpl.includes("ci-tg-input-custom")) 
+    focused = document.activeElement.value;
+    if(e.type === 'focus' && e.target.type === 'button') focused = document.activeElement.value.slice(0,-1)*0.01;
+    //else focused = document.activeElement.value;
 
-    }
-}*/
+    //else if(evSpl.includes("ci-tg-input"))
+    //    focused = document.activeElement.value;
+    console.log(focused);
+}
 
 
 function tcamValue() {
-    let bill = document.getElementsByClassName("ci-bill-input")[0];
-    let tip = document.querySelectorAll(".ci-tg-perc");
-    let people = document.getElementsByClassName("ci-people-input")[0];
+    let bill = document.getElementsByClassName("ci-bill-amount")[0];
+    let tip = document.querySelectorAll(".ci-tg-input");
+    let people = document.getElementsByClassName("ci-people-amount")[0];
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
     var selected;
 
-    console.log(tip);
+    //console.log(tip);
     let manageTips = new ManageTips(tip, c1, c2);
     tip.forEach((item) => {
         //item.addEventListener('click', manageTips);
         //tip.addEventListener('focus', clearTipBg);
         item.addEventListener('click', manageTips);
         item.addEventListener('focus', manageTips);
+        item.addEventListener('focus', calcAmounts);
         item.addEventListener('input', manageTips);
         item.addEventListener('blur', manageTips);
     });
+
+    bill.addEventListener('input', calcAmounts);
+    document.getElementsByClassName("ci-tip-grid")[0].addEventListener('input', calcAmounts);
+    //document.getElementsByClassName("ci-tip-grid")[0].addEventListener('focus', calcAmounts);
+    people.addEventListener('input', calcAmounts);
 }
 tcamValue();
-//TODO: try create a class (or function) that manages addEventListener hanndling DOM events as document.*bill, document.*tip, document.*people
+//TODO: try to update "function calcAmounts()" and get amount fields HTML
