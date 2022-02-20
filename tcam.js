@@ -62,7 +62,6 @@ function calcAmounts(e) {
     console.log(focused);
 }
 
-
 function tcamValue() {
     let bill = document.getElementsByClassName("ci-bill-amount")[0];
     let tip = document.querySelectorAll(".ci-tg-input");
@@ -74,6 +73,7 @@ function tcamValue() {
     //console.log(tip);
     let manageTips = new ManageTips(tip, c1, c2);
     tip.forEach((item) => {
+        console.log("manageTips:\n" + "\nthis: " + this+ "item: " + item);  // TODO: test _closure_ learning :|
         //item.addEventListener('click', manageTips);
         //tip.addEventListener('focus', clearTipBg);
         item.addEventListener('click', manageTips);
@@ -89,4 +89,3 @@ function tcamValue() {
     people.addEventListener('input', calcAmounts);
 }
 tcamValue();
-//TODO: try to update "function calcAmounts()" and get amount fields HTML
