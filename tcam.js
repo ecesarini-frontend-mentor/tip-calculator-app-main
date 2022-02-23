@@ -40,51 +40,16 @@ class ManageTips {
     }
 }
 
-class Calc {
-    constructor(bill, tip, people) {
-        this.bill = bill;
-        this.tip = tip;
-        this.people = people;
-    }
 
-    handleEvent(event) {
-        let cArr = Array(3);
-        //if(event.type === 'input') console.log(event.target.className, event.target.value, event.target.value);
-        switch(event.type) {
-            case 'input': {
-                let className = event.target.className;
-                let checkClassName = (name) => { 
-                    //console.log(className);
-                    if(className.indexOf(name) !== -1) return true; 
-                    else return false;
-                }
-                //debugger;
-                if(checkClassName('ci-bill-input')) {
-                    cArr[0] = event.target.value;            
-                }
-                else if(checkClassName('ci-tg-input-custom')) {
-                    cArr[1] = event.target.value;
-                }
-                else if(checkClassName('ci-people-input')) {
-                    cArr[2] = event.target.value;
-                }
-                //console.log(cArr);
-            }
-            case 'getCalc': {
-                switch(event.detail.name) { 
-                    case 'bill': 
-                        cArr[0];
-                        console.log(cArr[0]);
-                        break;
-                    case 'people':
-                        cArr[2];
-                        console.log(cArr[2]);
-                        break;
-                }
-            }
+/*function calculate(bill, tip, people) {
+    console.log(bill.value, this);
+    var billC = bill;
+    this.addEventListener('click', (function(b) {  
+        return function() { 
+            console.log(b.value); 
         }
-    }   
-}
+    })(billC));
+}*/
 
 function tcamValue() {
     let bill = document.getElementsByClassName("ci-bill-amount")[0];
@@ -92,8 +57,14 @@ function tcamValue() {
     let people = document.getElementsByClassName("ci-people-amount")[0];
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
-
     let manageTips = new ManageTips(tip, c1, c2);
+
+    bill.addEventListener('input', (function(b) {  
+        return function() { 
+            console.log(b.value); 
+        }
+    })(bill));
+
     tip.forEach((item) => {
         //console.log("manageTips:\n" + "\nthis: " + this + "item: " + item);  // TODO: test _closure_ learning :|
         item.addEventListener('click', manageTips);
@@ -102,25 +73,7 @@ function tcamValue() {
         item.addEventListener('input', manageTips);
         item.addEventListener('blur', manageTips);
     });
-
-    const eBill = new CustomEvent('getCalc', { detail: { name: 'bill'} });
-    const eTip = new CustomEvent('getCalc', { detail: { name: 'tip'} });
-    const ePeople = new CustomEvent('getCalc', { detail: {name: 'people'} });
-    let calc = new Calc(bill, tip, people);
-    //[bill, people].forEach((item) => item.addEventListener('input', calc));
-    bill.addEventListener('input', calc);
-    bill.addEventListener('getCalc', calc); 
-    people.addEventListener('input', calc);
-    people.addEventListener('getCalc', calc); 
-
-    this.dispatchEvent(eBill);
-    this.dispatchEvent(ePeople);
-
     
-
-    /*bill.addEventListener('input', calcAmounts);
-    document.getElementsByClassName("ci-tip-grid")[0].addEventListener('input', calcAmounts);
-    //document.getElementsByClassName("ci-tip-grid")[0].addEventListener('focus', calcAmounts);
-    people.addEventListener('input', calcAmounts);*/
+    //calculate(bill, tip, people);
 }
 tcamValue();
