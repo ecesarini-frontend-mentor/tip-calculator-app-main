@@ -51,26 +51,28 @@ class ManageTips {
     })(billC));
 }*/
 
+
 function tcamValue() {
     let bill = document.getElementsByClassName("ci-bill-amount")[0];
     let tip = document.querySelectorAll(".ci-tg-input");
     let people = document.getElementsByClassName("ci-people-amount")[0];
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
-    let manageTips = new ManageTips(tip, c1, c2);
-
-    bill.addEventListener('input', (function(b) {  
+    //let manageTips = new ManageTips(tip, c1, c2);
+    
+    window.addEventListener('input', (function(b) { 
         return function() { 
-            console.log(b.value); 
-        }
-    })(bill));
+                console.log(b.value); 
+        }})(bill)
+    );    
+
 
     tip.forEach((item) => {
         //console.log("manageTips:\n" + "\nthis: " + this + "item: " + item);  // TODO: test _closure_ learning :|
         item.addEventListener('click', manageTips);
         item.addEventListener('focus', manageTips);
         //item.addEventListener('focus', calcAmounts);
-        item.addEventListener('input', manageTips);
+        //item.addEventListener('input', manageTips);
         item.addEventListener('blur', manageTips);
     });
     
