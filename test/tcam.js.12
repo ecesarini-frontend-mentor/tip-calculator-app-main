@@ -50,38 +50,24 @@ class Calc {
     handleEvent(event) {
         let cArr = Array(3);
         //if(event.type === 'input') console.log(event.target.className, event.target.value, event.target.value);
-        switch(event.type) {
-            case 'input': {
-                let className = event.target.className;
-                let checkClassName = (name) => { 
-                    //console.log(className);
-                    if(className.indexOf(name) !== -1) return true; 
-                    else return false;
-                }
-                //debugger;
-                if(checkClassName('ci-bill-input')) {
-                    cArr[0] = event.target.value;            
-                }
-                else if(checkClassName('ci-tg-input-custom')) {
-                    cArr[1] = event.target.value;
-                }
-                else if(checkClassName('ci-people-input')) {
-                    cArr[2] = event.target.value;
-                }
-                //console.log(cArr);
+        if(event.type === 'input') {
+            let className = event.target.className;
+            let checkClassName = (name) => { 
+                //console.log(className);
+                if(className.indexOf(name) !== -1) return true; 
+                else return false;
             }
-            case 'getCalc': {
-                switch(event.detail.name) { 
-                    case 'bill': 
-                        cArr[0];
-                        console.log(cArr[0]);
-                        break;
-                    case 'people':
-                        cArr[2];
-                        console.log(cArr[2]);
-                        break;
-                }
+            //debugger;
+            if(checkClassName('ci-bill-input')) {
+                cArr[0] = event.target.value;            
             }
+            else if(checkClassName('ci-tg-input-custom')) {
+                cArr[1] = event.target.value;
+            }
+            else if(checkClassName('ci-people-input')) {
+                cArr[2] = event.target.value;
+            }
+            console.log(cArr);
         }
     }   
 }
@@ -103,20 +89,10 @@ function tcamValue() {
         item.addEventListener('blur', manageTips);
     });
 
-    const eBill = new CustomEvent('getCalc', { detail: { name: 'bill'} });
-    const eTip = new CustomEvent('getCalc', { detail: { name: 'tip'} });
-    const ePeople = new CustomEvent('getCalc', { detail: {name: 'people'} });
     let calc = new Calc(bill, tip, people);
-    //[bill, people].forEach((item) => item.addEventListener('input', calc));
     bill.addEventListener('input', calc);
-    bill.addEventListener('getCalc', calc); 
-    people.addEventListener('input', calc);
-    people.addEventListener('getCalc', calc); 
+    bill.removeEventListener('input', calc);
 
-    this.dispatchEvent(eBill);
-    this.dispatchEvent(ePeople);
-
-    
 
     /*bill.addEventListener('input', calcAmounts);
     document.getElementsByClassName("ci-tip-grid")[0].addEventListener('input', calcAmounts);
