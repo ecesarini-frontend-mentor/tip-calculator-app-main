@@ -44,24 +44,23 @@ class ManageTips {
 function calculate(bill, tip, people) {
     //console.log(bill.value, this);
     //var billC = bill;
-    var dcm = document.querySelectorAll('.ci-input');
     var ar = [bill, people];
-    dcm.addEventListener('blur', (function(index) {   
-        for(let i = 0; i < ar.length; i++) { // try nest event into handler
-            ar[i].onblur = (a) => {
-                a.forEach((item) => {
-                    item.addEventListener('blur', (function(index, elm) {
-                        return function() {
-                            //var 
-                            //if(index === 0) { console.log(el.value); }
-                            //else if(index === 1) { console.log()}
-                            console.log(index, elm.value);
-                        };
-                    })(i, a));
-                });
-            }
+    for(let i = 0; i < ar.length; i++) {
+        ar[i].addEventListener('focusout', (function(index) {
+            //if(index === 0) { console.log(el.value); }
+            //else if(index === 1) { console.log()}
+            return function() {
+                //var 
+                console.log(index, this);
+            };
+        })(i));
+    }
+    [bill, people].forEach((item) => 
+    this.addEventListener('focusout', (function(b) {  
+        return function() { 
+            console.log(b.value); 
         }
-    })(i, ar));
+    })(bill, )));
 }
 
 
