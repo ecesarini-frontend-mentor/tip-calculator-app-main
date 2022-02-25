@@ -72,11 +72,11 @@ class ManageTips {
     }   
 }*/
 
-tcamCalc = function(b, p) {
+function tcamCalc(b, p) {
     /*let bVal = b.value;
     let tVal = p.value; */
     let totalVal = b.value * p.value;
-    return console.log(totalVal);
+    console.log(totalVal);
     //document.getElementsByClassName('cr-grid-result')[0].innerText = "$" + `${totalVal}`;
 
 }
@@ -99,8 +99,10 @@ function tcamValue() {
         item.addEventListener('blur', manageTips);
     });
     ['input', 'click'].forEach((e) => {
-        document.addEventListener(e, //(function(b, p) {
-            { return tcamCalc(b, p);
+        document.addEventListener(e, (function(b, p) {
+            return function() {
+                console.log(b.value, p.value);
+            }
         })(bill, people));
     });
     //document.addEventListener(camCalc(bill, tip, people);
@@ -116,4 +118,3 @@ function tcamValue() {
     });*/
 }
 tcamValue();
-//TODO: passing TARGET .value by function outside main tcam script
