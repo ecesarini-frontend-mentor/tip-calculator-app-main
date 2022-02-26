@@ -76,7 +76,7 @@ tcamCalc = function(b, p) {
     /*let bVal = b.value;
     let tVal = p.value; */
     let totalVal = b.value * p.value;
-    console.log(b,p,totalVal);
+    return console.log(totalVal);
     //document.getElementsByClassName('cr-grid-result')[0].innerText = "$" + `${totalVal}`;
 
 }
@@ -99,9 +99,9 @@ function tcamValue() {
         item.addEventListener('blur', manageTips);
     });
     ['input', 'click'].forEach((e) => {
-        document.addEventListener(e, 
-            (function(b, p) { return tcamCalc(b, p); }
-            )(bill, people))
+        document.addEventListener(e, //(function(b, p) {
+            { return tcamCalc(b, p);
+        })(bill, people));
     });
     //document.addEventListener(camCalc(bill, tip, people);
     /*"click input".split(" ").forEach((e) => {

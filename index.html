@@ -18,7 +18,19 @@
   <style>
 .attribution { font-size: 11px; text-align: center; }
 .attribution a { color: hsl(228, 45%, 44%); }
-
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+input::-webkit-input-placeholder {
+  text-align: center;
+}
 :root{
   --width-mobile: 375px;
   --width-desktop: 1440px;
@@ -28,7 +40,7 @@
   --strong-cyan: hsl(172, 67%, 45%);
   --very-dark-cyan: hsl(183, 100%, 15%);
   --dark-grayish-cyan: hsl(186, 14%, 43%);
-  --dark-grayish-cyan: hsl(184, 14%, 56%);
+  /*-dark-grayish-cyan: hsl(184, 14%, 56%);*/
   --light-grayish-cyan: hsl(185, 41%, 84%);
   --very-light-grayish-cyan: hsl(189, 41%, 97%);
   --white: hsl(0, 0%, 100%);
@@ -67,19 +79,6 @@ input {
 }
 input:focus, input:hover {
   outline: none;
-}
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-input::-webkit-input-placeholder {
-  text-align: center;
 }
 
 button {
@@ -129,6 +128,7 @@ button {
   color: var(--dark-grayish-cyan);
 }
 .inl-elem {
+  width: inherit;
   display: inline-flex;
   padding: 0px 10px;
   background-color: var(--very-light-grayish-cyan);
@@ -139,6 +139,7 @@ button {
   object-fit: scale-down;
 }
 .inl-elem input {
+  width: 100%;
   padding-right: 0;
   text-align-last: right;
   color: var(--dark-grayish-cyan);
