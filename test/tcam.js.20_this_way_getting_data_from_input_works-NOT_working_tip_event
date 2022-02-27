@@ -40,7 +40,7 @@ class ManageTips {
     }
 }
 
-/*var calcAmount = function(b, t, p, c1) {
+var calcAmount = function(b, t, p, c1) {
     return function curriedFunction(e) {
         calcAmount(e, b, t, p);
             let billVal = b.value;
@@ -54,24 +54,21 @@ class ManageTips {
         //console.log(b.value, p.value, totalVal);
         //console.log(billVal,tipVal,peopleVal);
     //}
-}*/
+}
 
-var calcAmount = function(b, t, p, c1) {
+/*var calcAmount = function(b, t, p, c1) {
     return function curriedFunction(e) {
         calcAmount(e, b, t, p, c1);
         let billVal = b.value;
-        let peopleVal = p.value;
         //console.log(e.currentTarget);
-        let calcAmountTipSelected = function(tip) {  //TODO: try to get tip event value
-            return function curriedFunction2(ev) {
-                calcAmountTipSelected(ev, tip);
+        let tipSelected = function(tip) {
+            return function cF2(e, tip) {
                 tip.forEach((item) => {
-                    item.addEventListener('click', function(evt) {
-                    return evt.target.value.slice(0, -1);
+                    item.addEventListener('click', function(e) {
+                    return e.target.value.slice(0, -1);
                 });
             });
-        }
-}
+        }}
         /*function tipSelected(tip, bgc) {
             tip.forEach((item) => {
                 console.log(item);
@@ -113,3 +110,4 @@ function tcamValue() {
     ['input', 'click'].forEach((elm) => { document.addEventListener(elm, cA); });
 }
 tcamValue();
+//TODO: passing TARGET .value by function outside main tcam script
