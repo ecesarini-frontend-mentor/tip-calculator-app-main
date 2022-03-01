@@ -40,27 +40,62 @@ class ManageTips {
     }
 }
 
+/*var calcAmount = function(b, t, p, c1) {
+    return function curriedFunction(e) {
+        calcAmount(e, b, t, p);
+            let billVal = b.value;
+            let peopleVal = p.value;
+            //let tipAmount = billVal * tipVal // / peopleVal;
+            let tipAmount = billVal * peopleVal;
+            //let totalVal = billVal/peopleVal + tipAmount;
+            document.getElementsByClassName('crg-tip-result')[0].innerText = "$" + `${tipAmount}`;
+            //document.getElementsByClassName('crg-total-result')[0].innerText = "$" + `${totalVal}`;
+        }
+        //console.log(b.value, p.value, totalVal);
+        //console.log(billVal,tipVal,peopleVal);
+    //}
+}*/
+
+
 // ref https://stackoverflow.com/questions/16053866/javascript-pass-multiple-arguments-to-eventlistener-and-the-event
 var calcAmount = function(b, t, p, c1) {  // calcAmount is a function that accepts 4 arguments and return the listener
     return function curriedFunction(e) {  // 'addEventListener' 2nd argument 'callback listener' accepts one argument (event)
         calcAmount(e, b, t, p, c1);
-        let et = e.type;
         let billVal = b.value;
         let peopleVal = p.value;
-        /*if(etcn.indexOf("ci-tg-input-custom")  != -1) {
-            if(e.target.className.split(" ").length > 1) {
-                tipVal = e.target.value 
+        console.log(billVal,peopleVal);
+        let calcAmountTipSelected = function(tip) {  //TODO: try to get tip event value
+            return function curriedFunction2(ev) {
+                calcAmountTipSelected(ev, tip);
+                tip.forEach((item) => {
+                    item.addEventListener('click', function(evt) {
+                        return evt.target.value.slice(0, -1);
+                    });
+                });
             }
-        }*/
-        let tipVal;
-        let etcn = e.target.className.split(" ").indexOf("ci-tg-input"); // TODO: try here, to understand the catch about listener
-        if(etcn != -1) {
-            if(etcn.indexOf("ci-tg-input-custom") != -1 && et == "input") tipVal = e.target.value;
-            else tipVal = e.target.value.slice(0,-1);
         }
-        console.log(billVal,peopleVal,tipVal);
     }
 }
+        /*function tipSelected(tip, bgc) {
+            tip.forEach((item) => {
+                console.log(item);
+                if(item.style.backgroundColor === bgc) return item.value.slice(0,-1);
+            });
+        }*/
+        //let tipVal = t.value.slice(0, -1) * 0.01;
+        //let tipVal = tipSelected(t, c1);
+        /*console.log(tipVal);
+        let peopleVal = p.value;
+        if (peopleVal != '' && peopleVal != 0) {
+            let tipAmount = billVal * tipVal / peopleVal;
+            let totalVal = billVal/peopleVal + tipAmount;
+            document.getElementsByClassName('crg-tip-result')[0].innerText = "$" + `${tipAmount}`;
+            document.getElementsByClassName('crg-total-result')[0].innerText = "$" + `${totalVal}`;
+        }
+        //console.log(b.value, p.value, totalVal);
+        //console.log(billVal,tipVal,peopleVal);
+    }
+}*/
 
 function tcamValue() {
     let bill = document.getElementsByClassName("ci-bill-input")[0];
@@ -69,20 +104,17 @@ function tcamValue() {
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
     let manageTips = new ManageTips(tip, c1, c2);
-    let evtArray = ['input', 'click', 'blur'];
     let cA = calcAmount(bill, tip, people, c1);
 
     tip.forEach((item) => {
         item.addEventListener('click', manageTips);
         item.removeEventListener('click', manageTips);
         item.addEventListener('focus', manageTips);
-        item.removeEventListener('focus', manageTips);
         item.addEventListener('input', manageTips);
         item.removeEventListener('input', manageTips);
         item.addEventListener('blur', manageTips);
-        item.removeEventListener('blur', manageTips);
     });
-    ['input', 'click', ].forEach((ev) =>  {document.addEventListener(ev, cA) });
+    ['input', 'click'].forEach((ev) =>  {document.addEventListener(ev, cA) });
 }
 
 tcamValue();
