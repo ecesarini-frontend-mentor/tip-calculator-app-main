@@ -41,74 +41,48 @@ class ManageTips {
 }
 
 // ref https://stackoverflow.com/questions/16053866/javascript-pass-multiple-arguments-to-eventlistener-and-the-event
-var calcAmount = function(b, st, p) {  // calcAmount is a function that accepts 4 arguments and return the listener
+var calcAmount = function(b, t, p, c1) {  // calcAmount is a function that accepts 4 arguments and return the listener
     return function curriedFunction(e) {  // 'addEventListener' 2nd argument 'callback listener' accepts one argument (event)
-        //calcAmount();  <--- perche' e' stata chiamata questa funzione nella ref?
-        //let et = e.type;
+        calcAmount(e, b, t, p, c1);
+        let et = e.type;
         let billVal = b.value;
-        let tipVal;
         let peopleVal = p.value;
-        let etcn = e.target.className.split(" "); // is "let" right?
-        //console.log(etcn);
-        var etcnCheck = (etcn, name) => {
-            let chk; 
-            if(etcn.indexOf(name) != -1) chk = true;
-            else chk = false;
-            return chk;
-        }; 
-        console.log(etcn, etcnCheck(etcn,"ci-tg-input"), etcnCheck(etcn, "ci-tg-input-custom"));
-        if(etcnCheck(etcn, "ci-tg-input") && !etcnCheck(etcn, "ci-tg-input-custom")) {
-            if(e.type == 'input') {
-                //console.log("input");
-                if(st) {st = null;}
-                st = e.target.value;
-            }
-        }
-        else if(etcnCheck(etcn, "ci-tg-input")) {
-            if(e.type == 'click') {
-                //co
-                if(st) {st = null;}
-                st = e.target.value.slice(0,-1);
-            }
-        }
-        //console.log(billVal,peopleVal,st);
         /*if(etcn.indexOf("ci-tg-input-custom")  != -1) {
             if(e.target.className.split(" ").length > 1) {
                 tipVal = e.target.value 
             }
         }*/
-        /*let etcn = e.target.className.split(" ").indexOf("ci-tg-input"); // TODO: try here, to understand the catch about listener
+        let tipVal;
+        let etcn = e.target.className.split(" ").indexOf("ci-tg-input"); // TODO: try here, to understand the catch about listener
         if(etcn != -1) {
             if(etcn.indexOf("ci-tg-input-custom") != -1 && et == "input") tipVal = e.target.value;
             else tipVal = e.target.value.slice(0,-1);
-        }*/
+        }
+        console.log(billVal,peopleVal,tipVal);
     }
 }
-
 
 function tcamValue() {
     let bill = document.getElementsByClassName("ci-bill-input")[0];
     let tip = document.querySelectorAll(".ci-tg-input");
-    let selectTip;
     let people = document.getElementsByClassName("ci-people-input")[0];
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
     let manageTips = new ManageTips(tip, c1, c2);
     let evtArray = ['input', 'click', 'blur'];
-    let cA = calcAmount(bill, selectTip, people);
+    let cA = calcAmount(bill, tip, people, c1);
 
     tip.forEach((item) => {
         item.addEventListener('click', manageTips);
         item.removeEventListener('click', manageTips);
         item.addEventListener('focus', manageTips);
-        //item.removeEventListener('focus', manageTips);
+        item.removeEventListener('focus', manageTips);
         item.addEventListener('input', manageTips);
+        item.removeEventListener('input', manageTips);
         item.addEventListener('blur', manageTips);
+        item.removeEventListener('blur', manageTips);
     });
     ['input', 'click', ].forEach((ev) =>  {document.addEventListener(ev, cA) });
 }
 
 tcamValue();
-
-
-//TODO: trying new approach about tip event triggered
