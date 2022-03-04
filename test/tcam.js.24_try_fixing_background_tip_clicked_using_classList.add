@@ -21,7 +21,7 @@ class ManageCalc {
             if(event.type === 'input') localStorage['bill'] = event.target.value;
         }
         else if(checkSelectedClassName(this.tipClassName)) {
-            //let tipIsClicked = true; //TODO: control on "classList.add(".<classname>")" hooking the css 
+            //let tipIsClicked = true;
             let etvTipNotEmpty = () => { 
                 if(event.target.value != '') return true; 
                 else return false;
