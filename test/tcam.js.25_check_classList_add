@@ -1,5 +1,6 @@
 class ManageCalc {
-    constructor(bill, tip, people, c1, c2, billClassName, tipClassName, peopleClassName) {
+    constructor(bill, tip, people, c1, c2, billClassName, tipClassName, 
+        peopleClassName) {
         this.bill = bill;
         this.tip = tip;
         this.people = people;
@@ -7,6 +8,7 @@ class ManageCalc {
         this.c2 = c2;
         this.billClassName = billClassName;
         this.tipClassName = tipClassName;
+        //this.tipButtonClassName =tipButtonClassName;
         //this.tipCustomClassName = tipCustomClassName;
         this.peopleClassName = peopleClassName;
     }
@@ -16,13 +18,17 @@ class ManageCalc {
             if(event.target.className.split(" ").indexOf(cn) != -1) return true;
             else return false;
         };
-        if(event.type === 'click') event.target.style = ''; // TODO: from here check event
+        let removeSelectedUpdatedClassName = (cnr) => {
+            if(checkSelectedClassName(cnr)) event.target.className.remove(cnr);
+        };
+        let updateClassName = (cnu) => {
+            if(checkSelectedClassName(cnu)) event.target.className.add(cnu);
+        };
 
         if(checkSelectedClassName(this.billClassName)) {
             if(event.type === 'input') localStorage['bill'] = event.target.value;
         }
         else if(checkSelectedClassName(this.tipClassName)) {
-            //let tipIsClicked = true; //TODO: control on "classList.add(".<classname>")" hooking the css 
             let etvTipNotEmpty = () => { 
                 if(event.target.value != '') return true; 
                 else return false;
@@ -34,13 +40,10 @@ class ManageCalc {
                 //if(event.target.type === 'click') 
                 //event.target.style.backgroundColor = this.c1; 
                 localStorage['tip'] = event.target.value.slice(0,-1);
-                //if(event.type === 'click') event.target.parentNode.childNodes
-
-                if(event.type === 'blur') {
-                    event.target.style.color = this.c2;
-                    event.target.style.backgroundColor = this.c1;
-                    event.target.style.fontWeight = 700;
-                }
+                /*if(event.type === 'click') {
+                    removeSelectedUpdatedClassName(this.tipButtonClassName);
+                    updateClassName(this.tipButtonClassName);
+                }*/
             }
             else if(event.target.type === 'text') {
                 switch(event.type) {  
@@ -83,6 +86,7 @@ function tcamValue() {
     let people = document.getElementsByClassName("ci-people-input")[0];
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
+    //let manageCalc = new ManageCalc(bill, tip, people, c1, c2, 'ci-bill-input', 'ci-tg-input', 'ci-people-input');
     let manageCalc = new ManageCalc(bill, tip, people, c1, c2, 'ci-bill-input', 'ci-tg-input', 'ci-people-input');
 
     //bill.addEventListener('input', manageCalc);
