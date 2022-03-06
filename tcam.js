@@ -16,31 +16,26 @@ class ManageCalc {
             if(event.target.className.split(" ").indexOf(cn) != -1) return true;
             else return false;
         };
-        if(event.type === 'click') event.target.style = ''; // TODO: from here check event
+        if(event.type === 'focus') event.target.style = ''; // TODO: from here check event
 
         if(checkSelectedClassName(this.billClassName)) {
             if(event.type === 'input') localStorage['bill'] = event.target.value;
         }
         else if(checkSelectedClassName(this.tipClassName)) {
-            //let tipIsClicked = true; //TODO: control on "classList.add(".<classname>")" hooking the css 
             let etvTipNotEmpty = () => { 
                 if(event.target.value != '') return true; 
                 else return false;
             }
             if(event.target.type === 'button') { 
-                event.target.parentNode.lastElementChild.style = '';
-                event.target.parentNode.lastElementChild.value = 'Custom';
-                //if(event.target.type === 'click' || event.type === 'blur') event.target.style.backgroundColor = this.c1;
-                //if(event.target.type === 'click') 
-                //event.target.style.backgroundColor = this.c1; 
-                localStorage['tip'] = event.target.value.slice(0,-1);
-                //if(event.type === 'click') event.target.parentNode.childNodes
-
-                if(event.type === 'blur') {
+                if(event.type === 'blur') { //TODO2: execepts this one
                     event.target.style.color = this.c2;
                     event.target.style.backgroundColor = this.c1;
                     event.target.style.fontWeight = 700;
                 }
+                event.target.parentNode.lastElementChild.style = '';
+                event.target.parentNode.lastElementChild.value = 'Custom';
+                localStorage['tip'] = event.target.value.slice(0,-1);
+
             }
             else if(event.target.type === 'text') {
                 switch(event.type) {  
@@ -72,9 +67,6 @@ class ManageCalc {
             if(event.type === 'input') localStorage['people'] = event.target.value;
         }
     }
-    /*calcAmounts() {
-        if
-    }*/
 }
 
 function tcamValue() {
