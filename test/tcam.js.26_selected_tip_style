@@ -1,6 +1,5 @@
 class ManageCalc {
-    constructor(bill, tip, people, c1, c2, billClassName, tipClassName, 
-            peopleClassName, tipClicked) {
+    constructor(bill, tip, people, c1, c2, billClassName, tipClassName, peopleClassName) {
         this.bill = bill;
         this.tip = tip;
         this.people = people;
@@ -8,17 +7,16 @@ class ManageCalc {
         this.c2 = c2;
         this.billClassName = billClassName;
         this.tipClassName = tipClassName;
-        this.tipClicked = tipClicked;
         //this.tipCustomClassName = tipCustomClassName;
         this.peopleClassName = peopleClassName;
     }
     
     handleEvent(event) {
-        //localStorage['tipClicked'] = null;
         let checkSelectedClassName = (cn) => { 
             if(event.target.className.split(" ").indexOf(cn) != -1) return true;
             else return false;
         };
+        if(event.type === 'focus') event.target.style = ''; // TODO: from here check event
 
         if(checkSelectedClassName(this.billClassName)) {
             if(event.type === 'input') localStorage['bill'] = event.target.value;
@@ -29,10 +27,10 @@ class ManageCalc {
                 else return false;
             }
             if(event.target.type === 'button') { 
-                if(event.type === 'click') {
-                    if(this.tipClicked) event.target.classList.remove('ci-tg-input-clicked');
-                    event.target.classList.add('ci-tg-input-clicked');
-                    this.tipClicked = event.target; // Start from here, 'this.tipClicked' gets element, that is the className
+                if(event.type === 'blur') { //TODO2: execepts this one
+                    event.target.style.color = this.c2;
+                    event.target.style.backgroundColor = this.c1;
+                    event.target.style.fontWeight = 700;
                 }
                 event.target.parentNode.lastElementChild.style = '';
                 event.target.parentNode.lastElementChild.value = 'Custom';
@@ -77,15 +75,8 @@ function tcamValue() {
     let people = document.getElementsByClassName("ci-people-input")[0];
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
+    let manageCalc = new ManageCalc(bill, tip, people, c1, c2, 'ci-bill-input', 'ci-tg-input', 'ci-people-input');
 
-    document.addEventListener('DOMContentLoaded', function() { 
-        localStorage.clear();
-        localStorage['tipClicked'] = null;
-    });
-
-    let tipClicked = localStorage['tipClicked'];
-    let manageCalc = new ManageCalc(bill, tip, people, c1, c2, 'ci-bill-input', 
-        'ci-tg-input', 'ci-people-input', tipClicked);
     //bill.addEventListener('input', manageCalc);
     tip.forEach((item) => {
         item.addEventListener('click', manageCalc);
