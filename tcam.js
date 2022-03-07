@@ -1,102 +1,25 @@
-class ManageCalc {
-    constructor(bill, tip, people, c1, c2, billClassName, tipClassName, 
-            peopleClassName, tipClicked) {
-        this.bill = bill;
-        this.tip = tip;
-        this.people = people;
-        this.c1 = c1;
-        this.c2 = c2;
-        this.billClassName = billClassName;
-        this.tipClassName = tipClassName;
-        this.tipClicked = tipClicked;
-        //this.tipCustomClassName = tipCustomClassName;
-        this.peopleClassName = peopleClassName;
-    }
-    
-    handleEvent(event) {
-        //localStorage['tipClicked'] = null;
-        let checkSelectedClassName = (cn) => { 
-            if(event.target.className.split(" ").indexOf(cn) != -1) return true;
-            else return false;
-        };
+// TODO: a look on https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener to understand scope about event
 
-        if(checkSelectedClassName(this.billClassName)) {
-            if(event.type === 'input') localStorage['bill'] = event.target.value;
-        }
-        else if(checkSelectedClassName(this.tipClassName)) {
-            let etvTipNotEmpty = () => { 
-                if(event.target.value != '') return true; 
-                else return false;
-            }
-            if(event.target.type === 'button') { 
-                if(event.type === 'click') {
-                    if(this.tipClicked) event.target.classList.remove('ci-tg-input-clicked');
-                    event.target.classList.add('ci-tg-input-clicked');
-                    this.tipClicked = event.target; // Start from here, 'this.tipClicked' gets element, that is the className
-                }
-                event.target.parentNode.lastElementChild.style = '';
-                event.target.parentNode.lastElementChild.value = 'Custom';
-                localStorage['tip'] = event.target.value.slice(0,-1);
+/*const ManageBill = function(element) {
+    if
+}*/ 
 
-            }
-            else if(event.target.type === 'text') {
-                switch(event.type) {  
-                    case 'focus':
-                        event.target.style.borderColor = this.c1;
-                        if(etvTipNotEmpty() || !isNaN(event.target.value)) event.target.value = '';
-                        break;
-                    case 'input':
-                        event.target.style.borderColor = this.c1;
-                        if(isNaN(event.target.value)) event.target.value = event.target.value.slice(0,-1);
-                        if(event.target.value < 0) event.target.value = 0;
-                        else if(event.target.value > 100) event.target.value = 100;
-                        localStorage['tip'] = event.target.value;
-                        break;
-                    case 'blur':
-                        if(etvTipNotEmpty()) { 
-                            event.target.value = event.target.value + '%';
-                            event.target.style.color = this.c2;
-                            event.target.style.backgroundColor = this.c1;
-                        } else { 
-                            event.target.value = 'Custom'; 
-                            event.target.backgroundColor = '';
-                        }
-                        break;
-                }
-            }
-        }
-        else if(checkSelectedClassName(this.peopleClassName)) {
-            if(event.type === 'input') localStorage['people'] = event.target.value;
-        }
-    }
-}
 
 function tcamValue() {
     let bill = document.getElementsByClassName("ci-bill-input")[0];
-    let tip = document.querySelectorAll(".ci-tg-input");
+    let tip = document.getElementsByClassName(".ci-tip-grid")[0];
     let people = document.getElementsByClassName("ci-people-input")[0];
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
 
     document.addEventListener('DOMContentLoaded', function() { 
         localStorage.clear();
-        localStorage['tipClicked'] = null;
+        //localStorage['tipClicked'] = null;
     });
 
-    let tipClicked = localStorage['tipClicked'];
-    let manageCalc = new ManageCalc(bill, tip, people, c1, c2, 'ci-bill-input', 
-        'ci-tg-input', 'ci-people-input', tipClicked);
-    //bill.addEventListener('input', manageCalc);
-    tip.forEach((item) => {
-        item.addEventListener('click', manageCalc);
-        item.addEventListener('focus', manageCalc);
-        item.addEventListener('input', manageCalc);
-        item.addEventListener('blur', manageCalc);
-    });
-    //people.addEventListener('input', manageCalc);
+    bill.addEventListener('input', manageBill); 
+    //people.addEventListener('input', peopleCls);
+    //['click', 'input', 'focus'].forEach((ev) => {tip.addEventListener(ev, tipsClS)});
 }
 
 tcamValue();
-
-
-//TODO: trying new approach about tip event triggered
