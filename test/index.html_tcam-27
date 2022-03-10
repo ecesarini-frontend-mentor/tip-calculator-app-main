@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <title>Frontend Mentor | Tip calculator app</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+.attribution { font-size: 11px; text-align: center; }
+.attribution a { color: hsl(228, 45%, 44%); }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+input::-webkit-input-placeholder {
+  text-align: center;
+}
+:root{
+  --width-mobile: 375px;
+  --width-desktop: 1440px;
+  --border-radius-container: 10px 10px;
+  --border-radius-button: 5px 5px;
+
+  --strong-cyan: hsl(172, 67%, 45%);
+  --very-dark-cyan: hsl(183, 100%, 15%);
+  --dark-grayish-cyan: hsl(186, 14%, 43%);
+  /*-dark-grayish-cyan: hsl(184, 14%, 56%);*/
+  --light-grayish-cyan: hsl(185, 41%, 84%);
+  --very-light-grayish-cyan: hsl(189, 41%, 97%);
+  --white: hsl(0, 0%, 100%);
+
+  --font-size-title: 1.3vw;
+  --font-size-descr: 1vw;
+}
+body {
+  box-sizing: border-box;
+  margin: 0 0;
+  padding: 0 0;
+  font-size: 24px;
+  width: 100%;
+}
+main {
+  padding: 10% 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Space Mono', monospace;
+  background-color: var(--light-grayish-cyan);
+}
+ul, li {
+  list-style: none;
+  margin: inherit 0;
+  padding: 0;
+}
+input {
+  background: inherit;
+	color: inherit;
+	border: none;
+	padding: inherit;
+	font: inherit;
+  cursor: inherit;
+  outline: none;
+  min-width: 0;
+}
+input:focus, input:hover {
+  outline: none;
+}
+
+button {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+}
+
+#main-container {
+  height: 100%;;
+  margin: 0 18%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  max-width: var(--width-desktop);
+}
+#main-container .mc-header {
+  color: var(--dark-grayish-cyan);
+  font-weight: 700;
+}
+.mc-header-title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.mc-calc {
+  display: flex;
+  background-color: white;
+  border-radius: var(--border-radius-container);
+}
+.calc-insert {
+  width: 50%;
+  margin-left: 3.5%;
+  display: flex;
+  flex-direction: column;
+}
+.ci-bill, .ci-tip, .ci-people {
+  display: flex;
+  flex-direction: column;
+}
+.ci-bill-title, .ci-tip-title, .ci-people-title {
+  padding-bottom: 5px;
+  font-size: var(--font-size-title);
+  font-weight: 700;
+  color: var(--dark-grayish-cyan);
+}
+.inl-elem {
+  width: inherit;
+  display: inline-flex;
+  padding: 0px 10px;
+  background-color: var(--very-light-grayish-cyan);
+  border-radius: 5px 5px;
+  cursor: pointer;
+}
+.inl-elem img {
+  object-fit: scale-down;
+}
+.inl-elem input {
+  width: 100%;
+  padding-right: 0;
+  text-align-last: right;
+  color: var(--dark-grayish-cyan);
+}
+.ci-tip-grid {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  gap: 10px;
+}
+.ci-tip-grid .ci-tg-input {
+  padding: 3px 0;
+  color: white;
+  background-color: var(--very-dark-cyan);
+  width: 100%;
+  font-size: .7em;
+  text-align: center;
+  border-radius: var(--border-radius-button);
+	cursor: pointer;
+}
+.ci-tip .ci-tip-grid .ci-tg-input:hover  {
+  box-shadow: inset 0px 0px 0px 3px var(--strong-cyan);  /* (inset "revert to inside offsets") 0px(x-offset "you don't want") 0px(y-offset "you don't want") 0px(blur-radius "you don't want") .2rem(spread-radius "you want expand radius by a dimension") var(--stron-cyan "color")*/
+  border-color: var(--strong-cyan);
+  color: var(--strong-cyan);
+}
+.ci-tip .ci-tip-grid .ci-tg-input:focus, 
+.ci-tip .ci-tip-grid .ci-tg-input.ci-tg-input-clicked {  /*focus comes after hover*/
+  background-color: var(--strong-cyan);
+  color: var(--very-dark-cyan);
+  font-weight: 700;
+}
+.ci-tip-grid .ci-tg-input:last-child {
+  background-color: var(--light-grayish-cyan);
+  color: var(--dark-grayish-cyan);
+  font-weight: 700;
+}
+.ci-tip-grid .ci-tg-input:last-child:hover {
+  border-color: var(--strong-cyan);
+  color: var(--very-dark-cyan);
+}
+.ci-tip-grid .ci-tg-input:last-child:focus {
+  border-color: var(--strong-cyan);
+  background-color: var(--light-grayish-cyan);
+}
+/*.ci-tip-grid .ci-tg-input.ci-tg-span input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  font-size: 100%;
+  text-align: end;
+}
+.ci-tg-input.ci-tg-span:hover {
+  color: var(--very-dark-cyan);
+  background-color: var(--strong-cyan);
+  box-shadow: inset 0px 0px 0px 3px var(--very-dark-cyan);
+}
+.ctp-action {
+  color: var(--very-dark-cyan);
+}*/
+.calc-result {
+  width: 50%;
+  margin: 3.5%;
+  display: flex;
+  flex-direction: column;
+  /*justify-content: space-evenly;*/
+  background-color: var(--very-dark-cyan);
+  border-radius: var(--border-radius-container);
+}
+.cr-grid-container {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+}
+.cr-gc-fb {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: flex-start;
+}
+.cr-gc-fb p {
+  margin: 0;
+}
+.cr-gc-fb p:first-child {
+  color: white;
+  font-size: var(--font-size-title);
+  font-weight: 600;
+}
+.cr-gc-fb p:last-child {
+  padding-top: 3px;
+  color: var(--dark-grayish-cyan);
+  font-size: var(--font-size-descr);
+}
+.cr-gc-fb, .cr-grid-result {
+  padding: 0 10px;
+}
+.cr-grid-result {
+  align-self: center;
+  justify-self: flex-end;
+  color: var(--strong-cyan);
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+.cr-button-reset {
+  margin: auto auto 10% auto;
+  width: 80%;
+  height: 10%;
+  color: var(--very-dark-cyan);
+  background-color: var(--strong-cyan);
+  font-family: inherit;
+  font-size: .7em;
+  font-weight: 700;
+  border-radius: var(--border-radius-button);
+}
+.cr-button-reset:hover {
+  color: var(--strong-cyan);
+  background-color: var(--very-dark-cyan);
+  box-shadow: 0px 0px 0px 2px var(--strong-cyan);
+  border-radius: var(--border-radius-button);
+  cursor: pointer;
+}
+  </style>
+</head>
+
+<body>
+  <main>
+    <div id="main-container">  
+      <div class="mc mc-header">
+        <ul class="mc-header-title">
+          <li>S P L I</li>
+          <li>T T E R</li>
+        </ul>
+      </div>
+      <div class="mc mc-calc">
+        <div class="calc-insert">
+          <ul class="ci-bill">
+            <li class="ci-bill-title">Bill</li>
+            <li class="ci-bill-amount inl-elem"><img src="images/icon-dollar.svg" alt="Bill amount"><input class="ci-input ci-bill-input" type="number" value="" min="0"></li>
+          </ul>
+          <div class="ci-tip">
+            <div class="ci-tip-title">Select Tip %</div>
+            <div class="ci-tip-grid">
+              <input class="ci-tg-input" type="button" value="5%"> <!-- here's my trick, use a different class to handle the same event by JS-->
+              <input class="ci-tg-input" type="button" value="10%">
+              <input class="ci-tg-input" type="button" value="15%">
+              <input class="ci-tg-input" type="button" value="25%">
+              <input class="ci-tg-input" type="button" value="50%">
+              <input class="ci-tg-input ci-tg-input-custom" type="text" value="Custom">
+            </div>
+          </div>
+          <ul class="ci-people">
+            <li class="ci-people-title">Number of People</li>
+            <li class="ci-people-amount inl-elem"><img src="images/icon-person.svg" alt="Number of people"><input class="ci-input ci-people-input" type="number" value="" min="1"></li>
+          </ul>
+        </div>
+        <div class="calc-result">
+          <div class="cr cr-tip">
+            <ul class="cr-grid-container">
+              <li class="cr-gc-fb">
+                <p>Tip Amount</p>
+                <p>/ person</p>
+              </li>
+              <li class="cr-grid-result crg-tip-result"></li>
+            </ul>
+          </div>
+          <div class="cr cr-total">
+            <ul class="cr-grid-container">
+              <li class="cr-gc-fb">
+                <p>Total</p>
+                <p>/ person</p>
+              </li>
+              <li class="cr-grid-result crg-total-result"></li>
+            </ul>
+          </div>
+          <!--<div class="cr cr-button">-->
+            <button class="cr-button-reset" type="button">RESET</button>
+          <!--</div>-->
+        </div>
+      </div>
+    </div>
+  </main>  
+  <footer class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Your Name Here</a>.
+  </footer>
+  <script src="tcam.js"></script>
+</body>
+</html>

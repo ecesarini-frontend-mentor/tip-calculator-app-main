@@ -24,12 +24,12 @@ class ManageTips {
         let et = e.target;
         //console.log(et,et.type,e.type);
         switch(et.type) {
-            case 'button':
+            /*case 'button':
                 switch(e.type) {
                     case 'click':
                     break;
                 }
-            break;
+            break;*/
             case 'text':
                 console.log(et,et.type,e.type);
                 switch(e.type) {
@@ -46,21 +46,9 @@ class ManageTips {
                         if(et.value < 0) et.value = 0;
                         else if(et.value > 100) et.value = 100;
                         localStorage['tip'] = et.value;
-                        //if(e.type === 'keyup' && e.keyCode === 13 && isNaN(parseInt(et.value))) {localStorage['tip']};
                     break;
-                    case 'keyup':
-                        //console.log(typeof(et.value));
-                        //console.log(et.value, e.keyCode);
-                        if(e.keyCode === 13 && !isNaN(parseInt(et.value))) { 
-                            localStorage['tip'] == et.value;
-                            et.value = toString(et.value).concat('%'); // TODO: how to concatenate '%' after enterKeyUp into tipCustom event listener. 
-                            //et.value = et.value + '%';
-                            et.style.color = this.c2;
-                            et.style.backgroundColor = this.c1;
-                        }
-                        break;
-                    case 'focusout':
-                        //console.log(et.value);
+                    case 'blur':
+                        console.log(et.value);
                         if(et.value != '') {
                             et.value = et.value + '%';
                             et.style.color = this.c2
@@ -78,7 +66,6 @@ class ManageTips {
     handleEvent(event) {
         //console.log(event.target);
         if(this.checkClass(event.target, 'ci-tg-input')) this.handleTips(event);
-        //if(this.checkClass(event.target, 'ci-tg-input-custom')) this.handleTipsCustom(event);
     }
 } 
 
@@ -99,8 +86,7 @@ function tcamValue() {
     //bill.addEventListener('input', manageBill); 
     //people.addEventListener('input', peopleCls);
     let tipsCls = new ManageTips(c1, c2);
-    //tip.addEventListener('focusout', tipsCls);
-    ['click', 'input', 'focus', 'focusout', 'keyup'].forEach((ev) => {tip.addEventListener(ev, tipsCls)});
+    ['click', 'input', 'focus', 'blur'].forEach((ev) => {tip.addEventListener(ev, tipsCls)});
 }
 
 tcamValue();
