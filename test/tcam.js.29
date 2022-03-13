@@ -1,20 +1,27 @@
 // TODO: a look on https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener to understand scope about event
 
+/*const ManageBill = function(element) {
+    if
+}*/
+
 class ManageTips {
     constructor(c1, c2) {
+        //this.tip = tip;
         this.c1 = c1;
         this.c2 = c2;
+        //console.log('ciao');
         this.tipClicked = undefined;
     }
 
     checkClass(et, targetClass) {
+        //let cn = et.closest('.' + `${targetClass}`).className.split(' ').indexOf(targetClass); // check from here // the event triggered is nested
         let cn = et.className.split(' ').indexOf(targetClass);
         if(cn !== -1) return true;
         else return false;
     }
+
     handleTips(e) {
         let et = e.target;
-        let checkTipReference(et) {}; //TODO: look at the last element of ci-grid handler. Clicking 'button' event.target.type should style 'last-child' style; 
         //console.log(et,et.type,e.type);
         switch(et.type) {
             case 'button':
@@ -24,7 +31,7 @@ class ManageTips {
                 }
             break;
             case 'text':
-                //console.log(et,et.type,e.type);
+                console.log(et,et.type,e.type);
                 switch(e.type) {
                     case 'click':
                         et.value = '';
@@ -41,37 +48,26 @@ class ManageTips {
                         localStorage['tip'] = et.value;
                         //if(e.type === 'keyup' && e.keyCode === 13 && isNaN(parseInt(et.value))) {localStorage['tip']};
                     break;
-                    case 'keydown':
+                    case 'keyup':
                         //console.log(typeof(et.value));
                         //console.log(et.value, e.keyCode);
-                        if(e.keyCode === 13 ) {//&& isNaN(parseInt(et.value))) { 
-                            //console.log("fired ", et.value, typeof(et.value));
-                            //et.value = toString(et.value).concat('%'); // TODO: how to concatenate '%' after enterKeyUp into tipCustom event listener. 
+                        if(e.keyCode === 13 && !isNaN(parseInt(et.value))) { 
+                            localStorage['tip'] == et.value;
+                            et.value = toString(et.value).concat('%'); // TODO: how to concatenate '%' after enterKeyUp into tipCustom event listener. 
                             //et.value = et.value + '%';
                             et.style.color = this.c2;
                             et.style.backgroundColor = this.c1;
                         }
                         break;
-                    case 'keyup':
-                        if(e.keyCode === 13) {
-                            //et.value = toString(et.value).concat('%'); // TODO: how to concatenate '%' after enterKeyUp into tipCustom event listener. 
-                            localStorage['tip'] == et.value;
-                            if(et.value.slice(-1) != '%') et.value = et.value + '%';
-                            et.style.color = this.c2;
-                            et.style.backgroundColor = this.c1;
-                        }
-                        break;
                     case 'focusout':
-                        //console.log(e.type, et.value);
-                        if(et.value != '') { 
-                            //if(localStorage['tip'] && localStorage['tip'].slice(-1) != '%') 
-                            if(et.value.slice(-1) != '%') et.value = et.value + '%';                    
+                        //console.log(et.value);
+                        if(et.value != '') {
+                            et.value = et.value + '%';
                             et.style.color = this.c2
                             et.style.backgroundColor = this.c1;
                         } else {
                             et.value = 'Custom';
                             et.style = '';
-                            clickedOrKey = false;
                         }
                     break;
                 }
@@ -104,7 +100,7 @@ function tcamValue() {
     //people.addEventListener('input', peopleCls);
     let tipsCls = new ManageTips(c1, c2);
     //tip.addEventListener('focusout', tipsCls);
-    ['click', 'input', 'focus', 'focusout', 'keyup', 'keydown'].forEach((ev) => {tip.addEventListener(ev, tipsCls)});
+    ['click', 'input', 'focus', 'focusout', 'keyup'].forEach((ev) => {tip.addEventListener(ev, tipsCls)});
 }
 
 tcamValue();
