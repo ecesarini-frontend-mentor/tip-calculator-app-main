@@ -1,6 +1,5 @@
 // TODO: a look on https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener to understand scope about event
 
-// TODO: handle localStorage values and manage the result by these
 class ManageTips {
     constructor(c1, c2) {
         this.c1 = c1;
@@ -13,41 +12,19 @@ class ManageTips {
         if(cn !== -1) return true;
         else return false;
     }
-    handleBillPeople(e, t) {
-        let et = e.target;
-        switch(e.type) {
-            case 'click':
-                if(localStorage[t] === null) localStorage[t] = null;
-                if(et.value === 0 || et.value !== '') et.value = '';
-                break;
-            case 'input':
-                localStorage[t] = et.value;
-                break;
-            case 'focusout':
-                if( !localStorage[t] && et.value === '') et.value = 0;
-                else if(localStorage[t]) et.value = localStorage[t];
-                //else et.value =
-                et.style.caretColour = 'transparent';
-                break;
-        }
-    }
     handleTips(e) {
         let et = e.target;
-        let ect = e.currentTarget;
+        let checkTipReference(et) {}; //TODO: look at the last element of ci-grid handler. Clicking 'button' event.target.type should style 'last-child' style; 
+        //console.log(et,et.type,e.type);
         switch(et.type) {
             case 'button':
-                switch(e.type) {                    
+                switch(e.type) {
                     case 'click':
-                        let lc = ect.lastElementChild;
-                        lc.style = '';
-                        lc.value = 'Custom';
-                       break;
-                    case 'mouseup':
-                        localStorage['tip'] = et.value.slice(0, -1); 
-                       break;
+                    break;
                 }
             break;
             case 'text':
+                //console.log(et,et.type,e.type);
                 switch(e.type) {
                     case 'click':
                         et.value = '';
@@ -55,22 +32,29 @@ class ManageTips {
                     case 'focus':
                         et.style.borderColor = this.c1;
                         if(et.value != '' || !isNaN(et.value)) et.value = '';
-                       break;
+                    break;
                     case 'input':
                         et.style.borderColor = this.c1;
                         if(isNaN(et.value)) et.value = et.value.slice(0,-1);
                         if(et.value < 0) et.value = 0;
                         else if(et.value > 100) et.value = 100;
                         localStorage['tip'] = et.value;
-                       break;
+                        //if(e.type === 'keyup' && e.keyCode === 13 && isNaN(parseInt(et.value))) {localStorage['tip']};
+                    break;
                     case 'keydown':
-                        if(e.keyCode === 13) {
+                        //console.log(typeof(et.value));
+                        //console.log(et.value, e.keyCode);
+                        if(e.keyCode === 13 ) {//&& isNaN(parseInt(et.value))) { 
+                            //console.log("fired ", et.value, typeof(et.value));
+                            //et.value = toString(et.value).concat('%'); // TODO: how to concatenate '%' after enterKeyUp into tipCustom event listener. 
+                            //et.value = et.value + '%';
                             et.style.color = this.c2;
                             et.style.backgroundColor = this.c1;
                         }
                         break;
                     case 'keyup':
                         if(e.keyCode === 13) {
+                            //et.value = toString(et.value).concat('%'); // TODO: how to concatenate '%' after enterKeyUp into tipCustom event listener. 
                             localStorage['tip'] == et.value;
                             if(et.value.slice(-1) != '%') et.value = et.value + '%';
                             et.style.color = this.c2;
@@ -78,34 +62,35 @@ class ManageTips {
                         }
                         break;
                     case 'focusout':
+                        //console.log(e.type, et.value);
                         if(et.value != '') { 
+                            //if(localStorage['tip'] && localStorage['tip'].slice(-1) != '%') 
                             if(et.value.slice(-1) != '%') et.value = et.value + '%';                    
                             et.style.color = this.c2
                             et.style.backgroundColor = this.c1;
                         } else {
                             et.value = 'Custom';
                             et.style = '';
+                            clickedOrKey = false;
                         }
-                        break;
+                    break;
                 }
-                break;
+            break;
         }
     }
 
     handleEvent(event) {
         //console.log(event.target);
         if(this.checkClass(event.target, 'ci-tg-input')) this.handleTips(event);
-        if(this.checkClass(event.target, 'ci-bill-input')) this.handleBillPeople(event, 'bill');
-        if(this.checkClass(event.target, 'ci-people-input')) this.handleBillPeople(event, 'people');
         //if(this.checkClass(event.target, 'ci-tg-input-custom')) this.handleTipsCustom(event);
     }
 } 
 
 
 function tcamValue() {
-    let bill = document.getElementsByClassName("ci-bill")[0];
+    //let bill = document.getElementsByClassName("ci-bill-input")[0];
     let tip = document.getElementsByClassName("ci-tip-grid")[0];
-    let people = document.getElementsByClassName("ci-people")[0];
+    //let people = document.getElementsByClassName("ci-people-input")[0];
 
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
@@ -119,26 +104,7 @@ function tcamValue() {
     //people.addEventListener('input', peopleCls);
     let tipsCls = new ManageTips(c1, c2);
     //tip.addEventListener('focusout', tipsCls);
-    
-    ['click', 'input', 'focusout'].forEach((ev) => {
-        bill.addEventListener(ev, tipsCls);
-        people.addEventListener(ev, tipsCls);
-    });
-    ['click', 'mouseup', 'input', 'focus', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
-        tip.addEventListener(ev, tipsCls);
-    });
-    /*['click', 'input', 'focusout'].forEach((ev) => {
-        people.addEventListener(ev, tipsCls);
-    });*/
-    
-    /*['click', 'mouseup', 'input', 'focus', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
-        bill.addEventListener(ev, tipsCls);
-    //    bill.removeEventListener(ev, tipsCls);
-        tip.addEventListener(ev, tipsCls);
-    //    tip.removeEventListener(ev, tipsCls);
-        people.addEventListener(ev, tipsCls);
-    //    people.removeEventListener(ev, tipsCls);
-    });*/
+    ['click', 'input', 'focus', 'focusout', 'keyup', 'keydown'].forEach((ev) => {tip.addEventListener(ev, tipsCls)});
 }
 
 tcamValue();
