@@ -1,13 +1,13 @@
-//TODO:
-// It looks like '.ci-tip-grid' needs triggered before others elements involved.  Clicking on '.tip-grid' works if it's latest event on tip.
-// Click on 'tip' glitch: event doesn't override cursor behaviour inside the '.ci-bill-input', 'ci-people-input' eventCurrentTarget.
-// Cursor on the lef clicking 'Bill', 'People' field input.
+// TODO: a look on https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener to understand scope about event
 
-class Calc {
+// TODO: handle localStorage values and manage the result by these
+class ManageTips {
     constructor(c1, c2) {
         this.c1 = c1;
         this.c2 = c2;
+        this.tipClicked = undefined;
     }
+
     checkClass(et, targetClass) {
         let cn = et.className.split(' ').indexOf(targetClass);
         if(cn !== -1) return true;
@@ -91,54 +91,54 @@ class Calc {
                 break;
         }
     }
-    getResults() {
-        let billInserted, tipInserted, peopleInserted;
-        if(localStorage.length === 3) {
-            billInserted = parseInt(localStorage.bill);
-            tipInserted = parseInt(localStorage.tip) * 0.01;
-            peopleInserted = parseInt(localStorage.people);
 
-            if(peopleInserted !== 0) {
-                let tipPerPerson = billInserted * tipInserted  / peopleInserted;
-                let totalPerPerson = billInserted / peopleInserted + tipPerPerson;
-                document.querySelector('.crg-tip-result').innerText = Number.parseFloat(tipPerPerson).toFixed(2);
-                document.querySelector('.crg-total-result').innerText = Number.parseFloat(totalPerPerson).toFixed(2);
-            }
-        }
-    }
     handleEvent(event) {
         //console.log(event.target);
         if(this.checkClass(event.target, 'ci-tg-input')) this.handleTips(event);
         if(this.checkClass(event.target, 'ci-bill-input')) this.handleBillPeople(event, 'bill');
         if(this.checkClass(event.target, 'ci-people-input')) this.handleBillPeople(event, 'people');
         //if(this.checkClass(event.target, 'ci-tg-input-custom')) this.handleTipsCustom(event);
-        if(event.currentTarget.tagName === 'BODY') this.getResults();
     }
 } 
 
 
 function tcamValue() {
-    document.addEventListener('DOMContentLoaded', function() { 
-        localStorage.clear();
-    });
-    let bill = document.querySelector('.ci-bill');
-    let tip = document.querySelector('.ci-tip-grid');
-    let people = document.querySelector('.ci-people');
+    let bill = document.getElementsByClassName("ci-bill")[0];
+    let tip = document.getElementsByClassName("ci-tip-grid")[0];
+    let people = document.getElementsByClassName("ci-people")[0];
 
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
-    
-    let body = document.querySelector('body');
-    let calc = new Calc(c1, c2);
+
+    document.addEventListener('DOMContentLoaded', function() { 
+        localStorage.clear();
+        //localStorage['tipClicked'] = null;
+    });
+
+    //bill.addEventListener('input', manageBill); 
+    //people.addEventListener('input', peopleCls);
+    let tipsCls = new ManageTips(c1, c2);
+    //tip.addEventListener('focusout', tipsCls);
     
     ['click', 'input', 'focusout'].forEach((ev) => {
-        bill.addEventListener(ev, calc);
-        people.addEventListener(ev, calc);
+        bill.addEventListener(ev, tipsCls);
+        people.addEventListener(ev, tipsCls);
     });
     ['click', 'mouseup', 'input', 'focus', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
-        tip.addEventListener(ev, calc);
+        tip.addEventListener(ev, tipsCls);
     });
-    body.addEventListener('click', calc);
+    /*['click', 'input', 'focusout'].forEach((ev) => {
+        people.addEventListener(ev, tipsCls);
+    });*/
+    
+    /*['click', 'mouseup', 'input', 'focus', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
+        bill.addEventListener(ev, tipsCls);
+    //    bill.removeEventListener(ev, tipsCls);
+        tip.addEventListener(ev, tipsCls);
+    //    tip.removeEventListener(ev, tipsCls);
+        people.addEventListener(ev, tipsCls);
+    //    people.removeEventListener(ev, tipsCls);
+    });*/
 }
 
 tcamValue();
