@@ -1,7 +1,7 @@
 //TODO:
-// Cursor on the left clicking 'Bill', 'People' field input.V
-// Try to understand which event's happening onclick, 'cause clicking outside 'reset button' handling changes behaviour.
-// @.151
+// It looks like '.ci-tip-grid' needs triggered before others elements involved.  Clicking on '.tip-grid' works if it's latest event on tip.
+// Click on 'tip' glitch: event doesn't override cursor behaviour inside the '.ci-bill-input', 'ci-people-input' eventCurrentTarget.
+// Cursor on the lef clicking 'Bill', 'People' field input.
 
 class Calc {
     constructor(c1, c2) {
@@ -13,15 +13,11 @@ class Calc {
         if(cn !== -1) return true;
         else return false;
     }
-    setStyle(elEv, et, cl) {
-        if(elEv) elEv.classList.remove(cl);
-        et.classList.add(cl);
-    }
     handleBillPeople(e, t) {
         let et = e.target;
         switch(e.type) {
             case 'click':
-                //if(localStorage[t] === null) localStorage[t] = null;
+                if(localStorage[t] === null) localStorage[t] = null;
                 if(et.value === 0 || et.value !== '') et.value = '';
                 break;
             case 'input':
@@ -38,43 +34,35 @@ class Calc {
     handleTips(e) {
         let et = e.target;
         let ect = e.currentTarget;
-        let lc = ect.lastElementChild;
-        let customClass = 'ci-tg-input-clicked';
-        let tipClicked = ect.querySelector('.' + customClass);
-        //let setStyle = (tar, tcl) => { if(tcl) tcl.classList.remove('')}
         switch(et.type) {
             case 'button':
                 switch(e.type) {                    
                     case 'click':
+                        let lc = ect.lastElementChild;
                         lc.style = '';
                         lc.value = 'Custom';
-                        this.setStyle(tipClicked, et, customClass);
-                        /*if(tipClicked) tipClicked.classList.remove('ci-tg-input-clicked');
-                        et.classList.add('ci-tg-input-clicked');*/
-                        //this.tipClicked = true;
-                        break;
+                       break;
                     case 'mouseup':
                         localStorage['tip'] = et.value.slice(0, -1); 
-                        break;
+                       break;
                 }
             break;
             case 'text':
                 switch(e.type) {
                     case 'click':
                         et.value = '';
-                        this.setStyle(tipClicked, et, customClass);
                         break;
                     case 'focus':
                         et.style.borderColor = this.c1;
                         if(et.value != '' || !isNaN(et.value)) et.value = '';
-                        break;
+                       break;
                     case 'input':
                         et.style.borderColor = this.c1;
                         if(isNaN(et.value)) et.value = et.value.slice(0,-1);
                         if(et.value < 0) et.value = 0;
                         else if(et.value > 100) et.value = 100;
                         localStorage['tip'] = et.value;
-                        break;
+                       break;
                     case 'keydown':
                         if(e.keyCode === 13) {
                             et.style.color = this.c2;
@@ -128,39 +116,6 @@ class Calc {
     }
 } 
 
-class ResetValue {
-    constructor(container, c1, c2) {
-        this.container = container;
-        this.c1 = c1;
-        this.c2 = c2;
-        this.init();
-    }
-
-    init() {
-        for(key in localStorage) delete localStorage[key];
-        this.container.addEventListener('click', e => this.clearValue(e));
-        this.container.addEventListener('mousedown', e => this.styleClick(e));
-    }
-    styleClick(e) {
-        let et = e.target;
-        if(e.type === 'mousedown') {
-                et.style.color = this.c1;
-                et.style.backgroundColor = this.c2;
-        }
-    }
-    clearValue(e) {
-        if(e.type === 'click') {
-            let inputTg = document.querySelector('.calc-insert').querySelector('input');
-            inputTg.style = '';
-            if(inputTg.className.split(' ').indexof('ci-tg-input-custom') === -1) inputTg.value = 'Custom';
-            else inputTg.value = '0';
-        }
-    }
-    /*handleEvent(event) {
-    }*/
-
-}
-
 
 function tcamValue() {
     document.addEventListener('DOMContentLoaded', function() { 
@@ -175,9 +130,6 @@ function tcamValue() {
     
     let body = document.querySelector('body');
     let calc = new Calc(c1, c2);
-
-    let resButton = document.querySelector('.cr-button-reset');
-    let resetValue = new ResetValue(resButton, c1, c2);
     
     ['click', 'input', 'focusout'].forEach((ev) => {
         bill.addEventListener(ev, calc);
