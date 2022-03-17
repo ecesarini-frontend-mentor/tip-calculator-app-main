@@ -1,7 +1,8 @@
 //TODO:
-//reset 'style' clicking on "RESET"
-//show integer values (e.g //desktopo/tcam_display_int.jpg) as integer
-//validate input on 'bill' and 'people' by keyboard
+// Cursor on the left clicking 'Bill', 'People' field input.V
+// Try to understand which event's happening onclick, 'cause clicking outside 'reset button' handling changes behaviour.
+// @.151
+
 class Calc {
     constructor(c1, c2) {
         this.c1 = c1;
@@ -31,7 +32,6 @@ class Calc {
                 et.style.caretColour = 'transparent';
                 break;
         }
-        this.getResults();
     }
     handleTips(e) {
         let et = e.target;
@@ -96,7 +96,6 @@ class Calc {
                 }
                 break;
         }
-        this.getResults();
     }
     getResults() {
         let billInserted, tipInserted, peopleInserted;
@@ -104,14 +103,13 @@ class Calc {
         let totalResult = document.querySelector('.crg-total-result');
         
         if(localStorage.length === 3) {
-            billInserted = parseFloat(localStorage.bill);
+            billInserted = parseInt(localStorage.bill);
             tipInserted = parseInt(localStorage.tip) * 0.01;
             peopleInserted = parseInt(localStorage.people);
 
             if(peopleInserted !== 0) {
                 let tipPerPerson = billInserted * tipInserted  / peopleInserted;
                 let totalPerPerson = billInserted / peopleInserted + tipPerPerson;
-                //if(tipResult.innerText)
                 tipResult.innerText = Number.parseFloat(tipPerPerson).toFixed(2);
                 totalResult.innerText = Number.parseFloat(totalPerPerson).toFixed(2);
             }
@@ -122,6 +120,7 @@ class Calc {
         if(this.checkClass(event.target, 'ci-tg-input')) this.handleTips(event);
         if(this.checkClass(event.target, 'ci-bill-input')) this.handleBillPeople(event, 'bill');
         if(this.checkClass(event.target, 'ci-people-input')) this.handleBillPeople(event, 'people');
+        if(event.currentTarget.tagName === 'BODY') this.getResults();
     }
 } 
 
@@ -134,19 +133,18 @@ class ResetValue {
     }
 
     init() {
-        for(key in localStorage) { //Inspect about 'for in, ...'
-            if(Object.hasOwnProperty(key)) delete localStorage[key];         
-        }
+        for(key in localStorage) delete localStorage[key]; //inspect about 'for in, ...'
+        
         this.container.addEventListener('click', e => this.clearValue(e));
-        //this.container.addEventListener('mousedown', e => this.styleClick(e));
+        this.container.addEventListener('mousedown', e => this.styleClick(e));
     }
-    /*styleClick(e) {
+    styleClick(e) {
         let et = e.target;
         if(e.type === 'mousedown') {
                 et.style.color = this.c1;
                 et.style.backgroundColor = this.c2;
         }
-    }*/
+    }
     clearValue(e) {
         if(e.type === 'click') {
             let inputTg = document.querySelector('.calc-insert').querySelector('input');
@@ -172,6 +170,7 @@ function tcamValue() {
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
     
+    let body = document.querySelector('body');
     let calc = new Calc(c1, c2);
 
     //let resButton = document.querySelector('.cr-button-reset');
@@ -184,6 +183,7 @@ function tcamValue() {
     ['click', 'mouseup', 'input', 'focus', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
         tip.addEventListener(ev, calc);
     });
+    body.addEventListener('click', calc);
 }
 
 tcamValue();

@@ -261,6 +261,10 @@ button {
   border-radius: var(--border-radius-button);
   cursor: pointer;
 }
+.cr-button-reset:focus {
+  color: var(--very-dark-cyan);
+  background-color: var(--strong-cyan);
+}
   </style>
 </head>
 
@@ -302,7 +306,7 @@ button {
                 <p>Tip Amount</p>
                 <p>/ person</p>
               </li>
-              <li class="cr-grid-result crg-tip-result"></li>
+              <li class="cr-grid-result crg-tip-result">0</li>
             </ul>
           </div>
           <div class="cr cr-total">
@@ -311,7 +315,7 @@ button {
                 <p>Total</p>
                 <p>/ person</p>
               </li>
-              <li class="cr-grid-result crg-total-result"></li>
+              <li class="cr-grid-result crg-total-result">0</li>
             </ul>
           </div>
           <!--<div class="cr cr-button">-->
