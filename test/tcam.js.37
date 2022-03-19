@@ -1,6 +1,7 @@
-//TODO: reset 'style' and value using class and clicking on "RESET", validate input on 'bill' and 'people' by keyboard
-//FIXED: show integer values (e.g //desktop/tcam_display_int.jpg) as integer
-
+//TODO:
+//reset 'style' clicking on "RESET"
+//show integer values (e.g //desktopo/tcam_display_int.jpg) as integer
+//validate input on 'bill' and 'people' by keyboard
 class Calc {
     constructor(c1, c2) {
         this.c1 = c1;
@@ -110,10 +111,9 @@ class Calc {
             if(peopleInserted !== 0) {
                 let tipPerPerson = billInserted * tipInserted  / peopleInserted;
                 let totalPerPerson = billInserted / peopleInserted + tipPerPerson;
-                if(Number.isInteger(tipPerPerson)) tipResult.innerText = tipPerPerson;
-                else tipResult.innerText = Number.parseFloat(tipPerPerson).toFixed(2);
-                if(Number.isInteger(totalPerPerson)) totalResult.innerText = totalPerPerson;
-                else totalResult.innerText = Number.parseFloat(totalPerPerson).toFixed(2);
+                //if(tipResult.innerText)
+                tipResult.innerText = Number.parseFloat(tipPerPerson).toFixed(2);
+                totalResult.innerText = Number.parseFloat(totalPerPerson).toFixed(2);
             }
         }
     }
@@ -128,24 +128,17 @@ class Calc {
 class ResetValue {
     constructor(container, c1, c2) {
         this.container = container;
-        this.inputElements = document.querySelectorAll('input');
-        this.billElement = undefined;
-        this.tipElement = undefined;
-        this.peopleElement = undefined;
-        this.resultValue = document.querySelectorAll('.ci-grid-result');
         this.c1 = c1;
         this.c2 = c2;
         this.init();
     }
 
-    checkClass(el, cl) {
-        for(let i = 0; i < el.length; i++)
-            if(el[i].className.split(' ').indexOf(cl) !== -1) return el[i];        
-    }
-    findElementsToClear() {
-        this.billElement = this.checkClass(this.inputElements, 'ci-bill-input');
-        this.tipElement = this.checkClass(this.inputElements, 'ci-tg-input');
-        this.peopleElement = this.checkClass(this.inputElements, 'ci-people-input');
+    init() {
+        for(key in localStorage) { //Inspect about 'for in, ...'
+            if(Object.hasOwnProperty(key)) delete localStorage[key];         
+        }
+        this.container.addEventListener('click', e => this.clearValue(e));
+        //this.container.addEventListener('mousedown', e => this.styleClick(e));
     }
     /*styleClick(e) {
         let et = e.target;
@@ -154,29 +147,15 @@ class ResetValue {
                 et.style.backgroundColor = this.c2;
         }
     }*/
-    clearValue() {
-            [this.billElement, this.tipElement, this.peopleElement].forEach( item => {
-                item.style = '';
-                if(item.className.split(' ').indexOf('ci-tg-input-custom') !== -1) item.innerText = 'Custom';
-            });
-            this.resultValue.forEach( item => {
-                item.innerText = '0';
-            });
-    }
-    init() {
-        for(let key in localStorage) { //Inspect about 'for in, ...'
-            if(Object.hasOwnProperty(key)) delete localStorage[key];         
+    clearValue(e) {
+        if(e.type === 'click') {
+            let inputTg = document.querySelector('.calc-insert').querySelector('input');
+            inputTg.style = '';
+            if(inputTg.className.split(' ').indexof('ci-tg-input-custom') === -1) inputTg.value = 'Custom';
+            else inputTg.value = '0';
         }
-        this.findElementsToClear();
-        //this.container.addEventListener('click', this.clearValue.bind(this)());
-        this.container.addEventListener('click', this.clearValue());
-        //this.container.addEventListener('mousedown', e => this.styleClick(e));
     }
-    /*handleEvent(e) {
-        switch(e.type) {
-            case 'click':
-                this.container.addEventListener
-        }
+    /*handleEvent(event) {
     }*/
 
 }
@@ -195,9 +174,8 @@ function tcamValue() {
     
     let calc = new Calc(c1, c2);
 
-    let resButton = document.querySelector('.cr-button-reset');
+    //let resButton = document.querySelector('.cr-button-reset');
     //let resetValue = new ResetValue(resButton, c1, c2);
-    new ResetValue(resButton, c1, c2);
     
     ['click', 'input', 'focusout'].forEach((ev) => {
         bill.addEventListener(ev, calc);
