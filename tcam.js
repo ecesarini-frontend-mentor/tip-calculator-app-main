@@ -1,5 +1,6 @@
-//TODO: reset 'style' and value using class and clicking on "RESET", validate input on 'bill' and 'people' by keyboard
-//FIXED: show integer values (e.g //desktop/tcam_display_int.jpg) as integer
+//TODO: reset 'style' and value using class and clicking on "RESET", validate input on 'bill' and 'people' by keyboard;
+//TODO: 'tip' and 'total' result show 'NaN'. Check the comments starting from '@.130'; 'tipAmount' keeps on maintaing float value (check '//:Dekstop/tcam_display_int.jpg' out);
+//FIXED: show integer values (e.g //desktop/tcam_display_int.jpg) as integer;
 
 class Calc {
     constructor(c1, c2) {
@@ -17,17 +18,33 @@ class Calc {
     }
     handleBillPeople(e, t) {
         let et = e.target;
+        function validDigit(n, t) {
+            let billReplace = /[^0-9.]+/;
+            let peopleReplace = /[^0-9]+/;
+            if(t === 'bill') return n.replace(billReplace, '');
+            else if(t === 'people') return n.replace(peopleReplace, '');
+        }
         switch(e.type) {
             case 'click':
-                if(et.value === 0 || et.value !== '') et.value = '';
+                if((et.value === '0' || et.value !== '')) {
+                    if(localStorage[t] && et.value != 0) {
+                        const pos = et.value.length;
+                        et.setSelectionRange(pos, pos);
+                    }
+                    else et.value = '';
+                }
                 break;
             case 'input':
-                localStorage[t] = et.value;
+                if(et.value < 0) et.value = 0;
+                localStorage[t] = Number.parseFloat(et.value);
                 break;
             case 'focusout':
                 if( !localStorage[t] && et.value === '') et.value = 0;
                 else if(localStorage[t]) et.value = localStorage[t];
                 et.style.caretColour = 'transparent';
+                break;
+            case 'keyup':
+                et.value = validDigit(et.value, t);
                 break;
         }
         this.getResults();
@@ -110,10 +127,14 @@ class Calc {
             if(peopleInserted !== 0) {
                 let tipPerPerson = billInserted * tipInserted  / peopleInserted;
                 let totalPerPerson = billInserted / peopleInserted + tipPerPerson;
+                //if(isNaN(tipPerPerson)) {
                 if(Number.isInteger(tipPerPerson)) tipResult.innerText = tipPerPerson;
                 else tipResult.innerText = Number.parseFloat(tipPerPerson).toFixed(2);
+                //}
+                //if(isNaN(totalPerPerson)) {
                 if(Number.isInteger(totalPerPerson)) totalResult.innerText = totalPerPerson;
                 else totalResult.innerText = Number.parseFloat(totalPerPerson).toFixed(2);
+                //}
             }
         }
     }
@@ -199,7 +220,7 @@ function tcamValue() {
     //let resetValue = new ResetValue(resButton, c1, c2);
     new ResetValue(resButton, c1, c2);
     
-    ['click', 'input', 'focusout'].forEach((ev) => {
+    ['click', 'input', 'focusout', 'keyup'].forEach((ev) => {
         bill.addEventListener(ev, calc);
         people.addEventListener(ev, calc);
     });
