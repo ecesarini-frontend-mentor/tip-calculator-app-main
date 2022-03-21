@@ -1,6 +1,6 @@
 //TODO: reset 'style' and value using class and clicking on "RESET", validate input on 'bill' and 'people' by keyboard;
-//TODO: lot of errors setting 0 'bill' or 'people' field. Look at @>.44;
-//FIXED: 'tip' and 'total' resu lt show 'NaN'. Check the comments starting from '@.130'; 'tipAmount' keeps on maintaing float value (check '//:Dekstop/tcam_display_int.jpg' out);
+//TODO: 'tip' and 'total' result show 'NaN'. Check the comments starting from '@.130'; 'tipAmount' keeps on maintaing float value (check '//:Dekstop/tcam_display_int.jpg' out);
+//FIXED: show integer values (e.g //desktop/tcam_display_int.jpg) as integer;
 
 class Calc {
     constructor(c1, c2) {
@@ -16,11 +16,6 @@ class Calc {
         if(elEv) elEv.classList.remove(cl);
         et.classList.add(cl);
     }
-    checkAllProp(a, o) {
-        let all = a.every( k => o.hasOwnProperty(k));
-        return all;
-    }
-
     handleBillPeople(e, t) {
         let et = e.target;
 
@@ -34,7 +29,7 @@ class Calc {
         switch(e.type) {
             case 'click':
                 if((et.value === '0' || et.value !== '')) {
-                    if(localStorage[t]) {// && et.value !== '0') {
+                    if(localStorage[t] && localStorage[t] !== '0' && et.value !== '0') {
                         const pos = et.value.length;
                         et.setSelectionRange(pos, pos);
                     }
@@ -42,24 +37,12 @@ class Calc {
                 }
                 break;
             case 'input':
-                //if(et.value < '0') et.value = '0';
-                if(this.checkClass(et, 'ci-bill-input')) { 
-                    localStorage[t] = Number.parseFloat(et.value);
-                }
-                else if(this.checkClass(et, 'ci-people-input')) {
-                    localStorage[t] = Number.parseInt(et.value);
-                }
-                if(localStorage[t] < 0) {
-                    et.value = '';
-                }
+                if(et.value <= 0) et.value = 1;
+                localStorage[t] = Number.parseFloat(et.value);
                 break;
             case 'focusout':
-                if( !localStorage[t] && et.value === '') {
-                    et.value = '0';
-                }
-                else if(localStorage[t]) {
-                    et.value = localStorage[t].toString();
-                }
+                if( !localStorage[t] && et.value === '') et.value = 0;
+                else if(localStorage[t]) et.value = localStorage[t];
                 et.style.caretColour = 'transparent';
                 break;
             case 'keyup':
@@ -83,7 +66,7 @@ class Calc {
                         this.setStyle(tipClicked, et, customClass);
                         break;
                     case 'mouseup':
-                        localStorage['tip'] = Number.parseInt(et.value.slice(0, -1)); 
+                        localStorage['tip'] = et.value.slice(0, -1); 
                         break;
                 }
             break;
@@ -100,13 +83,9 @@ class Calc {
                     case 'input':
                         et.style.borderColor = this.c1;
                         if(isNaN(et.value)) et.value = et.value.slice(0,-1);
-                        if(et.value < 0) {
-                            et.value = '0';
-                        }
-                        else if(et.value > 100) {
-                            et.value = '100';
-                        }
-                        localStorage['tip'] = Number.parseInt(et.value);
+                        if(et.value < 0) et.value = 0;
+                        else if(et.value > 100) et.value = 100;
+                        localStorage['tip'] = et.value;
                         break;
                     case 'keydown':
                         if(e.keyCode === 13) {
@@ -116,7 +95,7 @@ class Calc {
                         break;
                     case 'keyup':
                         if(e.keyCode === 13) {
-                            localStorage['tip'] == Number.parseInt(et.value);
+                            localStorage['tip'] == et.value;
                             if(et.value.slice(-1) != '%') et.value = et.value + '%';
                             et.style.color = this.c2;
                             et.style.backgroundColor = this.c1;
@@ -141,27 +120,25 @@ class Calc {
         let billInserted, tipInserted, peopleInserted;
         let tipResult = document.querySelector('.crg-tip-result');
         let totalResult = document.querySelector('.crg-total-result');
-        let allProp = this.checkAllProp(['bill', 'tip', 'people'], localStorage);
         
-        if(allProp) {
-            //'localStorage' just stores strings. You need JSON.parse to extract type https://www.javascripttutorial.net/web-apis/javascript-localstorage/#:~:text=The%20localStorage%20can%20store%20only,the%20localStorage%20using%20the%20JSON.
-            billInserted = JSON.parse(localStorage.bill);
-            tipInserted = JSON.parse(localStorage.tip) * 0.01;
-            peopleInserted = JSON.parse(localStorage.people);
+        if(localStorage.length === 3) {
+            billInserted = parseFloat(localStorage.bill);
+            tipInserted = parseInt(localStorage.tip) * 0.01;
+            peopleInserted = parseInt(localStorage.people);
 
             if(peopleInserted !== 0) {
                 let tipPerPerson = billInserted * tipInserted  / peopleInserted;
                 let totalPerPerson = billInserted / peopleInserted + tipPerPerson;
+                //if(isNaN(tipPerPerson)) {
                 if(Number.isInteger(tipPerPerson)) tipResult.innerText = tipPerPerson;
                 else tipResult.innerText = Number.parseFloat(tipPerPerson).toFixed(2);
+                //}
+                //if(isNaN(totalPerPerson)) {
                 if(Number.isInteger(totalPerPerson)) totalResult.innerText = totalPerPerson;
                 else totalResult.innerText = Number.parseFloat(totalPerPerson).toFixed(2);
-            } else {
-                tipResult.innerText = 0;
-                totalResult.innerText = 0;
+                //}
             }
         }
-
     }
     handleEvent(event) {
         //console.log(event.target);
@@ -242,7 +219,7 @@ function tcamValue() {
     let calc = new Calc(c1, c2);
 
     let resButton = document.querySelector('.cr-button-reset');
-    let resetValue = new ResetValue(resButton, c1, c2);
+    //let resetValue = new ResetValue(resButton, c1, c2);
     new ResetValue(resButton, c1, c2);
     
     ['click', 'input', 'focusout', 'keyup'].forEach((ev) => {
