@@ -1,6 +1,6 @@
 //TODO: reset 'style' and value using class and clicking on "RESET", validate input on 'bill' and 'people' by keyboard;
-//TODO: look at #71 causes 'JSON parse errors' you find out pressing backspace (keyCode === 8)
-//FIXING: focusout cursor lag
+//TODO: lot of errors setting 0 'bill' or 'people' field. Look at @>.44;
+//FIXED: 'tip' and 'total' resu lt show 'NaN'. Check the comments starting from '@.130'; 'tipAmount' keeps on maintaing float value (check '//:Dekstop/tcam_display_int.jpg' out);
 
 class Calc {
     constructor(c1, c2) {
@@ -33,23 +33,20 @@ class Calc {
 
         switch(e.type) {
             case 'click':
-                if( localStorage[t] ) {
-                    if( localStorage[t].length === 1 || et.value !== '' || et.value !== 0 ) {
+                if((et.value === '0' || et.value !== '')) {
+                    if(localStorage[t]) {// && et.value !== '0') {
                         const pos = et.value.length;
                         et.setSelectionRange(pos, pos);
-                    } else {
-                        et.value = '';
                     }
-                } else {
-                    et.value = '';
+                    else et.value = '';
                 }
                 break;
             case 'input':
-                if(et.value <= '0') et.value = '';
-                if(et.value && this.checkClass(et, 'ci-bill-input')) { 
+                //if(et.value < '0') et.value = '0';
+                if(this.checkClass(et, 'ci-bill-input')) { 
                     localStorage[t] = Number.parseFloat(et.value);
                 }
-                else if(et.value && this.checkClass(et, 'ci-people-input')) {
+                else if(this.checkClass(et, 'ci-people-input')) {
                     localStorage[t] = Number.parseInt(et.value);
                 }
                 if(localStorage[t] < 0) {
@@ -68,24 +65,6 @@ class Calc {
             case 'keyup':
                 et.value = validDigit(et.value, t);
                 break;
-            case 'keydown': 
-                let keyC = e.keyCode;
-                switch(keyC) {
-                    case 8:
-                        if(localStorage[t].length === 0) localStorage.removeItem(t);
-                        if(this.checkClass(et, 'ci-bill-input')) { 
-                            localStorage[t] = et.value.slice(0,-1);
-                        }
-                        else if(this.checkClass(et, 'ci-people-input')) {
-                            localStorage[t] = et.value.slice(0,-1);
-                        }
-                        /*this.checkClass(et, 'ci-bill-input')? localStorage['bill'] = et.value.slice(0,-1):
-                            this.checkClass(et, 'ci-people-input')? localStorage['people'] = et.value.slice(0,-1):
-                            true
-                        true*/
-                    break;
-                }
-                break;   
         }
         this.getResults();
     }
@@ -266,7 +245,7 @@ function tcamValue() {
     let resetValue = new ResetValue(resButton, c1, c2);
     new ResetValue(resButton, c1, c2);
     
-    ['click', 'input', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
+    ['click', 'input', 'focusout', 'keyup'].forEach((ev) => {
         bill.addEventListener(ev, calc);
         people.addEventListener(ev, calc);
     });
