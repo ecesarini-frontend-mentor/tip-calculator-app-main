@@ -1,39 +1,40 @@
 //TODO: reset 'style' and value using class and clicking on "RESET", validate input on 'bill' and 'people' by keyboard;
-//TODO: rearranging classes from #23; More to fix about rearranging the code;
-//FIXED: look at #71 causes 'JSON parse errors' you find out pressing backspace (keyCode === 8);
-//FIXING: focusout cursor lag;
+//TODO: look at #71 causes 'JSON parse errors' you find out pressing backspace (keyCode === 8)
+//FIXING: focusout cursor lag
 
 class Calc {
     constructor(c1, c2) {
         this.c1 = c1;
         this.c2 = c2;
     }
-    checkClass(eTarget, classTarget) {
-        let clName = eTarget.className.split(' ').indexOf(classTarget);
-        return ((clName !== -1) ? true : false);
+    checkClass(et, targetClass) {
+        let cn = et.className.split(' ').indexOf(targetClass);
+        if(cn !== -1) return true;
+        else return false;
     }
-    setStyle(e, eTarget, cl) {
-        if(e) e.classList.remove(cl);
-        eTarget.classList.add(cl);
+    setStyle(elEv, et, cl) {
+        if(elEv) elEv.classList.remove(cl);
+        et.classList.add(cl);
     }
-    checkAllProp(arr, obj) {
-        let all = arr.every(k => obj.hasOwnProperty(k));        
-        return ((all && Object.values(obj).every(v => v !== '')) ? all : false);
-    }
-    validDigit(num, stgTarget) {
-        //if(ch) 
-        let replace = (stgTarget) ? 'bill' : 'people';
-        //let rReg = // From HERE: make this function indipendent from the css class you pass in. To manage bill and people.
-
-        let billReplace = /[^0-9.]+/;
-        let peopleReplace = /[^0-9]+/;
-        //return n.replace(`${t}+Replace`, '');
-        if(t === 'bill') return num.replace(billReplace, '');
-        else if(t === 'people') return num.replace(peopleReplace, '');
+    checkAllProp(a, o) {
+        let all = a.every(k => o.hasOwnProperty(k));
+        if(all && Object.values(o).every(v => v !== '')) { 
+            return all;   
+        }
+        else {
+            return false;
+        }         
     }
 
-    handleBillPeople(e, t, cInvolved) {
+    handleBillPeople(e, t) {
         let et = e.target;
+
+        function validDigit(n, t) {
+            let billReplace = /[^0-9.]+/;
+            let peopleReplace = /[^0-9]+/;
+            if(t === 'bill') return n.replace(billReplace, '');
+            else if(t === 'people') return n.replace(peopleReplace, '');
+        }
 
         switch(e.type) {
             case 'click':
@@ -70,24 +71,22 @@ class Calc {
                 et.style.caretColour = 'transparent';
                 break;
             case 'keyup':
-                et.value = this.validDigit(et.value, cInvolved);
+                et.value = validDigit(et.value, t);
                 break;
-            case 'keydown': 
+            /*case 'keydown': 
                 let keyC = e.keyCode;
                 switch(keyC) {
                     case 8:
                         if(localStorage[t].length === 0) localStorage.removeItem(t);
                         if(this.checkClass(et, 'ci-bill-input')) { 
                             localStorage[t] = et.value.slice(0,-1);
-                            localStorage[t] = '0';
                         }
                         else if(this.checkClass(et, 'ci-people-input')) {
-                            //localStorage[t] = et.value.slice(0,-1);
-                            localStorage[t] = '0';
+                            localStorage[t] = et.value.slice(0,-1);
                         }
                     break;
                 }
-                break;
+                break;*/
         }
         this.getResults();
     }
@@ -189,8 +188,8 @@ class Calc {
     handleEvent(event) {
         //console.log(event.target);
         if(this.checkClass(event.target, 'ci-tg-input')) this.handleTips(event);
-        if(this.checkClass(event.target, 'ci-bill-input')) this.handleBillPeople(event, 'bill', 'ci-bill-input');
-        if(this.checkClass(event.target, 'ci-people-input')) this.handleBillPeople(event, 'people', 'ci-people-input');
+        if(this.checkClass(event.target, 'ci-bill-input')) this.handleBillPeople(event, 'bill');
+        if(this.checkClass(event.target, 'ci-people-input')) this.handleBillPeople(event, 'people');
     }
 } 
 
