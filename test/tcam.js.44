@@ -1,6 +1,5 @@
 //TODO: on reset button now; look at DEBUG
-//DEBUG: remove listener when listen to reset click?
-//DEBUG: look at ://Desktop/tcam_debug_reset.jpg; clicking on the right-edge of 'button' field you get error in the screenshot. Sript can't catch the position. Maybe event listener doesn't match?
+//DEBUG: look at ://Desktop/tcam_debug_reset.jpg;
 //FIXING: focusout cursor lag
 
 class Calc {
@@ -196,16 +195,15 @@ class Calc {
 } 
 
 class ResetValue {
-    constructor(container, c1, c2, cClass) {
+    constructor(container, c1, c2) {
         this.container = container;
         this.inputElements = document.querySelectorAll('input');
         /*this.billElement = undefined;
         this.tipElement = undefined;
         this.peopleElement = undefined;*/
-        this.resultValues = document.querySelectorAll('.cr-grid-result');
+        this.resultValue = document.querySelectorAll('.ci-grid-result');
         this.c1 = c1;
         this.c2 = c2;
-        this.cutomClass = cClass;
         this.init();
     }
 
@@ -213,7 +211,7 @@ class ResetValue {
         for(let i = 0; i < el.length; i++)
             if(el[i].className.split(' ').indexOf(cl) !== -1) return el[i];        
     }
-    //clearForm() {}
+    clearForm() {}
     /*findElementsToClear() {
         this.billElement = this.checkClass(this.inputElements, 'ci-bill-input');
         this.tipElement = this.checkClass(this.inputElements, 'ci-tg-input');
@@ -226,35 +224,28 @@ class ResetValue {
                 et.style.backgroundColor = this.c2;
         }
     }*/
-    clearValues() {
-        this.inputElements.forEach( ie => {
-            switch(ie.type) {
-                case 'text':
-                    ie.value = '0';
-                    break;
-                case 'button':
-                    ie.classList.add(this.customClass);
-                    //ie.value = '0';
-                    break;
-            }
-        });
-        this.resultValues.forEach( rv => { 
-            rv.innerText = '0'; 
-        });
-    }
+    /*clearValue() {
+            [this.billElement, this.tipElement, this.peopleElement].forEach( item => {
+                item.style = '';
+                if(item.className.split(' ').indexOf('ci-tg-input-custom') !== -1) item.innerText = 'Custom';
+            });
+            this.resultValue.forEach( item => {
+                item.innerText = '0';
+            });
+    }*/
     init() {
         for(let key in localStorage) { //Inspect about 'for in, ...'
             if(Object.hasOwnProperty(key)) delete localStorage[key];
         }
-        //debugger; //this is the object from 'resButton'
-        this.container.addEventListener('click', this); //passing the object to handleEvent
+        this.container.addEventListener('click', this.handleEvent);
     }
 
     handleEvent(e) {
+        // ['click'].this.container.forEach( e => addEventListener(e, this.clearValue()) );
+        
         switch(e.type) {
             case 'click':
-                this.clearValues();
-            //debugger; //this is the event.currentTarget (RESET button)
+                this.inputElements.forEach( ie => ie.target.value = '0' );
             break;
         }
     }
@@ -277,7 +268,7 @@ function tcamValue() {
 
     let resButton = document.querySelector('.cr-button-reset');
     //let resetValue = new ResetValue(resButton, c1, c2);
-    new ResetValue(resButton, c1, c2, 'ci-tg-input-clicked');
+    new ResetValue(resButton, c1, c2);
     
     ['click', 'input', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
         bill.addEventListener(ev, calc);
