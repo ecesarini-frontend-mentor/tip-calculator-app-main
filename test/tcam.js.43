@@ -1,5 +1,7 @@
-//TODO: on reset button now; look at DEBUG
-//DEBUG: look at ://Desktop/tcam_debug_reset.jpg;
+//RETURNED: test/tcam.js.41_changing_functions_billTip
+//DEBUG: look at ://Desktop/tcam_debug.jpg
+//TODO: reset 'style' and value using class and clicking on "RESET", validate input on 'bill' and 'people' by keyboard;
+//TODO: look at #71 causes 'JSON parse errors' you find out pressing backspace (keyCode === 8)
 //FIXING: focusout cursor lag
 
 class Calc {
@@ -29,8 +31,7 @@ class Calc {
     }
 
     handleBillPeople(e, t) {
-        let et = e.target;  // event.target is an object so you are referring to it by reference;
-        //let etv = et.value; // event.target.value is a property of an object (event.target). You can't modify its value through a new variable
+        let et = e.target;
 
         switch(e.type) {
             case 'click':
@@ -198,9 +199,9 @@ class ResetValue {
     constructor(container, c1, c2) {
         this.container = container;
         this.inputElements = document.querySelectorAll('input');
-        /*this.billElement = undefined;
+        this.billElement = undefined;
         this.tipElement = undefined;
-        this.peopleElement = undefined;*/
+        this.peopleElement = undefined;
         this.resultValue = document.querySelectorAll('.ci-grid-result');
         this.c1 = c1;
         this.c2 = c2;
@@ -211,12 +212,11 @@ class ResetValue {
         for(let i = 0; i < el.length; i++)
             if(el[i].className.split(' ').indexOf(cl) !== -1) return el[i];        
     }
-    clearForm() {}
-    /*findElementsToClear() {
+    findElementsToClear() {
         this.billElement = this.checkClass(this.inputElements, 'ci-bill-input');
         this.tipElement = this.checkClass(this.inputElements, 'ci-tg-input');
         this.peopleElement = this.checkClass(this.inputElements, 'ci-people-input');
-    }*/    
+    }
     /*styleClick(e) {
         let et = e.target;
         if(e.type === 'mousedown') {
@@ -224,7 +224,7 @@ class ResetValue {
                 et.style.backgroundColor = this.c2;
         }
     }*/
-    /*clearValue() {
+    clearValue() {
             [this.billElement, this.tipElement, this.peopleElement].forEach( item => {
                 item.style = '';
                 if(item.className.split(' ').indexOf('ci-tg-input-custom') !== -1) item.innerText = 'Custom';
@@ -232,23 +232,22 @@ class ResetValue {
             this.resultValue.forEach( item => {
                 item.innerText = '0';
             });
-    }*/
+    }
     init() {
         for(let key in localStorage) { //Inspect about 'for in, ...'
-            if(Object.hasOwnProperty(key)) delete localStorage[key];
+            if(Object.hasOwnProperty(key)) delete localStorage[key];         
         }
-        this.container.addEventListener('click', this.handleEvent);
+        this.findElementsToClear();
+        //this.container.addEventListener('click', this.clearValue.bind(this)());
+        this.container.addEventListener('click', this.clearValue());
+        //this.container.addEventListener('mousedown', e => this.styleClick(e));
     }
-
-    handleEvent(e) {
-        // ['click'].this.container.forEach( e => addEventListener(e, this.clearValue()) );
-        
+    /*handleEvent(e) {
         switch(e.type) {
             case 'click':
-                this.inputElements.forEach( ie => ie.target.value = '0' );
-            break;
+                this.container.addEventListener
         }
-    }
+    }*/
 
 }
 
@@ -267,7 +266,7 @@ function tcamValue() {
     let calc = new Calc(c1, c2);
 
     let resButton = document.querySelector('.cr-button-reset');
-    //let resetValue = new ResetValue(resButton, c1, c2);
+    let resetValue = new ResetValue(resButton, c1, c2);
     new ResetValue(resButton, c1, c2);
     
     ['click', 'input', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
