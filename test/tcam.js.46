@@ -1,16 +1,14 @@
 //TODO: on reset button now; look at DEBUG
 //DEBUG: remove listener when listen to reset click?
 //DEBUG: look at ://Desktop/tcam_debug_reset.jpg; clicking on the right-edge of 'button' field you get error in the screenshot. Sript can't catch the position. Maybe event listener doesn't match?
-//FIXING: take a look @.210:@.214, to get 'Custom' in the tip custom field.
 //FIXING: focusout cursor lag
-
 
 class Calc {
     constructor(c1, c2) {
         this.c1 = c1;
         this.c2 = c2;
     }
-    checkClass(et, chk) {  //modify checkClass to return sessionStorage ref
+    checkClass(et, chk) {  //modify checkClass to return localStorage ref
         let cl;
         if(et.className.indexOf(chk) !== -1) { 
             cl = et.className;
@@ -37,8 +35,8 @@ class Calc {
 
         switch(e.type) {
             case 'click':
-                if( sessionStorage[t] ) {
-                    if( sessionStorage[t].length === 1 || et.value !== '' || et.value !== 0 ) {
+                if( localStorage[t] ) {
+                    if( localStorage[t].length === 1 || et.value !== '' || et.value !== 0 ) {
                         const pos = et.value.length;
                         et.setSelectionRange(pos, pos);
                     } else {
@@ -51,21 +49,21 @@ class Calc {
             case 'input':
                 //if(et.value <= '0') et.value = '';
                 if(et.value && this.checkClass(et, t) === 'bill') { 
-                    sessionStorage[t] = Number.parseFloat(et.value);
+                    localStorage[t] = Number.parseFloat(et.value);
                 }
                 else if(et.value && this.checkClass(et, t) === 'people') {
-                    sessionStorage[t] = Number.parseInt(et.value);
+                    localStorage[t] = Number.parseInt(et.value);
                 }
-                if(sessionStorage[t] < 0) {
+                if(localStorage[t] < 0) {
                     et.value = '';
                 }
                 break;
             case 'focusout':
-                if( !sessionStorage[t] && et.value === '') {
+                if( !localStorage[t] && et.value === '') {
                     et.value = '0';
                 }
-                else if(sessionStorage[t]) {
-                    et.value = sessionStorage[t].toString();
+                else if(localStorage[t]) {
+                    et.value = localStorage[t].toString();
                 }
                 et.style.caretColour = 'transparent';
                 break;
@@ -81,12 +79,12 @@ class Calc {
                 let keyC = e.keyCode;
                 switch(keyC) {
                     case 8:
-                        if(sessionStorage[t].length === 0) sessionStorage.removeItem(t);
+                        if(localStorage[t].length === 0) localStorage.removeItem(t);
                         if(this.checkClass(et, 'ci-bill-input')) { 
-                            sessionStorage[t] = et.value.slice(0,-1);
+                            localStorage[t] = et.value.slice(0,-1);
                         }
                         else if(this.checkClass(et, 'ci-people-input')) {
-                            sessionStorage[t] = et.value.slice(0,-1);
+                            localStorage[t] = et.value.slice(0,-1);
                         }
                     break;
                 }
@@ -109,7 +107,7 @@ class Calc {
                         this.setStyle(tipClicked, et, customClass);
                         break;
                     case 'mouseup':
-                        sessionStorage['tip'] = Number.parseInt(et.value.slice(0, -1)); 
+                        localStorage['tip'] = Number.parseInt(et.value.slice(0, -1)); 
                         break;
                 }
             break;
@@ -132,7 +130,7 @@ class Calc {
                         else if(et.value > 100) {
                             et.value = '100';
                         }
-                        sessionStorage['tip'] = Number.parseInt(et.value);
+                        localStorage['tip'] = Number.parseInt(et.value);
                         break;
                     case 'keydown':
                         if(e.keyCode === 13) {
@@ -142,7 +140,7 @@ class Calc {
                         break;
                     case 'keyup':
                         if(e.keyCode === 13) {
-                            sessionStorage['tip'] == Number.parseInt(et.value);
+                            localStorage['tip'] == Number.parseInt(et.value);
                             if(et.value.slice(-1) != '%') et.value = et.value + '%';
                             et.style.color = this.c2;
                             et.style.backgroundColor = this.c1;
@@ -167,13 +165,13 @@ class Calc {
         let billInserted, tipInserted, peopleInserted;
         let tipResult = document.querySelector('.crg-tip-result');
         let totalResult = document.querySelector('.crg-total-result');
-        let allProp = this.checkAllProp(['bill', 'tip', 'people'], sessionStorage);
+        let allProp = this.checkAllProp(['bill', 'tip', 'people'], localStorage);
         
         if(allProp) {
-            //'sessionStorage' just stores strings. You need JSON.parse to extract type https://www.javascripttutorial.net/web-apis/javascript-localstorage/#:~:text=The%20sessionStorage%20can%20store%20only,the%20sessionStorage%20using%20the%20JSON.
-            billInserted = JSON.parse(sessionStorage.bill);
-            tipInserted = JSON.parse(sessionStorage.tip) * 0.01;
-            peopleInserted = JSON.parse(sessionStorage.people);
+            //'localStorage' just stores strings. You need JSON.parse to extract type https://www.javascripttutorial.net/web-apis/javascript-localstorage/#:~:text=The%20localStorage%20can%20store%20only,the%20localStorage%20using%20the%20JSON.
+            billInserted = JSON.parse(localStorage.bill);
+            tipInserted = JSON.parse(localStorage.tip) * 0.01;
+            peopleInserted = JSON.parse(localStorage.people);
 
             if(peopleInserted !== 0) {
                 let tipPerPerson = billInserted * tipInserted  / peopleInserted;
@@ -198,29 +196,45 @@ class Calc {
 } 
 
 class ResetValue {
-    constructor(container, c1, c2) {
+    constructor(container, c1, c2, cClass) {
         this.container = container;
         this.inputElements = document.querySelectorAll('input');
+        /*this.billElement = undefined;
+        this.tipElement = undefined;
+        this.peopleElement = undefined;*/
         this.resultValues = document.querySelectorAll('.cr-grid-result');
         this.c1 = c1;
         this.c2 = c2;
+        this.cutomClass = cClass;
         this.init();
     }
 
     checkClass(el, cl) {
-        //for(let i = 0; i < el.length; i++)
-            if(el.className.split(' ').indexOf(cl) !== -1) return el;        
+        for(let i = 0; i < el.length; i++)
+            if(el[i].className.split(' ').indexOf(cl) !== -1) return el[i];        
     }
-    clearValues(ct, cr) {
+    //clearForm() {}
+    /*findElementsToClear() {
+        this.billElement = this.checkClass(this.inputElements, 'ci-bill-input');
+        this.tipElement = this.checkClass(this.inputElements, 'ci-tg-input');
+        this.peopleElement = this.checkClass(this.inputElements, 'ci-people-input');
+    }*/    
+    /*styleClick(e) {
+        let et = e.target;
+        if(e.type === 'mousedown') {
+                et.style.color = this.c1;
+                et.style.backgroundColor = this.c2;
+        }
+    }*/
+    clearValues() {
         this.inputElements.forEach( ie => {
-            console.log(ie.classList);
             switch(ie.type) {
                 case 'text':
-                    ie.value = (this.checkClass(ie, ct))? 'Custom' : '0';
-                    //ie.value = rpl;
+                    ie.value = '0';
                     break;
                 case 'button':
-                    ie.classList.remove(cr);
+                    ie.classList.add(this.customClass);
+                    //ie.value = '0';
                     break;
             }
         });
@@ -229,20 +243,17 @@ class ResetValue {
         });
     }
     init() {
-        for(let key in sessionStorage) { //Inspect about 'for in, ...'
-            if(Object.hasOwnProperty(key)) delete sessionStorage[key];
+        for(let key in localStorage) { //Inspect about 'for in, ...'
+            if(Object.hasOwnProperty(key)) delete localStorage[key];
         }
         //debugger; //this is the object from 'resButton'
         this.container.addEventListener('click', this); //passing the object to handleEvent
     }
 
     handleEvent(e) {
-        let classTip = 'ci-tg-input';
-        let classRemove = 'ci-tg-input-clicked';
-        //let tipClicked = ect.querySelector('.' + customClass);
         switch(e.type) {
             case 'click':
-                this.clearValues(classTip, classRemove);
+                this.clearValues();
             //debugger; //this is the event.currentTarget (RESET button)
             break;
         }
@@ -253,7 +264,7 @@ class ResetValue {
 
 function tcamValue() {
     document.addEventListener('DOMContentLoaded', function() { 
-        sessionStorage.clear();
+        localStorage.clear();
     });
     let bill = document.querySelector('.ci-bill');
     let tip = document.querySelector('.ci-tip-grid');
@@ -266,7 +277,7 @@ function tcamValue() {
 
     let resButton = document.querySelector('.cr-button-reset');
     //let resetValue = new ResetValue(resButton, c1, c2);
-    new ResetValue(resButton, c1, c2);
+    new ResetValue(resButton, c1, c2, 'ci-tg-input-clicked');
     
     ['click', 'input', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
         bill.addEventListener(ev, calc);
