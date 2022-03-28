@@ -1,11 +1,16 @@
-//TODO: 'bill' & 'people' event are handled depending on spot you click (error referring to the edges of the box, because of addEventListener call); checkClass() handles the thing.
-//DEBUG: take a look into //:desktop/tcam_debug.jpg about clicking outside eventListener target (the second one);
+//TODO: on reset button now; look at DEBUG
+//DEBUG: remove listener when listen to reset click?
+//DEBUG: look at ://Desktop/tcam_debug_reset.jpg; clicking on the right-edge of 'button' field you get error in the screenshot. Sript can't catch the position. Maybe event listener doesn't match?
+//FIXING: take a look @.210:@.214, to get 'Custom' in the tip custom field.
+//FIXING: focusout cursor lag
+
+
 class Calc {
     constructor(c1, c2) {
         this.c1 = c1;
         this.c2 = c2;
     }
-    checkClass(et, chk) { //modify checkClass to return sessionStorage ref
+    checkClass(et, chk) {  //modify checkClass to return sessionStorage ref
         let cl;
         if(et.className.indexOf(chk) !== -1) { 
             cl = et.className;
@@ -25,15 +30,9 @@ class Calc {
             return false;
         }         
     }
-    handleEvent(event) {
-        if(this.checkClass(event.target, 'ci-tg-input')) this.handleTips(event);
-        if(this.checkClass(event.target, 'bill')) this.handleBillPeople(event, 'bill');
-        if(this.checkClass(event.target, 'people')) this.handleBillPeople(event, 'people');
-    }
 
     handleBillPeople(e, t) {
         let et = e.target;  // event.target is an object so you are referring to it by reference; //let etv = et.value; // event.target.value is a property of an object (event.target). You can't modify its value through a new variable
-        console.log(et); //
 
         switch(e.type) {
             case 'click':
@@ -191,6 +190,11 @@ class Calc {
             }
         }
 
+    }
+    handleEvent(event) {
+        if(this.checkClass(event.target, 'ci-tg-input')) this.handleTips(event);
+        if(this.checkClass(event.target, 'bill')) this.handleBillPeople(event, 'bill');
+        if(this.checkClass(event.target, 'people')) this.handleBillPeople(event, 'people');
     }
 } 
 

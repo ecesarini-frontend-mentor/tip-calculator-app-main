@@ -1,11 +1,16 @@
-//TODO: 'bill' & 'people' event are handled depending on spot you click (error referring to the edges of the box, because of addEventListener call); checkClass() handles the thing.
-//DEBUG: take a look into //:desktop/tcam_debug.jpg about clicking outside eventListener target (the second one);
+//TODO: on reset button now; look at DEBUG
+//DEBUG: remove listener when listen to reset click?
+//DEBUG: look at ://Desktop/tcam_debug_reset.jpg; clicking on the right-edge of 'button' field you get error in the screenshot. Sript can't catch the position. Maybe event listener doesn't match?
+//FIXING: take a look @.210:@.214, to get 'Custom' in the tip custom field.
+//FIXING: focusout cursor lag
+
+
 class Calc {
     constructor(c1, c2) {
         this.c1 = c1;
         this.c2 = c2;
     }
-    checkClass(et, chk) { //modify checkClass to return sessionStorage ref
+    checkClass(et, chk) {  //modify checkClass to return sessionStorage ref
         let cl;
         if(et.className.indexOf(chk) !== -1) { 
             cl = et.className;
@@ -25,19 +30,12 @@ class Calc {
             return false;
         }         
     }
-    handleEvent(event) {
-        if(this.checkClass(event.target, 'ci-tg-input')) this.handleTips(event);
-        if(this.checkClass(event.target, 'bill')) this.handleBillPeople(event, 'bill');
-        if(this.checkClass(event.target, 'people')) this.handleBillPeople(event, 'people');
-    }
 
     handleBillPeople(e, t) {
         let et = e.target;  // event.target is an object so you are referring to it by reference; //let etv = et.value; // event.target.value is a property of an object (event.target). You can't modify its value through a new variable
-        console.log(et); //
 
         switch(e.type) {
             case 'click':
-                et.style.caretColor = 'auto';
                 if( sessionStorage[t] ) {
                     if( sessionStorage[t].length === 1 || et.value !== '' || et.value !== 0 ) {
                         const pos = et.value.length;
@@ -67,7 +65,7 @@ class Calc {
                 else if(sessionStorage[t]) {
                     et.value = sessionStorage[t].toString();
                 }
-                et.style.caretColor = 'transparent'; // it vanishes control over cursor
+                et.style.caretColour = 'transparent';
                 break;
             case 'keyup':
                 if(t === 'bill') {
@@ -88,10 +86,7 @@ class Calc {
                         else if(this.checkClass(et, 'ci-people-input')) {
                             sessionStorage[t] = et.value.slice(0,-1);
                         }
-                        break;
-                    /*case 13:
-                        et.style.caretColor = 'transparent';
-                        break;*/
+                    break;
                 }
                 break;
         }
@@ -111,8 +106,12 @@ class Calc {
                         lc.style = '';
                         lc.value = 'Custom';
                         this.setStyle(tipClicked, et, customClass);
+                        break;
+                    case 'mouseup':
                         sessionStorage['tip'] = Number.parseInt(et.value.slice(0, -1)); 
                         break;
+                    case 'focus': 
+                    break;
                 }
             break;
             case 'text':
@@ -148,8 +147,6 @@ class Calc {
                             if(et.value.slice(-1) != '%') et.value = et.value + '%';
                             et.style.color = this.c2;
                             et.style.backgroundColor = this.c1;
-                            //et.style.caretColor = 'transparent';
-                            et.preventDefault();
                         }
                         break;
                     case 'focusout':
@@ -191,6 +188,11 @@ class Calc {
             }
         }
 
+    }
+    handleEvent(event) {
+        if(this.checkClass(event.target, 'ci-tg-input')) this.handleTips(event);
+        if(this.checkClass(event.target, 'bill')) this.handleBillPeople(event, 'bill');
+        if(this.checkClass(event.target, 'people')) this.handleBillPeople(event, 'people');
     }
 } 
 
@@ -260,7 +262,7 @@ function tcamValue() {
         bill.addEventListener(ev, calc);
         people.addEventListener(ev, calc);
     });
-    ['click', 'mouseup', 'input', 'focus', 'focusin', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
+    ['click', 'mouseup', 'input', 'focus', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
         tip.addEventListener(ev, calc);
     });
 }
