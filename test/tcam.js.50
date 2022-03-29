@@ -1,12 +1,11 @@
 //TODO: 'bill' & 'people' event are handled depending on spot you click (error referring to the edges of the box, because of addEventListener call); checkClass() handles the thing.
-// look at new project web_design_01 to understand 'bubbling' events' handling
 //DEBUG: take a look into //:desktop/tcam_debug.jpg about clicking outside eventListener target (the second one);
 class Calc {
     constructor(c1, c2) {
         this.c1 = c1;
         this.c2 = c2;
     }
-    checkClass(et, chk) { 
+    checkClass(et, chk) { //modify checkClass to return sessionStorage ref
         let cl;
         if(et.className.indexOf(chk) !== -1) { 
             cl = et.className;
@@ -245,10 +244,8 @@ function tcamValue() {
     document.addEventListener('DOMContentLoaded', function() { 
         sessionStorage.clear();
     });
-    //let bill = document.querySelector('.ci-bill-amount').closest('input');
     let bill = document.querySelector('.ci-bill');
     let tip = document.querySelector('.ci-tip-grid');
-    //let people = document.querySelector('.ci-people-amount').closest('input');
     let people = document.querySelector('.ci-people');
 
     let c1 = 'hsl(172, 67%, 45%)';
