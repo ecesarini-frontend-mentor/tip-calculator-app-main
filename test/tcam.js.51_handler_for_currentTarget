@@ -2,29 +2,10 @@
 // look at new project web_design_01 to understand 'bubbling' events' handling
 //DEBUG: take a look into //:desktop/tcam_debug.jpg about clicking outside eventListener target (the second one);
 class Calc {
-    constructor(bill, tip, people, c1, c2) {
-        this.bill = bill;
-        this.tip = tip;
-        this.people = people;
-        this.peopleBillEvents = ['click', 'input', 'focusout', 'keyup', 'keydown'];
-        this.tipEvents = ['click', 'mouseup', 'input', 'focus', 'focusin', 'focusout', 'keyup', 'keydown'];
+    constructor(c1, c2) {
         this.c1 = c1;
         this.c2 = c2;
     }
-
-    init() {
-        this.peopleBillEvents.forEach(ev => {
-            this.bill.addEventListener(ev, this);
-            this.people.addEventListener(ev, this);
-        });
-        this.tipEvents.forEach(ev => this.tip.addEventListener(ev, this));
-    }
-    handleEvent(event) {
-        if(this.checkClass(event.currentTarget, 'ci-bill-amount')) this.handleBillPeople(event, 'bill');
-        if(this.checkClass(event.target, 'ci-tg-input')) this.handleTips(event);
-        if(this.checkClass(event.currentTarget, 'ci-people-amount')) this.handleBillPeople(event, 'people');
-    }
-
     checkClass(et, chk) { 
         let cl;
         if(et.className.indexOf(chk) !== -1) { 
@@ -45,13 +26,15 @@ class Calc {
             return false;
         }         
     }
+    handleEvent(event) {
+        if(this.checkClass(event.target, 'ci-tg-input')) this.handleTips(event);
+        if(this.checkClass(event.target, 'bill')) this.handleBillPeople(event, 'bill');
+        if(this.checkClass(event.target, 'people')) this.handleBillPeople(event, 'people');
+    }
 
     handleBillPeople(e, t) {
-        let et = ((ev) => {
-            return (this.checkClass(ev.target, t))? ev.target : ev.currentTarget.querySelector('input');
-            })(e);
-            //et = e.target;  // event.target is an object so you are referring to it by reference; //let etv = et.value; // event.target.value is a property of an object (event.target). You can't modify its value through a new variable
-        //console.log(et); 
+        let et = e.target;  // event.target is an object so you are referring to it by reference; //let etv = et.value; // event.target.value is a property of an object (event.target). You can't modify its value through a new variable
+        console.log(et); //
 
         switch(e.type) {
             case 'click':
@@ -116,11 +99,11 @@ class Calc {
         this.getResults();
     }
     handleTips(e) {
-        let et = e.target,
-            ect = e.currentTarget,
-            lc = ect.lastElementChild,
-            customClass = 'ci-tg-input-clicked',
-            tipClicked = ect.querySelector('.' + customClass);
+        let et = e.target;
+        let ect = e.currentTarget;
+        let lc = ect.lastElementChild;
+        let customClass = 'ci-tg-input-clicked';
+        let tipClicked = ect.querySelector('.' + customClass);
         switch(et.type) {
             case 'button':
                 switch(e.type) {                    
@@ -186,10 +169,10 @@ class Calc {
         this.getResults();
     }
     getResults() {
-        let billInserted, tipInserted, peopleInserted,
-            tipResult = document.querySelector('.crg-tip-result'),
-            totalResult = document.querySelector('.crg-total-result'),
-            allProp = this.checkAllProp(['bill', 'tip', 'people'], sessionStorage);
+        let billInserted, tipInserted, peopleInserted;
+        let tipResult = document.querySelector('.crg-tip-result');
+        let totalResult = document.querySelector('.crg-total-result');
+        let allProp = this.checkAllProp(['bill', 'tip', 'people'], sessionStorage);
         
         if(allProp) { //'sessionStorage' just stores strings. You need JSON.parse to extract type https://www.javascripttutorial.net/web-apis/javascript-localstorage/#:~:text=The%20sessionStorage%20can%20store%20only,the%20sessionStorage%20using%20the%20JSON.
             billInserted = JSON.parse(sessionStorage.bill);
@@ -197,8 +180,8 @@ class Calc {
             peopleInserted = JSON.parse(sessionStorage.people);
 
             if(peopleInserted !== 0) {
-                let tipPerPerson = billInserted * tipInserted  / peopleInserted,
-                    totalPerPerson = billInserted / peopleInserted + tipPerPerson;
+                let tipPerPerson = billInserted * tipInserted  / peopleInserted;
+                let totalPerPerson = billInserted / peopleInserted + tipPerPerson;
                 if(Number.isInteger(tipPerPerson)) tipResult.innerText = tipPerPerson;
                 else tipResult.innerText = Number.parseFloat(tipPerPerson).toFixed(2);
                 if(Number.isInteger(totalPerPerson)) totalResult.innerText = totalPerPerson;
@@ -246,8 +229,8 @@ class ResetValue {
     }
 
     handleEvent(e) {
-        let classTip = 'ci-tg-input',
-            classRemove = 'ci-tg-input-clicked';
+        let classTip = 'ci-tg-input';
+        let classRemove = 'ci-tg-input-clicked';
         switch(e.type) {
             case 'click':
                 this.clearValues(classTip, classRemove); //this is the event.currentTarget (RESET button)
@@ -262,17 +245,27 @@ function tcamValue() {
     document.addEventListener('DOMContentLoaded', function() { 
         sessionStorage.clear();
     });
-    let bill = document.querySelector('.ci-bill-amount'),
-        tip = document.querySelector('.ci-tip-grid'),
-        people = document.querySelector('.ci-people-amount'),
-        resButton = document.querySelector('.cr-button-reset');
+    //let bill = document.querySelector('.ci-bill-amount').closest('input');
+    let bill = document.querySelector('.ci-bill');
+    let tip = document.querySelector('.ci-tip-grid');
+    //let people = document.querySelector('.ci-people-amount').closest('input');
+    let people = document.querySelector('.ci-people');
 
     let c1 = 'hsl(172, 67%, 45%)';
     let c2 = 'hsl(183, 100%, 15%)';
     
-    new Calc(bill, tip, people, c1, c2);
+    let calc = new Calc(c1, c2);
+
+    let resButton = document.querySelector('.cr-button-reset');
     new ResetValue(resButton, c1, c2);
     
+    ['click', 'input', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
+        bill.addEventListener(ev, calc);
+        people.addEventListener(ev, calc);
+    });
+    ['click', 'mouseup', 'input', 'focus', 'focusin', 'focusout', 'keyup', 'keydown'].forEach((ev) => {
+        tip.addEventListener(ev, calc);
+    });
 }
 
 tcamValue();
