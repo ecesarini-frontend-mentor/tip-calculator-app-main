@@ -1,6 +1,6 @@
 //TODO: 'bill' & 'people' event are handled depending on spot you click (error referring to the edges of the box, because of addEventListener call); checkClass() handles the thing.
-// look at new project web_design_01 to understand 'bubbling' events' handling
-//DEBUG: take a look into //:desktop/tcam_debug.jpg about clicking outside eventListener target (the second one);
+//TODO: check the code @52
+//DEBUG: 'handling' code totally from the class works
 class Calc {
     constructor(bill, tip, people, c1, c2) {
         this.bill = bill;
@@ -10,6 +10,7 @@ class Calc {
         this.tipEvents = ['click', 'mouseup', 'input', 'focus', 'focusin', 'focusout', 'keyup', 'keydown'];
         this.c1 = c1;
         this.c2 = c2;
+        this.init(); //REMEMBER :)
     }
 
     init() {
@@ -47,10 +48,15 @@ class Calc {
     }
 
     handleBillPeople(e, t) {
-        let et = ((ev) => {
-            return (this.checkClass(ev.target, t))? ev.target : ev.currentTarget.querySelector('input');
-            })(e);
-            //et = e.target;  // event.target is an object so you are referring to it by reference; //let etv = et.value; // event.target.value is a property of an object (event.target). You can't modify its value through a new variable
+        let et, etClassInterested;
+        /*((ev) => {
+            return et = (!this.checkClass(ev.target, t))? 
+                etClassInterested = (this.checkClass(ev.currentTarget, ev.currentTarget.className))? 
+                    this.checkClass(ev.currentTarget, ev.currentTarget.className)
+                        : null
+                : ev.target = ev.currentTarget.querySelector('input')                 
+        })(e);*/
+        //et = e.target;  // event.target is an object so you are referring to it by reference; //let etv = et.value; // event.target.value is a property of an object (event.target). You can't modify its value through a new variable
         //console.log(et); 
 
         switch(e.type) {
