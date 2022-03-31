@@ -1,6 +1,6 @@
-//TODO: 'bill' & 'people' event are handled depending on spot you click (error referring to the edges of the box, because of addEventListener call); checkClass() handles the thing.
 //TODO: check the code @52
-//DEBUG: 'handling' code totally from the class works
+//TODO: 'bill' & 'people' event are handled depending on spot you click (error referring to the edges of the box, because of addEventListener call); checkClass() handles the thing.
+//DEBUG: 'handling' event totally from the class works
 class Calc {
     constructor(bill, tip, people, c1, c2) {
         this.bill = bill;
