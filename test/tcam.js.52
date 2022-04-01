@@ -1,4 +1,4 @@
-//TODO: check the code @55. Event handler maintains original purpose: try to dispatch action on child 'input'.
+//TODO: check the code @52
 //TODO: 'bill' & 'people' event are handled depending on spot you click (error referring to the edges of the box, because of addEventListener call); checkClass() handles the thing.
 //DEBUG: 'handling' event totally from the class works
 class Calc {
@@ -26,10 +26,10 @@ class Calc {
         if(this.checkClass(event.currentTarget, 'ci-people-amount')) this.handleBillPeople(event, 'people');
     }
 
-    checkClass(target, chk) { 
+    checkClass(et, chk) { 
         let cl;
-        if(target.className.indexOf(chk) !== -1) { 
-            cl = target.className;
+        if(et.className.indexOf(chk) !== -1) { 
+            cl = et.className;
         }
         return (cl && cl.includes(chk))? chk : false;
     }
@@ -48,11 +48,16 @@ class Calc {
     }
 
     handleBillPeople(e, t) {
-        /*let checkEvent = function(ev) {
-            return (ev.target.tagName === 'INPUT')? e.target : e.currentTarget.querySelector('input');
-            }; 
-        let et = checkEvent(e);*/
-        let et = (e.target.tagName === 'INPUT')? e.target : e.currentTarget.querySelector('input'); // : this.querySelector('input'); 'this' doesn't match event.currentTarget: it's class 'Calc';
+        let et, etClassInterested;
+        /*((ev) => {
+            return et = (!this.checkClass(ev.target, t))? 
+                etClassInterested = (this.checkClass(ev.currentTarget, ev.currentTarget.className))? 
+                    this.checkClass(ev.currentTarget, ev.currentTarget.className)
+                        : null
+                : ev.target = ev.currentTarget.querySelector('input')                 
+        })(e);*/
+        //et = e.target;  // event.target is an object so you are referring to it by reference; //let etv = et.value; // event.target.value is a property of an object (event.target). You can't modify its value through a new variable
+        //console.log(et); 
 
         switch(e.type) {
             case 'click':
