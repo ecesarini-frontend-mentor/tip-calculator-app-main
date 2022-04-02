@@ -48,12 +48,15 @@ class Calc {
     }
 
     handleBillPeople(e, t) {
+        /*let checkEvent = function(ev) {
+            return (ev.target.tagName === 'INPUT')? e.target : e.currentTarget.querySelector('input');
+            }; 
+        let et = checkEvent(e);*/
         let et = (e.target.tagName === 'INPUT')? e.target : e.currentTarget.querySelector('input'); // : this.querySelector('input'); 'this' doesn't match event.currentTarget: it's class 'Calc';
 
         switch(e.type) {
             case 'click':
                 et.style.caretColor = 'auto';
-                if(et !== e.target) et.focus();
                 if( sessionStorage[t] ) {
                     if( sessionStorage[t].length === 1 || et.value !== '' || et.value !== 0 ) {
                         const pos = et.value.length;
