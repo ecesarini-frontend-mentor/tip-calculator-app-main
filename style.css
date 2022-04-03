@@ -26,8 +26,9 @@ input::-webkit-input-placeholder {
   --very-light-grayish-cyan: hsl(189, 41%, 97%);
   --white: hsl(0, 0%, 100%);
 
-  --font-size-title: 1.7vw;
-  --font-size-descr: 1.3vw;
+  --font-size-title: 1.3rem;
+  --font-size-title-mobile: 1.1rem;
+  --font-size-descr: 0.9rem;
 }
 body {
   box-sizing: content-box;
@@ -137,7 +138,7 @@ button {
   color: white;
   background-color: var(--very-dark-cyan);
   width: 100%;
-  font-size: .7em;
+  font-size: 0.7em;
   text-align: center;
   border-radius: var(--border-radius-button);
   cursor: pointer;
@@ -165,6 +166,7 @@ button {
   border-color: var(--strong-cyan);
   background-color: var(--light-grayish-cyan);
 }
+
 .calc-result {
   width: 50%;
   margin: 3.5%;
@@ -196,6 +198,7 @@ button {
   padding-top: 3px;
   color: var(--dark-grayish-cyan);
   font-size: var(--font-size-descr);
+  font-weight: 700;
 }
 .cr-gc-fb, .cr-grid-result {
   padding: 0 20%;
@@ -231,7 +234,7 @@ button {
 }
 
 /* MEDIA QUERY */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
   main {
     padding: 0;
   }
@@ -247,16 +250,32 @@ button {
     border-top-left-radius: 20px; 
     border-top-right-radius: 20px;
   }
-  .ci-tip-grid {
-    grid-template-columns: 1fr 1fr;
+  .ci-bill-title, .ci-tip-title, .ci-people-title, .cr-gc-fb p:first-child {
+    font-size: var(--font-size-title-mobile);
   }
-  .ci-bill-title, .ci-tip-title, .ci-people-title {
-    font-size: 3vw;
+  .ci-bill-input, .ci-people-input {
+    height: 50px;
+  }
+  
+  .ci-tip-grid {
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  .ci-tip-grid .ci-tg-input {
+    width: 100%;
+    padding: 0;
+    height: 60px;
+    font-size: 1.03em;
+    font-weight: 700;
   }
   .calc-insert, .calc-result {
     margin: 0 auto;
     width: 90%;
+  }
 
+  .cr-button-reset {
+    height: 50px;
   }
   
 }

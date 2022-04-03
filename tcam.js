@@ -1,6 +1,4 @@
-//TODO: check the code @55. Event handler maintains original purpose: try to dispatch action on child 'input'.
-//TODO: 'bill' & 'people' event are handled depending on spot you click (error referring to the edges of the box, because of addEventListener call); checkClass() handles the thing.
-//DEBUG: 'handling' event totally from the class works
+//TODO: look at index.html
 class Calc {
     constructor(bill, tip, people, c1, c2) {
         this.bill = bill;
@@ -33,9 +31,18 @@ class Calc {
         }
         return (cl && cl.includes(chk))? chk : false;
     }
-    setStyle(elEv, et, cl) {
+    setTipOnClickStyle(elEv, et, cl) {
         if(elEv) elEv.classList.remove(cl);
         et.classList.add(cl);
+    }
+    setInputOnFocusoutStyle(et, color, fWeight) {
+        if(et.value === '0' || et.value === '') {
+            et.style.color = '';
+            et.style.fontWeight = '';
+        }else{
+            et.style.color = color;
+            et.style.fontWeight = fWeight;
+        }
     }
     checkAllProp(a, o) {
         let all = a.every(k => o.hasOwnProperty(k));
@@ -53,9 +60,9 @@ class Calc {
         switch(e.type) {
             case 'click':
                 et.style.caretColor = 'auto';
-                if(et !== e.target) et.focus();
+                //if(et !== e.target) et.focus();
                 if( sessionStorage[t] ) {
-                    if( sessionStorage[t].length === 1 || et.value !== '' || et.value !== 0 ) {
+                    if( sessionStorage[t].length === 1 || et.value !== '' || et.value !== '0' ) {
                         const pos = et.value.length;
                         et.setSelectionRange(pos, pos);
                     } else {
@@ -77,13 +84,14 @@ class Calc {
                 }
                 break;
             case 'focusout':
-                if( !sessionStorage[t] && et.value === '') {
+                if(!sessionStorage[t] && (et.value === '')) {
                     et.value = '0';
                 }
                 else if(sessionStorage[t]) {
                     et.value = sessionStorage[t].toString();
                 }
                 et.style.caretColor = 'transparent'; // it vanishes control over cursor
+                //this.setInputOnFocusoutStyle(et, this.c2, '700');
                 break;
             case 'keyup':
                 if(t === 'bill') {
@@ -107,6 +115,7 @@ class Calc {
                         break;
                     case 13:
                         et.style.caretColor = 'transparent';
+                        //this.setInputOnFocusoutStyle(et, this.c2, '700');
                         break;
                 }
                 break;
@@ -126,7 +135,7 @@ class Calc {
                     case 'focusin':
                         lc.style = '';
                         lc.value = 'Custom';
-                        this.setStyle(tipClicked, et, customClass);
+                        this.setTipOnClickStyle(tipClicked, et, customClass);
                         sessionStorage['tip'] = Number.parseInt(et.value.slice(0, -1)); 
                         break;
                 }
@@ -135,7 +144,7 @@ class Calc {
                 switch(e.type) {
                     case 'click':
                         et.value = '';
-                        this.setStyle(tipClicked, et, customClass);
+                        this.setTipOnClickStyle(tipClicked, et, customClass);
                         break;
                     case 'focus':
                         et.style.borderColor = this.c1;
@@ -206,7 +215,6 @@ class Calc {
                 totalResult.innerText = 0;
             }
         }
-
     }
 } 
 
