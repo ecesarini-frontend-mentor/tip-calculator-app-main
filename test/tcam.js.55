@@ -1,3 +1,4 @@
+//TODO: look at index.html
 class Calc {
     constructor(bill, tip, people, c1, c2) {
         this.bill = bill;
@@ -60,7 +61,16 @@ class Calc {
             case 'click':
                 et.style.caretColor = 'auto';
                 if(et !== e.target) et.focus();
-                if( et.value === '0' || sessionStorage[t] === '0') et.value = '';
+                if( sessionStorage[t] ) {
+                    if( sessionStorage[t].length === 1 || et.value !== '' || et.value !== '0' ) {
+                        const pos = et.value.length;
+                        et.setSelectionRange(pos, pos);
+                    } else {
+                        et.value = '';
+                    }
+                } else {
+                    et.value = '';
+                }
                 break;
             case 'input':
                 if(et.value && this.checkClass(et, t) === 'bill') { 
@@ -81,7 +91,7 @@ class Calc {
                     et.value = sessionStorage[t].toString();
                 }
                 et.style.caretColor = 'transparent'; // it vanishes control over cursor
-                this.setInputOnFocusoutStyle(et, this.c2, '600');
+                //this.setInputOnFocusoutStyle(et, this.c2, '700');
                 break;
             case 'keyup':
                 if(t === 'bill') {
