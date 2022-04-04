@@ -33,8 +33,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [https://github.com/ecesarini-frontend-mentor/tip-calculator-app-main/](https://your-solution-url.com)
+- Live Site URL: [https://ecesarini-frontend-mentor.github.io/tip-calculator-app-main/](https://your-live-site-url.com)
 
 ## My process
 - HTML5
