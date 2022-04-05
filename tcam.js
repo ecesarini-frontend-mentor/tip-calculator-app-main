@@ -105,7 +105,7 @@ class Calc {
                         break;
                     case 13:
                         et.style.caretColor = 'transparent';
-                        //this.setInputOnFocusoutStyle(et, this.c2, '700');
+                        this.setInputOnFocusoutStyle(et, this.c2, '600');
                         break;
                 }
                 break;
@@ -163,7 +163,7 @@ class Calc {
                             if(et.value.slice(-1) != '%') et.value = et.value + '%';
                             et.style.color = this.c2;
                             et.style.backgroundColor = this.c1;
-                            //et.style.caretColor = 'transparent';
+                            et.style.caretColor = 'transparent';
                             et.preventDefault();
                         }
                         break;
@@ -267,8 +267,7 @@ function tcamValue() {
     let c2 = 'hsl(183, 100%, 15%)';
     
     new Calc(bill, tip, people, c1, c2);
-    new ResetValue(resButton, c1, c2);
-    
+    new ResetValue(resButton, c1, c2); 
 }
 
 tcamValue();
